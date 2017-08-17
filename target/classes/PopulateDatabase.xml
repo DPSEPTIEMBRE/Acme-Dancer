@@ -555,8 +555,8 @@
 
 
 	<bean id="style1" class="domain.Style">
-		<property name="name" value="breakdancer" />
-		<property name="description" value="dancer street" />
+		<property name="name" value="Salsa" />
+		<property name="description" value="Cuban dance" />
 		<property name="pictures">
 			<list value-type="java.lang.String">
 				<value>
@@ -566,7 +566,7 @@
 		</property>
 		<property name="videos">
 			<list value-type="java.lang.String">
-				<value> https://www.youtube.com/watch?v=9tG-xwv0kw0</value>
+				<value>https://www.youtube.com/watch?v=Gj-evaqUzeA</value>
 			</list>
 		</property>
 		<property name="courses">
@@ -577,17 +577,18 @@
 	</bean>
 
 	<bean id="style2" class="domain.Style">
-		<property name="name" value="salsa latina" />
-		<property name="description" value="dancer latin" />
+		<property name="name" value="Bachata" />
+		<property name="description" value="Latin dance" />
 		<property name="pictures">
 			<list value-type="java.lang.String">
-				<value>https://static.fnac-static.com/multimedia/images_produits/ZoomPE/2/2/1/3596972079122/tsp20130829200010/Radio-Latina-presente-salsa-latina.jpg
+				<value>
+					http://dancingboulevard.com/wp-content/uploads/2015/10/bachata-2.jpg
 				</value>
 			</list>
 		</property>
 		<property name="videos">
 			<list value-type="java.lang.String">
-				<value> https://www.youtube.com/watch?v=Z7rFasnFCHw</value>
+				<value>https://www.youtube.com/watch?v=PQSaof3b_aE</value>
 			</list>
 		</property>
 		<property name="courses">
@@ -598,17 +599,18 @@
 	</bean>
 
 	<bean id="style3" class="domain.Style">
-		<property name="name" value="popping" />
-		<property name="description" value="dancer popping" />
+		<property name="name" value="Pachanga" />
+		<property name="description" value="Cuban dance, mix between salsa and merengue" />
 		<property name="pictures">
 			<list value-type="java.lang.String">
-				<value>http://campofhiphop.com/camp/wp-content/uploads/2012/04/Popping.jpg
+				<value>
+					http://1.bp.blogspot.com/_A_JOA4qbTsw/TJax4_-RvbI/AAAAAAAAFbs/hWs7xfoGvLU/s400/DSC_0312.JPG
 				</value>
 			</list>
 		</property>
 		<property name="videos">
 			<list value-type="java.lang.String">
-				<value> https://www.youtube.com/watch?v=ExfzIXHh_i8</value>
+				<value>https://www.youtube.com/watch?v=BwjN0t7eFPU</value>
 			</list>
 		</property>
 		<property name="courses">
@@ -619,18 +621,18 @@
 	</bean>
 
 	<bean id="style4" class="domain.Style">
-		<property name="name" value="twerk" />
-		<property name="description" value="to dance perreo xD" />
+		<property name="name" value="Chá-chá" />
+		<property name="description" value="Cuban dance" />
 		<property name="pictures">
 			<list value-type="java.lang.String">
 				<value>
-					https://i.ytimg.com/vi/FvaGAwlkG4Y/maxresdefault.jpg
+					https://usercontent2.hubstatic.com/12161217_f520.jpg
 				</value>
 			</list>
 		</property>
 		<property name="videos">
 			<list value-type="java.lang.String">
-				<value>https://www.youtube.com/watch?v=rCTwOi9RNmo</value>
+				<value>https://www.youtube.com/watch?v=xKeUpU446Xg</value>
 			</list>
 		</property>
 		<property name="courses">
@@ -641,17 +643,18 @@
 	</bean>
 
 	<bean id="style5" class="domain.Style">
-		<property name="name" value="Capoeira" />
-		<property name="description" value="African dancer, fire, shows and many more" />
+		<property name="name" value="Rumba" />
+		<property name="description" value="Flamenco" />
 		<property name="pictures">
 			<list value-type="java.lang.String">
-				<value>https://static.fnac-static.com/multimedia/images_produits/ZoomPE/2/2/1/3596972079122/tsp20130829200010/Radio-Latina-presente-salsa-latina.jpg
+				<value>
+					http://www.universogaditano.com/sites/default/files/imagecache/400xY/flamenco.jpg
 				</value>
 			</list>
 		</property>
 		<property name="videos">
 			<list value-type="java.lang.String">
-				<value>https://www.youtube.com/watch?v=Z8xxgFpK-NM</value>
+				<value>https://www.youtube.com/watch?v=Use9r0ywn-Y</value>
 			</list>
 		</property>
 		<property name="courses">
@@ -663,7 +666,7 @@
 
 	<bean id="style6" class="domain.Style">
 		<property name="name" value="Kizomba" />
-		<property name="description" value="African dancer very sensual" />
+		<property name="description" value="African dance very sensual" />
 		<property name="pictures">
 			<list value-type="java.lang.String">
 				<value>https://www.youtube.com/watch?v=a15gEeLzT2E</value>
@@ -677,6 +680,27 @@
 		<property name="courses">
 			<list>
 				<ref bean="course6" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="style7" class="domain.Style">
+		<property name="name" value="Mambo" />
+		<property name="description" value="Latin dance, very funny" />
+		<property name="pictures">
+			<list value-type="java.lang.String">
+				<value>
+					https://inspirationanddance.files.wordpress.com/2012/04/mabo.jpg
+				</value>
+			</list>
+		</property>
+		<property name="videos">
+			<list value-type="java.lang.String">
+				<value>https://www.youtube.com/watch?v=FdhPgVMdIqo</value>
+			</list>
+		</property>
+		<property name="courses">
+			<list>
 			</list>
 		</property>
 	</bean>
