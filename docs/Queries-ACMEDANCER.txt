@@ -1,0 +1,17 @@
+-Cursos que ofrece una academia
+-Academia que ofrece el curso
+-Cursos de un estilo.
+-Buscar un curso usando una palabra clave que debe aparecer en su título o el nombre o descripción del estilo correspondiente.
+-solicitudes de un bailarin
+-Solicitudes de un curso
+-Solicitudes totales de la academia(todos los cursos)
+-El mínimo, media, desviación estándar y máximo de cursos por academia. ----------DUDA: stddev() para desviacion estandar???.
+-El mínimo, media, desviación estándar y máximo de solicitudes por curso. ----------DUDA: stddev() para desviacion estandar???.
+-Tutoriales de un academia
+-El mínimo, media y máximo de tutoriales por academia.
+-El mínimo, media y máximo de veces que un tutorial se muestra.
+-La lista de tutoriales, ordenados en orden descendente de acuerdo al número de veces que se han visto.
+-Chirps de un actor en orden descendente.
+-Todos los chirps ordenados en orden descendente.
+-La media de chirps por actor.
+-La media de suscripciones por actor.-------------PUEDE ESTAR MAL.
