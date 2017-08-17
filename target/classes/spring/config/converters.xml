@@ -18,10 +18,29 @@
 	">
 
 	<util:list id="converters">
-		<!-- 
-			Add your own converters using entries of the following form: 
-			<bean class="converters.Class1ToClass2" /> 
-		-->
+		
+		<bean class="converters.AuthorityToStringConverter" />
+		<bean class="converters.UserAccountToStringConverter" />
+		<bean class="converters.ChirpToStringConverter" />
+		<bean class="converters.AcademyToStringConverter" />
+		<bean class="converters.AdministratorToStringConverter" />
+		<bean class="converters.DancerToStringConverter" />
+		<bean class="converters.TutorialToStringConverter" />
+		<bean class="converters.ApplicationToStringConverter" />
+		<bean class="converters.CourseToStringConverter" />
+		<bean class="converters.StyleToStringConverter" />
+		
+		<bean class="converters.StringToAuthorityConverter" />
+		<bean class="converters.StringToUserAccountConverter" />
+		<bean class="converters.StringToChirpConverter" />
+		<bean class="converters.StringToAcademyConverter" />
+		<bean class="converters.StringToAdministratorConverter" />
+		<bean class="converters.StringToDancerConverter" />
+		<bean class="converters.StringToTutorialConverter" />
+		<bean class="converters.StringToApplicationConverter" />
+		<bean class="converters.StringToCourseConverter" />
+		<bean class="converters.StringToStyleConverter" />
+		
 	</util:list>
 	
 </beans>

@@ -35,6 +35,14 @@
 				        </li>
 					</security:authorize>
 					
+					<security:authorize access="hasRole('ADMINISTRATOR')">
+					<security:authentication property="principal.id" var="id" />
+						<li class="dropdown">
+				         <a href="administrator/dashboard.do"><spring:message code="master.page.administrator.dashboard" /> </a>
+				       
+				        </li>
+					</security:authorize>
+					
 				</ul>
 			</div>
 		</div>

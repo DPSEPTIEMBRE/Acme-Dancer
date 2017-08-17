@@ -10,13 +10,21 @@
 
 package controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import repositories.AdministratorRepository;
+
 @Controller
 @RequestMapping("/administrator")
 public class AdministratorController extends AbstractController {
+
+	//Service
+	@Autowired
+	private AdministratorRepository administratorRepository;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -42,6 +50,23 @@ public class AdministratorController extends AbstractController {
 		ModelAndView result;
 
 		result = new ModelAndView("administrator/action-2");
+
+		return result;
+	}
+
+	@RequestMapping("/dashboard")
+	public ModelAndView dashboard() {
+		ModelAndView result;
+
+		result = new ModelAndView("administrator/dashboard");
+
+		result.addObject("course", administratorRepository.minAvgSdMaxCoursesPerAcademy());
+		result.addObject("app", administratorRepository.minAvgSdMaxApplicationsPerCourse());
+		result.addObject("tutorialAcad", administratorRepository.minAvgMaxTutorialsPerAcademy());
+		result.addObject("tutorialShow", administratorRepository.minAvgMaxTutorialNumShows());
+		result.addObject("tutorialSee", administratorRepository.tutorialsOrderByNumShowsDes());
+		result.addObject("chirpActor", administratorRepository.avgChirpsPerActor());
+		result.addObject("chirpSubcription", administratorRepository.avgSubscriptionPerActor());
 
 		return result;
 	}
