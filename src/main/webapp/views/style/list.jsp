@@ -20,7 +20,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <security:authorize
-	access="permitAll() and !hasRole('MANAGER') and !hasRole('CUSTOMER')">
+	access="permitAll()">
 
 	<acme:list list="${styles}" requestURI="style/list.do"
 		hidden_fields="id,version,name,description,pictures,videos"
