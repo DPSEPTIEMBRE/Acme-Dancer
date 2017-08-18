@@ -51,6 +51,17 @@
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
+		
+		<security:intercept-url pattern="/academy/list.do" access="permitAll" /> 
+		<security:intercept-url pattern="/academy/listByCourse.do" access="permitAll" /> 
+		
+		<security:intercept-url pattern="/course/list.do" access="permitAll" />
+		<security:intercept-url pattern="/course/listByAcademy.do" access="permitAll" />
+		<security:intercept-url pattern="/course/listByStyle.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/tutorial/listByAcademy.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/style/list.do" access="permitAll" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

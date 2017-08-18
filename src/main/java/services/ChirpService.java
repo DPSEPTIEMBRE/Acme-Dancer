@@ -72,6 +72,10 @@ public class ChirpService {
 	public List<Chirp> findAll() {
 		return chirpRepository.findAll();
 	}
+	
+	public Chirp findOne(int id) {
+		return chirpRepository.findOne(id);
+	}
 
 	public Chirp save(Chirp chirp) {
 		Assert.notNull(chirp);

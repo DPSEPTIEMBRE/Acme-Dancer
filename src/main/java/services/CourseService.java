@@ -86,4 +86,5 @@ public class CourseService {
 		return courseRepository.coursesOfStyle(StyleID);
 	}
 
+
 }

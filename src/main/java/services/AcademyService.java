@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +72,6 @@ public class AcademyService {
 	public Academy academyOfCourse(int CourseID) {
 		return academyRepository.academyOfCourse(CourseID);
 	}
+
 
 }
