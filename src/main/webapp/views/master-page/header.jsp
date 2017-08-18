@@ -24,6 +24,7 @@
 				<ul class="nav navbar-nav">
 					<security:authorize access="isAnonymous()">
 					<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
+					<li><a class="fNiv" href="academy/list.do?a=0"><spring:message code="master.page.academy" /></a></li>
 					</security:authorize>
 					<security:authorize access="isAuthenticated()">
 					<security:authentication property="principal.id" var="id" />

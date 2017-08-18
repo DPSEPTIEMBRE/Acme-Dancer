@@ -56,7 +56,7 @@ public class CourseController extends AbstractController {
 
 		result = new ModelAndView("course/list");
 		result.addObject("courses", courses);
-		result.addObject("a", 1);
+		result.addObject("a", 3);
 
 		return result;
 	}
@@ -72,6 +72,21 @@ public class CourseController extends AbstractController {
 		result = new ModelAndView("course/list");
 		result.addObject("courses", courses);
 		result.addObject("a", 2);
+
+		return result;
+	}
+	
+	@RequestMapping("/listByActor")
+	public ModelAndView listByActor(@RequestParam Integer q) {
+		ModelAndView result;
+
+		List<Course> courses= new ArrayList<Course>();
+		courses.addAll(courseService.coursesOfStyle(q));
+
+
+		result = new ModelAndView("course/list");
+		result.addObject("courses", courses);
+		result.addObject("a", 1);
 
 		return result;
 	}
