@@ -19,8 +19,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<security:authorize
-	access="permitAll()">
+<security:authorize access="permitAll()">
 
 	<acme:list list="${courses}" requestURI="course/list.do"
 		hidden_fields="id,version,applications"
@@ -33,11 +32,11 @@
 			entityUrl="{style: style/list.do}" />
 
 	</jstl:if>
-	
+
 	<jstl:if test="${a==2}">
 
 		<acme:list list="${courses}" requestURI="course/listByStyle.do"
-			hidden_fields="id,version,academy,applications"
+			hidden_fields="id,version,applications"
 			entityUrl="{academy: academy/listByCourse.do}" />
 
 	</jstl:if>

@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -26,15 +29,31 @@ public class TutorialController extends AbstractController{
 	}
 
 	//Actions
-
-	@RequestMapping("/listByAcademy")
+	
+	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam Integer a) {
 		ModelAndView result;
 
 		result = new ModelAndView("tutorial/list");
 
 		result.addObject("a", a);
-		result.addObject("tutorials", tutorialService.tutorialsOfAcademy(a));
+		result.addObject("tutorials", tutorialService.findAll());
+
+
+		return result;
+	}
+
+	@RequestMapping("/listByAcademy")
+	public ModelAndView listByAcademy(@RequestParam Integer q) {
+		ModelAndView result;
+		
+		List<Tutorial> tutorials= new ArrayList<Tutorial>();
+		tutorials.addAll(tutorialService.tutorialsOfAcademy(q));
+
+		result = new ModelAndView("tutorial/list");
+		result.addObject("tutorials", tutorials);
+		result.addObject("a", 1);
+		
 
 		return result;
 	}

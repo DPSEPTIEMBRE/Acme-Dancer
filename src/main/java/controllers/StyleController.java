@@ -1,16 +1,14 @@
 package controllers;
 
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.StyleService;
 import domain.Style;
+
+import services.StyleService;
 
 @Controller
 @RequestMapping("/style")
@@ -28,13 +26,25 @@ public class StyleController extends AbstractController{
 	//Actions
 
 	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam Integer a) {
+	public ModelAndView list() {
 		ModelAndView result;
 
 		result = new ModelAndView("style/list");
 		
 		result.addObject("styles", styleService.findAll());
-		result.addObject("a", a);
+
+		return result;
+	}
+	
+	@RequestMapping("/listByCourse")
+	public ModelAndView listByCourse(@RequestParam Integer q) {
+		ModelAndView result;
+
+		result = new ModelAndView("style/list");
+		
+		Style style = styleService.findByCourse(q);
+		
+		result.addObject("styles", style);
 
 		return result;
 	}

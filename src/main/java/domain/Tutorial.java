@@ -35,7 +35,7 @@ public class Tutorial extends DomainEntity {
 	public String getVideo() {
 		return video;
 	}
-
+	
 	public Integer getNumShows() {
 		return numShows;
 	}

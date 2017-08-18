@@ -53,5 +53,9 @@ public class StyleService {
 	public Style save(Style style) {
 		return styleRepository.save(style);
 	}
+	
+	public Style findByCourse(int courseId){
+		return styleRepository.styleOfCourse(courseId);
+	}
 
 }

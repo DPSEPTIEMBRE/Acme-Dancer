@@ -19,8 +19,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<security:authorize
-	access="permitAll()">
+<security:authorize access="permitAll()">
 
 	<acme:list list="${academies}" requestURI="academy/list.do"
 		hidden_fields="id, version, actorName, surname, follower, chirps"

@@ -29,10 +29,6 @@ public class CourseService {
 	@Autowired
 	private AcademyService		academyService;
 
-	@Autowired
-	private ApplicationService	applicationService;
-
-
 	//Constructor
 
 	public CourseService() {
@@ -78,8 +74,8 @@ public class CourseService {
 	public Collection<Course> findCourses(String keyWord) {
 		return courseRepository.findCourses(keyWord);
 	}
-	public Collection<Course> coursesOfAcademy(int AcademyID) {
-		return courseRepository.coursesOfAcademy(AcademyID);
+	public Collection<Course> coursesOfAcademy(int academyID) {
+		return courseRepository.coursesOfAcademy(academyID);
 	}
 
 	public Collection<Course> coursesOfStyle(int StyleID) {

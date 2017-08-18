@@ -59,9 +59,11 @@
 		<security:intercept-url pattern="/course/listByAcademy.do" access="permitAll" />
 		<security:intercept-url pattern="/course/listByStyle.do" access="permitAll" />
 		
+		<security:intercept-url pattern="/tutorial/list.do" access="permitAll" />
 		<security:intercept-url pattern="/tutorial/listByAcademy.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/style/list.do" access="permitAll" />
+		<security:intercept-url pattern="/style/listByCourse.do" access="permitAll" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
