@@ -124,7 +124,7 @@ public class CourseController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value= "/save-edit",method = RequestMethod.POST, params = "save")
+	@RequestMapping(value= "/academy/save-edit",method = RequestMethod.POST, params = "save")
 	public ModelAndView saveEdit(@Valid Course course, BindingResult binding) {
 		ModelAndView result;
 

@@ -66,7 +66,7 @@
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/application/listByAcademy.do"
 			access="hasRole('ACADEMY')" />
-			
+
 		<security:intercept-url pattern="/application/listByDancer.do"
 			access="hasRole('DANCER')" />
 		<security:intercept-url pattern="/application/accept.do"
@@ -84,9 +84,15 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/course/listByActor.do"
 			access="hasRole('ACADEMY')" />
+			<security:intercept-url pattern="/course/save.do"
+			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/course/edit.do"
 			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/course/save-edit.do"
+			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/course/delete.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/course/delete-delete.do"
 			access="hasRole('ACADEMY')" />
 
 		<security:intercept-url pattern="/tutorial/list.do"
@@ -98,6 +104,14 @@
 		<security:intercept-url pattern="/tutorial/edit.do"
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/tutorial/delete.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/tutorial/delete-delete.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/tutorial/academy/delete.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/tutorial/academy/save-edit.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/tutorial/save.do"
 			access="hasRole('ACADEMY')" />
 
 		<security:intercept-url pattern="/style/list.do"
@@ -123,10 +137,20 @@
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/actor/save-dancer.do"
 			access="hasRole('DANCER')" />
-			
-		<security:intercept-url pattern="/course/search1.do" access="permitAll" />
-		<security:intercept-url pattern="/course/search2.do" access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/course/search3.do" access="hasRole('DANCER')" />
+
+		<security:intercept-url pattern="/course/search1.do"
+			access="permitAll" />
+		<security:intercept-url pattern="/course/search2.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/course/search3.do"
+			access="hasRole('DANCER')" />
+
+		<security:intercept-url pattern="/course/academy/save-edit.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/course/academy/delete.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/course/academy/edit.do"
+			access="hasRole('ACADEMY')" />
 
 		<security:intercept-url pattern="/**"
 			access="hasRole('NONE')" />

@@ -93,7 +93,7 @@ public class TutorialController extends AbstractController{
 		} else {
 			try {
 				tutorialService.save(tutorial);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/tutorial/list.do?a=0");
 			} catch (Throwable oops) {
 				result = new ModelAndView("tutorial/create");
 				result.addObject("tutorial", tutorial);
@@ -105,7 +105,7 @@ public class TutorialController extends AbstractController{
 	}
 
 
-	@RequestMapping(value= "/save-edit",method = RequestMethod.POST, params = "save")
+	@RequestMapping(value= "/academy/save-edit",method = RequestMethod.POST, params = "save")
 	public ModelAndView saveEdit(@Valid Tutorial tutorial, BindingResult binding) {
 		ModelAndView result;
 
@@ -117,7 +117,7 @@ public class TutorialController extends AbstractController{
 		} else {
 			try {
 				tutorialService.save(tutorial);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/tutorial/list.do?a=0");
 			} catch (Throwable oops) {
 				result = new ModelAndView("tutorial/edit");
 				result.addObject("tutorial", tutorial);
@@ -164,12 +164,12 @@ public class TutorialController extends AbstractController{
 
 		try {
 			tutorialService.delete(tutorial);
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = new ModelAndView("redirect:/tutorial/list.do?a=0");
 		}catch(Throwable oops){
 			result = new ModelAndView("tutorial/edit");
 			result.addObject("tutorial", tutorial);
-			result.addObject("url","tutorial/save.do");
-			result.addObject("message", "tutorial.commit.error"); }
+			result.addObject("url","tutorial/delete.do");
+			result.addObject("message", "tutorial.commit.error.delete"); }
 
 
 
