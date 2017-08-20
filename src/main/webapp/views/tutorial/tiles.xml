@@ -26,9 +26,4 @@
 		<put-attribute name="body" value="/views/tutorial/edit.jsp" />
 	</definition>
 	
-	<definition name="tutorial/delete" extends="master.page">	
-		<put-attribute name="title" value="ERASE TUTORIAL" />
-		<put-attribute name="body" value="/views/tutorial/delete.jsp" />
-	</definition>
-	
 </tiles-definitions>

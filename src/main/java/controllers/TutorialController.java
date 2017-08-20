@@ -147,13 +147,19 @@ public class TutorialController extends AbstractController{
 	public ModelAndView delete(@RequestParam Integer q) {
 		ModelAndView result;
 
-		result = new ModelAndView("tutorial/delete");
-		result.addObject("tutorial", q);
-		result.addObject("message", null);  
-		result.addObject("url", "tutorial/delete-delete.do");
+		Tutorial a= tutorialService.findOne(q);
+		
+		Academy ac = (Academy)loginService.findActorByUserName(q);
 
+		try {
+			tutorialService.delete(a);
+			result = new ModelAndView("redirect:/tutorial/list.do?a=0");
+		}catch (Throwable e) {
+			result = new ModelAndView("redirect:/tutorial/list.do?a=0");
+		}
 
 		return result;
+
 	}
 
 	@RequestMapping("/delete-delete")
@@ -166,7 +172,7 @@ public class TutorialController extends AbstractController{
 			tutorialService.delete(tutorial);
 			result = new ModelAndView("redirect:/tutorial/list.do?a=0");
 		}catch(Throwable oops){
-			result = new ModelAndView("tutorial/edit");
+			result = new ModelAndView("tutorial/delete");
 			result.addObject("tutorial", tutorial);
 			result.addObject("url","tutorial/delete.do");
 			result.addObject("message", "tutorial.commit.error.delete"); }

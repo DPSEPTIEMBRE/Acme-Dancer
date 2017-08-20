@@ -35,8 +35,8 @@
 <jstl:if test="${a==2}">
 	<security:authorize access="hasRole('ACADEMY')">
 		<acme:list list="${tutorials}" requestURI="tutorial/listByMyAcademy.do"
-			hidden_fields="id,version" editUrl="tutorial/edit.do"
-			deleteUrl="tutorial/delete.do" />
+			hidden_fields="id,version" editUrl="tutorial/edit.do" 
+			extraColumns="{delete: tutorial/delete.do}"/>
 	</security:authorize>
 </jstl:if>
 

@@ -58,9 +58,14 @@
 		<br />
 		<spring:message code="tutorial.save" var="tutorialSaveHeader" />
 		<spring:message code="tutorial.cancel" var="tutorialCancelHeader" />
+		<spring:message code="tutorial.erase" var="tutorialDeleteHeader" />
 		<input type="submit" name="save" value="${tutorialSaveHeader}" />
 		<input onclick="window.location='tutorial/list.do?a=0';" type="button"
 			name="cancel" value="${tutorialCancelHeader}" />
+		<button type="submit" name="delete" onclick="return confirm('${tutorialDeleteHeader}')">
+			<spring:message code="tutorial.delete" />
+		</button>
+		
 
 
 	</form:form>
