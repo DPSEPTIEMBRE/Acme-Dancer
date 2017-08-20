@@ -22,6 +22,7 @@ import repositories.AdministratorRepository;
 public class AdministratorController extends AbstractController {
 
 	//Service
+	
 	@Autowired
 	private AdministratorRepository administratorRepository;
 

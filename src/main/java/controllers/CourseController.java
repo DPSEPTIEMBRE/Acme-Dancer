@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.CourseService;
+import domain.Academy;
 import domain.Course;
 
 @Controller
@@ -24,6 +26,9 @@ public class CourseController extends AbstractController {
 
 	@Autowired
 	private CourseService courseService;
+	
+	@Autowired
+	private LoginService loginService;
 
 	// Constructors -----------------------------------------------------------
 	public CourseController(){
@@ -38,7 +43,7 @@ public class CourseController extends AbstractController {
 
 		result = new ModelAndView("course/list");
 
-		result.addObject("a", a);
+		result.addObject("a", 0);
 		result.addObject("courses", courseService.findAll());
 
 
@@ -56,7 +61,7 @@ public class CourseController extends AbstractController {
 
 		result = new ModelAndView("course/list");
 		result.addObject("courses", courses);
-		result.addObject("a", 3);
+		result.addObject("a", 1);
 
 		return result;
 	}
@@ -81,16 +86,43 @@ public class CourseController extends AbstractController {
 		ModelAndView result;
 
 		List<Course> courses= new ArrayList<Course>();
-		courses.addAll(courseService.coursesOfStyle(q));
+		Academy a = (Academy)loginService.findActorByUserName(q);
+		courses.addAll(courseService.coursesOfAcademy(a.getId()));
 
 
 		result = new ModelAndView("course/list");
 		result.addObject("courses", courses);
-		result.addObject("a", 1);
+		result.addObject("a", 3);
 
 		return result;
 	}
-
+	
+	@RequestMapping("/search1")
+	public ModelAndView search1(@RequestParam(required = false) String searchText) {
+		ModelAndView result;
+		result = new ModelAndView("course/list");
+		result.addObject("courses", courseService.findCourses(searchText));
+		result.addObject("a", 0);
+		return result;
+	}
+	
+	@RequestMapping("/search2")
+	public ModelAndView search2(@RequestParam(required = false) String searchText) {
+		ModelAndView result;
+		result = new ModelAndView("course/list");
+		result.addObject("courses", courseService.findCourses(searchText));
+		result.addObject("a", 3);
+		return result;
+	}
+	
+	@RequestMapping("/search3")
+	public ModelAndView search3(@RequestParam(required = false) String searchText) {
+		ModelAndView result;
+		result = new ModelAndView("course/list");
+		result.addObject("courses", courseService.findCourses(searchText));
+		result.addObject("a", 4);
+		return result;
+	}
 
 	@RequestMapping(value= "/save-edit",method = RequestMethod.POST, params = "save")
 	public ModelAndView saveEdit(@Valid Course course, BindingResult binding) {

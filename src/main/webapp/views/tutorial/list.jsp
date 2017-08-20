@@ -19,15 +19,25 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<jstl:if test="${a==0}">
 
+	<acme:list list="${tutorials}" requestURI="tutorial/list.do"
+		hidden_fields="id,version" />
 
-<acme:list list="${tutorials}" requestURI="tutorial/list.do"
-	hidden_fields="id,version" />
+</jstl:if>
 
 <jstl:if test="${a==1}">
 
 	<acme:list list="${tutorials}" requestURI="tutorial/listByAcademy.do"
 		hidden_fields="id,version" />
-
 </jstl:if>
+
+<jstl:if test="${a==2}">
+	<security:authorize access="hasRole('ACADEMY')">
+		<acme:list list="${tutorials}" requestURI="tutorial/listByMyAcademy.do"
+			hidden_fields="id,version" editUrl="tutorial/edit.do"
+			deleteUrl="tutorial/delete.do" />
+	</security:authorize>
+</jstl:if>
+
 

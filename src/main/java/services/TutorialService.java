@@ -19,7 +19,7 @@ public class TutorialService {
 	//Repositories
 	@Autowired
 	private TutorialRepository tutorialRepository;
-
+	
 	//Services
 
 

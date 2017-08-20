@@ -1,12 +1,15 @@
 package controllers;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,7 +38,7 @@ public class AcademyController extends AbstractController{
 		ModelAndView result;
 
 		result = new ModelAndView("academy/list");
-		
+
 		result.addObject("a", a);
 		result.addObject("academies", academyService.findAll());
 
@@ -47,16 +50,51 @@ public class AcademyController extends AbstractController{
 	@RequestMapping("/listByCourse")
 	public ModelAndView listByCourse(@RequestParam Integer q) {
 		ModelAndView result;
-		
-		List<Academy> academies = new ArrayList<Academy>();
-		academies.add(academyService.academyOfCourse(q));
 
+		Academy academy = academyService.academyOfCourse(q);
 
 		result = new ModelAndView("academy/list");
-		result.addObject("academies", academies);
-		result.addObject("a", 1);
+		result.addObject("academies", Arrays.asList(academy));
+		result.addObject("a", 2);
 
 		return result;
 	}
+
+	@RequestMapping(value="/create",method=RequestMethod.GET)
+	public ModelAndView create(){
+		ModelAndView res;
+
+		res = new ModelAndView("academy/create");
+		res.addObject("academy",academyService.create());
+
+		return res;
+	}
+
+	@RequestMapping(value="/save",method=RequestMethod.POST,params = "save")
+	public ModelAndView saveCreate(@Valid Academy academy, BindingResult binding){
+		ModelAndView res;
+
+		if(binding.hasErrors()){
+			res = createModelAndView(academy,null);
+		}else{
+			try{
+				academyService.save(academy);
+				res = new ModelAndView("redirect:/welcome/index.do");
+
+			}catch(Throwable e){
+				res = createModelAndView(academy, "academy.commit.error");
+			}
+		}
+		return res;
+
+	}
+	protected ModelAndView createModelAndView(Academy academy,String message){
+		ModelAndView res;
+		res = new ModelAndView("academy/create");
+		res.addObject("academy", academy);
+		res.addObject("message",message);
+		return res;
+	}
+
 
 }

@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Actor;
+
 @Service
 @Transactional
 public class LoginService implements UserDetailsService {
@@ -73,5 +75,10 @@ public class LoginService implements UserDetailsService {
 
 		return result;
 	}
-
+	
+	public Actor findActorByUserName(Integer id){
+		Assert.notNull(id);
+		return userRepository.findActorByUserName(id);
+	}
 }
+

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.TutorialService;
+import domain.Academy;
 import domain.Tutorial;
 
 @Controller
@@ -20,8 +23,12 @@ import domain.Tutorial;
 public class TutorialController extends AbstractController{
 
 	//Services
-
+	
+	@Autowired
 	private TutorialService tutorialService;
+	
+	@Autowired
+	private LoginService loginService;
 
 	// Constructors -----------------------------------------------------------
 	public TutorialController(){
@@ -48,11 +55,27 @@ public class TutorialController extends AbstractController{
 		ModelAndView result;
 		
 		List<Tutorial> tutorials= new ArrayList<Tutorial>();
-		tutorials.addAll(tutorialService.tutorialsOfAcademy(q));
-
+		tutorials=(List<Tutorial>) tutorialService.tutorialsOfAcademy(q);
 		result = new ModelAndView("tutorial/list");
 		result.addObject("tutorials", tutorials);
 		result.addObject("a", 1);
+		
+
+		return result;
+	}
+	
+	@RequestMapping("/listByMyAcademy")
+	public ModelAndView listByMyAcademy(@RequestParam Integer q) {
+		ModelAndView result;
+		
+		List<Tutorial> tutorials= new ArrayList<Tutorial>();
+
+		Academy a = (Academy)loginService.findActorByUserName(q);
+		tutorials.addAll(tutorialService.tutorialsOfAcademy(a.getId()));
+		
+		result = new ModelAndView("tutorial/list");
+		result.addObject("tutorials", tutorials);
+		result.addObject("a", 2);
 		
 
 		return result;

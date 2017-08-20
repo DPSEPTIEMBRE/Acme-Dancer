@@ -6,16 +6,18 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Application;
-import domain.Chirp;
-import domain.Dancer;
 import repositories.DancerRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
+import domain.Application;
+import domain.Chirp;
+import domain.Dancer;
 
 @Service
 @Transactional
@@ -25,6 +27,8 @@ public class DancerService {
 	@Autowired
 	private DancerRepository dancerRepository;
 
+	@Autowired
+	private Md5PasswordEncoder md5PasswordEncoder;
 	//Services
 
 
@@ -36,6 +40,12 @@ public class DancerService {
 	//CRUD Methods
 	public Dancer create() {
 		Dancer dancer = new Dancer();
+		dancer.setActorName(new String());
+		dancer.setAddress(new String());
+		dancer.setEmail(new String());
+		dancer.setFollower(new ArrayList<Actor>());
+		dancer.setPhone(new String());
+		dancer.setSurname(new String());
 		dancer.setChirps(new ArrayList<Chirp>());
 		dancer.setApplications(new ArrayList<Application>());
 
@@ -55,7 +65,36 @@ public class DancerService {
 
 	public Dancer save(Dancer dancer) {
 		Assert.notNull(dancer);
-		return dancerRepository.save(dancer);
+		Dancer dan = null;
+		
+		if(exists(dancer.getId())){
+			dan = findOne(dancer.getId());
+			
+			dan.setActorName(dancer.getActorName());
+			dan.setAddress(dancer.getAddress());
+			dan.setEmail(dancer.getEmail());
+			dan.setPhone(dancer.getPhone());
+			dan.setSurname(dancer.getSurname());
+			dan.setApplications(dancer.getApplications());
+			dan.setChirps(dancer.getChirps());
+			dan.setFollower(dancer.getFollower());
+			
+			dan = dancerRepository.save(dan);
+		}else{
+			
+			UserAccount account= dancer.getUserAccount();
+			account.setPassword(md5PasswordEncoder.encodePassword(account.getPassword(), null));
+			
+			dancer.setUserAccount(account);
+			
+			dan = dancerRepository.save(dancer);
+		}
+		return dan;
+	}
+	
+
+	public boolean exists(Integer dancerId) {
+		return dancerRepository.exists(dancerId);
 	}
 
 	//Other methods

@@ -3,8 +3,10 @@ package services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import domain.Administrator;
 import domain.Tutorial;
@@ -14,23 +16,46 @@ import repositories.AdministratorRepository;
 @Transactional
 public class AdministratorService {
 
-	//Repository
+	// Repository
+
+	@Autowired
 	private AdministratorRepository administratorRepository;
 
-	//Service
+	// Service
 
-
-	//Constructor
+	// Constructor
 	public AdministratorService() {
 		super();
 	}
 
-	//CRUD Methods
+	// CRUD Methods
 	public Administrator save(Administrator administrator) {
-		return administratorRepository.save(administrator);
+		Assert.notNull(administrator);
+		Administrator adm = null;
+
+		if (exists(administrator.getId())) {
+			adm = findOne(administrator.getId());
+
+			adm.setActorName(administrator.getActorName());
+			adm.setSurname(administrator.getSurname());
+			adm.setEmail(administrator.getEmail());
+			adm.setPhone(administrator.getPhone());
+			adm.setAddress(administrator.getAddress());
+			adm.setChirps(administrator.getChirps());
+			adm.setFollower(administrator.getFollower());
+
+			adm = administratorRepository.save(adm);
+		} else {
+			adm = administratorRepository.save(administrator);
+		}
+		return adm;
 	}
 
-	//Other Methods
+	public boolean exists(Integer administratorID) {
+		return administratorRepository.exists(administratorID);
+	}
+
+	// Other Methods
 
 	public Object[] minAvgSdMaxCoursesPerAcademy() {
 		return administratorRepository.minAvgSdMaxCoursesPerAcademy();
@@ -60,4 +85,9 @@ public class AdministratorService {
 		return administratorRepository.tutorialsOrderByNumShowsDes();
 	}
 
+	public Administrator findOne(Integer adminID) {
+		return administratorRepository.findOne(adminID);
+	}
+
 }
+

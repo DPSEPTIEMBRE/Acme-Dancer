@@ -116,6 +116,26 @@
 	</bean>
 
 	<!-- Other domain beans come here -->
+	
+	<bean id="administrator1" class="domain.Administrator">
+		<property name="actorName" value="Laura" />
+		<property name="surname" value="Padial" />
+		<property name="email" value="lp@hotmail.com" />
+		<property name="phone" value="+34 (666) 1234" />
+		<property name="address" value="41109" />
+		<property name="userAccount" ref="userAccount1" />
+		<property name="follower">
+			<list>
+				<ref bean="academy2" />
+				<ref bean="dancer1" />
+				<ref bean="dancer2" />
+			</list>
+		</property>
+		<property name="chirps">
+			<list>
+			</list>
+		</property>
+	</bean>
 
 
 	<bean id="academy1" class="domain.Academy">

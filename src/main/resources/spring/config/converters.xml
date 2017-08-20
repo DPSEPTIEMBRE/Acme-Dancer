@@ -29,6 +29,9 @@
 		<bean class="converters.ApplicationToStringConverter" />
 		<bean class="converters.CourseToStringConverter" />
 		<bean class="converters.StyleToStringConverter" />
+		<bean class="converters.LevelCourseToStringConverter" />
+		<bean class="converters.StatusApplicationToStringConverter" />
+		<bean class="converters.ActorToStringConverter" />
 		
 		<bean class="converters.StringToAuthorityConverter" />
 		<bean class="converters.StringToUserAccountConverter" />
@@ -40,6 +43,9 @@
 		<bean class="converters.StringToApplicationConverter" />
 		<bean class="converters.StringToCourseConverter" />
 		<bean class="converters.StringToStyleConverter" />
+		<bean class="converters.StringToLevelCourseConverter" />
+		<bean class="converters.StringToStatusApplicationConverter" />
+		<bean class="converters.StringToActorConverter" />
 		
 	</util:list>
 	

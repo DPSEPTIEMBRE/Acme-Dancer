@@ -45,11 +45,28 @@ public class ApplicationService {
 	//Other Methods
 	public Application save(Application application) {
 		Assert.notNull(application);
-		return applicationRepository.save(application);
+		Application app= new Application();
+		if(exists(application.getId())){
+			app=findOne(application.getId());
+			app.setCourse(application.getCourse());
+			app.setCreateMoment(application.getCreateMoment());
+			app.setStatusApplication(application.getStatusApplication());
+			return applicationRepository.save(app);
+		}else{
+			return applicationRepository.save(application);
+		}
+	}
+
+	public Application findOne(Integer arg0) {
+		return applicationRepository.findOne(arg0);
 	}
 
 	public Collection<Application> applicationsOfCourse(int courseID) {
 		return applicationRepository.applicationsOfCourse(courseID);
+	}
+
+	public boolean exists(Integer arg0) {
+		return applicationRepository.exists(arg0);
 	}
 
 	public Collection<Application> allApplicationsOfAcademy(int AcademyID) {

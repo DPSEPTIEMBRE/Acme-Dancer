@@ -19,11 +19,23 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<security:authorize access="permitAll()">
 
-	<acme:list list="${courses}" requestURI="course/list.do"
-		hidden_fields="id,version,applications"
-		entityUrl="{style: style/list.do, academy: academy/listByCourse.do}" />
+
+<security:authorize access="permitAll() and !hasRole('ACADEMY') and !hasRole('DANCER')">
+
+<form action="course/search1.do">
+	<b><spring:message code="course.search" /></b> <input type="search"
+		name="searchText" />
+</form>
+
+
+	<jstl:if test="${a==0}">
+
+		<acme:list list="${courses}" requestURI="course/list.do"
+			hidden_fields="id,version,applications"
+			entityUrl="{style: style/list.do, academy: academy/listByCourse.do}" />
+
+	</jstl:if>
 
 	<jstl:if test="${a==1}">
 
@@ -36,8 +48,54 @@
 	<jstl:if test="${a==2}">
 
 		<acme:list list="${courses}" requestURI="course/listByStyle.do"
-			hidden_fields="id,version,applications"
+			hidden_fields="id,version,applications,style"
 			entityUrl="{academy: academy/listByCourse.do}" />
+
+	</jstl:if>
+
+</security:authorize>
+
+<security:authorize access="hasRole('ACADEMY')">
+<form action="course/search2.do">
+	<b><spring:message code="course.search" /></b> <input type="search"
+		name="searchText" />
+</form>
+	<jstl:if test="${a==3}">
+
+		<acme:list list="${courses}" requestURI="course/listByActor.do"
+			hidden_fields="id,version,academy,levelCourse"
+			entityUrl="{style: style/list.do, applications: application/listByCourse.do}"
+			editUrl="course/edit.do" deleteUrl="course/delete.do" />
+	</jstl:if>
+	
+	<jstl:if test="${a==0}">
+
+		<acme:list list="${courses}" requestURI="course/list.do"
+			hidden_fields="id,version,applications"
+			entityUrl="{style: style/list.do, academy: academy/listByCourse.do}" />
+
+	</jstl:if>
+
+</security:authorize>
+
+<security:authorize access="hasRole('DANCER')">
+<form action="course/search3.do">
+	<b><spring:message code="course.search" /></b> <input type="search"
+		name="searchText" />
+</form>
+	<jstl:if test="${a==4}">
+
+		<acme:list list="${courses}" requestURI="course/list.do"
+			hidden_fields="id,version,academy,levelCourse"
+			entityUrl="{style: style/list.do, applications: application/listByCourse.do}"
+			extraColumns="{application: application/apply.do}" />
+	</jstl:if>
+	
+	<jstl:if test="${a==0}">
+
+		<acme:list list="${courses}" requestURI="course/list.do"
+			hidden_fields="id,version,applications"
+			entityUrl="{style: style/list.do, academy: academy/listByCourse.do}" />
 
 	</jstl:if>
 

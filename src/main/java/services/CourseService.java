@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,10 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.CourseRepository;
 import domain.Academy;
 import domain.Course;
 import domain.Style;
-import repositories.CourseRepository;
 
 @Service
 @Transactional
@@ -72,7 +73,15 @@ public class CourseService {
 
 	//Other Methods
 	public Collection<Course> findCourses(String keyWord) {
-		return courseRepository.findCourses(keyWord);
+		Collection<Course> courses = courseRepository.findAll();
+		Collection<Course> res = new ArrayList<Course>();
+		for (Course c : courses) {
+			if (c.getTitle().contains(keyWord) || c.getStyle().getName().contains(keyWord) || c.getStyle().getDescription().contains(keyWord)) {
+				res.add(c);
+			}
+		}
+
+		return res;
 	}
 	public Collection<Course> coursesOfAcademy(int academyID) {
 		return courseRepository.coursesOfAcademy(academyID);
