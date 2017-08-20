@@ -42,8 +42,14 @@
 	<jstl:if test="${a==3}">
 		<acme:list list="${applications}"
 			requestURI="application/listByAcademy.do"
+			hidden_fields="id,version,course"/>
+	</jstl:if>
+	
+	<jstl:if test="${a==4}">
+		<acme:list list="${applications}"
+			requestURI="application/listByAcademyPending.do"
 			hidden_fields="id,version,course"
-			extraColumns=" accept: application/accept.do, denied: application/denied.do" />
+			extraColumns=" accept: application/academy/accept.do, denied: application/academy/denied.do" />
 	</jstl:if>
 
 </security:authorize>

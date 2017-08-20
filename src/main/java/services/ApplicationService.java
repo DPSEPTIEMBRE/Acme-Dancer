@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Application;
 import repositories.ApplicationRepository;
+import repositories.DancerRepository;
+import domain.Application;
+import domain.Dancer;
+import domain.StatusApplication;
 
 @Service
 @Transactional
@@ -20,6 +23,9 @@ public class ApplicationService {
 	//Repositories
 	@Autowired
 	private ApplicationRepository applicationRepository;
+	
+	@Autowired
+	private DancerRepository dancerRepository;
 
 	//Services
 
@@ -68,9 +74,40 @@ public class ApplicationService {
 	public boolean exists(Integer arg0) {
 		return applicationRepository.exists(arg0);
 	}
+	
+	public Application accept(Application application) {
+		Assert.notNull(application);
+
+		StatusApplication sa = new StatusApplication();
+		sa.setValue("ACCEPTED");
+		application.setStatusApplication(sa);
+
+		return applicationRepository.save(application);
+
+	}
+
+	public Application denied(Application application) {
+		Assert.notNull(application);
+
+		StatusApplication sa = new StatusApplication();
+		sa.setValue("REJECTED");
+		application.setStatusApplication(sa);
+
+		return applicationRepository.save(application);
+
+	}
+
 
 	public Collection<Application> allApplicationsOfAcademy(int AcademyID) {
 		return applicationRepository.allApplicationsOfAcademy(AcademyID);
+	}
+	
+	public Collection<Application> applicationsPendingOfAcademy(int AcademyID) {
+		return applicationRepository.applicationsPendingOfAcademy(AcademyID);
+	}
+	
+	public Collection<Application> applicationsAcceptedOrRejectedOfAcademy(int AcademyID) {
+		return applicationRepository.applicationsAcceptedOrRejectedOfAcademy(AcademyID);
 	}
 
 }

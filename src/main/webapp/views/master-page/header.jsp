@@ -87,6 +87,9 @@
 							href="application/listByAcademy.do?q=${id}"><spring:message
 									code="master.page.academy.applications" /> </a></li>
 						<li class="dropdown"><a
+							href="application/listByAcademyPending.do?q=${id}"><spring:message
+									code="master.page.academy.applicationsPending" /> </a></li>
+						<li class="dropdown"><a
 							href="tutorial/listByMyAcademy.do?q=${id}"><spring:message
 									code="master.page.academy.tutorials" /> </a></li>
 					</security:authorize>

@@ -66,14 +66,17 @@
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/application/listByAcademy.do"
 			access="hasRole('ACADEMY')" />
+			
+		<security:intercept-url pattern="/application/listByAcademyPending.do"
+			access="hasRole('ACADEMY')" />
 
 		<security:intercept-url pattern="/application/listByDancer.do"
 			access="hasRole('DANCER')" />
-		<security:intercept-url pattern="/application/accept.do"
+		<security:intercept-url pattern="/application/academy/accept.do"
 			access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/application/denied.do"
+		<security:intercept-url pattern="/application/academy/denied.do"
 			access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/application/apply.do"
+		<security:intercept-url pattern="/application/dancer/apply.do"
 			access="hasRole('DANCER')" />
 
 		<security:intercept-url pattern="/course/list.do"
@@ -151,6 +154,7 @@
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/course/academy/edit.do"
 			access="hasRole('ACADEMY')" />
+			
 
 		<security:intercept-url pattern="/**"
 			access="hasRole('NONE')" />

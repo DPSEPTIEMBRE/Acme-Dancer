@@ -13,11 +13,10 @@ public class StatusApplicationToStringConverter implements Converter<StatusAppli
 	@Override
 	public String convert(StatusApplication statusApplication) {
 		String result;
-
 		if (statusApplication == null)
 			result = null;
 		else
-			result = statusApplication.getValue();
+			result = statusApplication.getValue().toString();
 
 		return result;
 	}

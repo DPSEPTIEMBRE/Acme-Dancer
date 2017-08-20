@@ -74,7 +74,7 @@ public class ApplicationController extends AbstractController{
 		ModelAndView result;
 		List<Application> applications = new ArrayList<Application>();
 		Academy a = (Academy)loginService.findActorByUserName(q);
-		applications.addAll(applicationService.allApplicationsOfAcademy(a.getId()));
+		applications.addAll(applicationService.applicationsAcceptedOrRejectedOfAcademy(a.getId()));
 
 		result = new ModelAndView("application/list");
 		result.addObject("applications", applications);
@@ -83,7 +83,44 @@ public class ApplicationController extends AbstractController{
 		return result;
 	}
 	
-	@RequestMapping("/apply")
+	@RequestMapping("/listByAcademyPending")
+	public ModelAndView listByAcademyPending(@RequestParam Integer q) {
+		ModelAndView result;
+		List<Application> applications = new ArrayList<Application>();
+		Academy a = (Academy)loginService.findActorByUserName(q);
+		applications.addAll(applicationService.applicationsPendingOfAcademy(a.getId()));
+
+		result = new ModelAndView("application/list");
+		result.addObject("applications", applications);
+		result.addObject("a", 4);
+
+		return result;
+	}
+	
+	@RequestMapping("/academy/accept")
+	public ModelAndView accept(@RequestParam Integer q) {
+		ModelAndView result;
+		Application a = applicationService.findOne(q);
+		applicationService.accept(a);
+
+		result = new ModelAndView("redirect:/welcome/index.do");
+
+		return result;
+	}
+
+	@RequestMapping("/academy/denied")
+	public ModelAndView denied(@RequestParam Integer q) {
+		ModelAndView result;
+		Application a = applicationService.findOne(q);
+		applicationService.denied(a);
+
+		result = new ModelAndView("redirect:/welcome/index.do");
+
+		return result;
+	}
+
+	
+	@RequestMapping("/dancer/apply")
 	public ModelAndView apply(@RequestParam Integer q) {
 		ModelAndView result;
 		Course course = courseService.findOne(q);

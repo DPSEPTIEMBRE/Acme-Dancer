@@ -88,7 +88,7 @@
 		<acme:list list="${courses}" requestURI="course/list.do"
 			hidden_fields="id,version,academy,levelCourse"
 			entityUrl="{style: style/list.do, applications: application/listByCourse.do}"
-			extraColumns="{application: application/apply.do}" />
+			extraColumns="{application: application/dancer/apply.do}" />
 	</jstl:if>
 	
 	<jstl:if test="${a==0}">

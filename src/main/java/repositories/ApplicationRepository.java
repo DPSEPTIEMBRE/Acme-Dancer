@@ -16,4 +16,12 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	//Solicitudes totales de la academia(todos los cursos)
 	@Query("select c.applications from Academy a join a.courses c where a.id=?1")
 	Collection<Application> allApplicationsOfAcademy(int AcademyID);
+	
+	//Solicitudes pendientes
+	@Query("select p from Academy a join a.courses c join c.applications p join p.statusApplication app where a.id=?1 AND app.value='PENDING'")
+	Collection<Application> applicationsPendingOfAcademy(int academyID);
+	
+	//Solicitudes aprobadas y denegadas
+	@Query("select p from Academy a join a.courses c join c.applications p join p.statusApplication app where a.id=?1 AND (app.value='ACCEPTED' OR app.value='REJECTED')")
+	Collection<Application> applicationsAcceptedOrRejectedOfAcademy(int academyID);
 }
