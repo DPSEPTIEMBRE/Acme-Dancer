@@ -96,12 +96,15 @@
 		<br />
 
 		<br />
+
 		<spring:message code="actor.save" var="actorSaveHeader" />
 		<spring:message code="actor.cancel" var="actorCancelHeader" />
-		<input type="submit" name="save" value="${actorSaveHeader}" />
-		<input onclick="window.location='welcome/index.do';" type="button"
-			name="cancel" value="${actorCancelHeader}" />
-
+		<input name="save" type="submit" class="btn btn-primary"
+			value="<spring:message code="acme.save"/>">
+		<input onclick="location.href = 'welcome/index.do';" type="button"
+			class="btn btn-warning" value="<spring:message code="acme.cancel" />">
+		<input class="btn btn-danger" type="reset" name="clear" value="<spring:message code="acme.clear" />"/>
+			
 
 	</form:form>
 

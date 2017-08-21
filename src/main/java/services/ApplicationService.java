@@ -11,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ApplicationRepository;
-import repositories.DancerRepository;
 import domain.Application;
-import domain.Dancer;
 import domain.StatusApplication;
 
 @Service
@@ -24,9 +22,6 @@ public class ApplicationService {
 	@Autowired
 	private ApplicationRepository applicationRepository;
 	
-	@Autowired
-	private DancerRepository dancerRepository;
-
 	//Services
 
 
@@ -108,6 +103,10 @@ public class ApplicationService {
 	
 	public Collection<Application> applicationsAcceptedOrRejectedOfAcademy(int AcademyID) {
 		return applicationRepository.applicationsAcceptedOrRejectedOfAcademy(AcademyID);
+	}
+
+	public Collection<Application> applicationsPendingOfCourse(int courseId) {
+		return applicationRepository.applicationsPendingOfCourse(courseId);
 	}
 
 }

@@ -65,6 +65,7 @@
 		<acme:list list="${courses}" requestURI="course/listByActor.do"
 			hidden_fields="id,version,academy,levelCourse"
 			entityUrl="{style: style/list.do, applications: application/listByCourse.do}"
+			extraColumns="{applicationsPending: application/listByCoursePending.do}"
 			editUrl="course/edit.do" deleteUrl="course/delete.do" />
 	</jstl:if>
 	
@@ -83,15 +84,15 @@
 	<b><spring:message code="course.search" /></b> <input type="search"
 		name="searchText" />
 </form>
-	<jstl:if test="${a==4}">
+	<jstl:if test="${a==0}">
 
 		<acme:list list="${courses}" requestURI="course/list.do"
 			hidden_fields="id,version,academy,levelCourse"
-			entityUrl="{style: style/list.do, applications: application/listByCourse.do}"
-			extraColumns="{application: application/dancer/apply.do}" />
+			entityUrl="{style: style/list.do}"
+			extraColumns="{apply: application/dancer/apply.do}" />
 	</jstl:if>
 	
-	<jstl:if test="${a==0}">
+	<jstl:if test="${a==4}">
 
 		<acme:list list="${courses}" requestURI="course/list.do"
 			hidden_fields="id,version,applications"

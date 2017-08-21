@@ -19,35 +19,81 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<security:authorize access="hasRole('DANCER')">
+<spring:message code="application.createMoment" var="createMoment" />
+<spring:message code="application.statusApplication"
+	var="statusApplication" />
+<spring:message code="application.course" var="course" />
+<spring:message code="application.accept" var="accept" />
+<spring:message code="application.denied" var="denied" />
+<spring:message code="application.cancel" var="cancel" />
 
+
+<security:authorize access="hasRole('DANCER')">
+	<!--<jstl:if test="${a==1}">
+		<display:table name="application" id="row"
+			requestURI="application/listByDancer.do" pagesize="8"
+			class="displaytag">
+			<display:column property="createMoment" title="${createMoment}"
+				sortable="false" />
+			<display:column property="statusApplication"
+				title="${statusApplication}" sortable="false" />
+			<display:column sortable="false">
+				<a href="course/list.do?id=${row.id}"><jstl:out
+						value="${course}" /></a>
+			</display:column>
+		</display:table>
+
+	</jstl:if>-->
 	<jstl:if test="${a==1}">
 		<acme:list list="${applications}"
 			requestURI="application/listByDancer.do"
-			hidden_fields="id,version,course"
-			entityUrl=" course: course/list.do" />
+			hidden_fields="id,version,course" entityUrl=" course: course/list.do" />
 	</jstl:if>
-	
+
 </security:authorize>
 
 
 <security:authorize access="hasRole('ACADEMY')">
 
 	<jstl:if test="${a==2}">
-		<acme:list list="${applications}"
-			requestURI="application/listByCourse.do"
-			hidden_fields="id,version,course" />
+		<display:table name="applications" id="row"
+			requestURI="application/listByCourse.do" pagesize="8"
+			class="table table-over">
+			<display:column property="createMoment" title="${createMoment}"
+				sortable="false" />
+			<display:column title="${statusApplication}" sortable="false"
+				property="statusApplication.value" />
+
+			<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
+				<display:column sortable="false">
+					<a href="application/academy/accept.do?q=${row.id}"><jstl:out
+							value="${accept}" /></a>
+				</display:column>
+				<display:column sortable="false">
+					<a href="application/academy/denied.do?q=${row.id}"><jstl:out
+							value="${denied}" /></a>
+				</display:column>
+			</jstl:if>
+			
+		</display:table>
 	</jstl:if>
 
 	<jstl:if test="${a==3}">
 		<acme:list list="${applications}"
 			requestURI="application/listByAcademy.do"
-			hidden_fields="id,version,course"/>
+			hidden_fields="id,version,course" />
 	</jstl:if>
-	
+
 	<jstl:if test="${a==4}">
 		<acme:list list="${applications}"
 			requestURI="application/listByAcademyPending.do"
+			hidden_fields="id,version,course"
+			extraColumns=" accept: application/academy/accept.do, denied: application/academy/denied.do" />
+	</jstl:if>
+
+	<jstl:if test="${a==5}">
+		<acme:list list="${applications}"
+			requestURI="application/listByCoursePending.do"
 			hidden_fields="id,version,course"
 			extraColumns=" accept: application/academy/accept.do, denied: application/academy/denied.do" />
 	</jstl:if>

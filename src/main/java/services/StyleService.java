@@ -37,7 +37,6 @@ public class StyleService {
 
 	public void delete(Style style) {
 		Assert.notNull(style);
-		Assert.notEmpty(style.getCourses());
 		styleRepository.delete(style);
 	}
 

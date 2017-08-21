@@ -64,9 +64,11 @@
 
 		<security:intercept-url pattern="/application/listByCourse.do"
 			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/application/listByCoursePending.do"
+			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/application/listByAcademy.do"
 			access="hasRole('ACADEMY')" />
-			
+
 		<security:intercept-url pattern="/application/listByAcademyPending.do"
 			access="hasRole('ACADEMY')" />
 
@@ -87,7 +89,7 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/course/listByActor.do"
 			access="hasRole('ACADEMY')" />
-			<security:intercept-url pattern="/course/save.do"
+		<security:intercept-url pattern="/course/save.do"
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/course/edit.do"
 			access="hasRole('ACADEMY')" />
@@ -154,7 +156,18 @@
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/course/academy/edit.do"
 			access="hasRole('ACADEMY')" />
-			
+
+		<security:intercept-url pattern="/style/listAdministratorStyle.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/create.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/save.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/edit.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/save-edit.do"
+			access="hasRole('ADMINISTRATOR')" />
+
 
 		<security:intercept-url pattern="/**"
 			access="hasRole('NONE')" />

@@ -13,4 +13,6 @@ public interface DancerRepository extends JpaRepository<Dancer, Integer>{
 	//solicitudes de un bailarin
 	@Query("select d.applications from Dancer d where d.id=?1")
 	Collection<Application> applicationsOfDancer(int DancerID);
+	
+	
 }

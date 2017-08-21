@@ -69,14 +69,18 @@
 							<li><a class="fNiv" href="course/list.do?a=3"><spring:message
 										code="master.page.course" /></a></li>
 						</security:authorize>
+						<security:authorize access="hasAnyRole('DANCER','ACADEMY')">
 						<li><a class="fNiv" href="style/list.do?a=0"><spring:message
 									code="master.page.style" /></a></li>
+						</security:authorize>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ADMINISTRATOR')">
 						<security:authentication property="principal.id" var="id" />
 						<li class="dropdown"><a href="administrator/dashboard.do"><spring:message
 									code="master.page.administrator.dashboard" /> </a></li>
+						<li class="dropdown"><a href="style/listAdministratorStyle.do?a=2"><spring:message
+									code="master.page.style" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ACADEMY')">
@@ -96,8 +100,6 @@
 
 					<security:authorize access="hasRole('DANCER')">
 						<security:authentication property="principal.id" var="id" />
-						<li class="dropdown"><a href="course/listByActor.do?q=${id}"><spring:message
-									code="master.page.academy.courses" /> </a></li>
 						<li class="dropdown"><a href="application/listByDancer.do?q=${id}"><spring:message
 									code="master.page.academy.applications" /> </a></li>
 					</security:authorize>

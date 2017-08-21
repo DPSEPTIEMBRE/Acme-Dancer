@@ -44,6 +44,7 @@ public class Actor extends DomainEntity {
 	}
 
 	@Email
+	@NotBlank
 	public String getEmail() {
 		return email;
 	}

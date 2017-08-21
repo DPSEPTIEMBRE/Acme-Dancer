@@ -1,12 +1,14 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,15 +50,16 @@ public class ApplicationController extends AbstractController{
 	@RequestMapping("/listByDancer")
 	public ModelAndView listByDancer(@RequestParam Integer q) {
 		ModelAndView result;
+		Collection<Application> applications = dancerService.applicationsOfDancer(q);
 
 		result = new ModelAndView("application/list");
-		result.addObject("applications", dancerService.applicationsOfDancer(q));
+		result.addObject("applications", applications );
 		result.addObject("a", 1);
 
 		return result;
 	}
 	
-	@RequestMapping("/listByCourse")
+	@RequestMapping(value = "/listByCourse", method = RequestMethod.GET)
 	public ModelAndView listByCourse(@RequestParam Integer q) {
 		ModelAndView result;
 		List<Application> applications = new ArrayList<Application>();
@@ -97,6 +100,19 @@ public class ApplicationController extends AbstractController{
 		return result;
 	}
 	
+	@RequestMapping("/listByCoursePending")
+	public ModelAndView listByCoursePending(@RequestParam Integer q) {
+		ModelAndView result;
+		List<Application> applications = new ArrayList<Application>();
+		applications.addAll(applicationService.applicationsPendingOfCourse(q));
+
+		result = new ModelAndView("application/list");
+		result.addObject("applications", applications);
+		result.addObject("a", 5);
+
+		return result;
+	}
+	
 	@RequestMapping("/academy/accept")
 	public ModelAndView accept(@RequestParam Integer q) {
 		ModelAndView result;
@@ -131,18 +147,20 @@ public class ApplicationController extends AbstractController{
 		sa.setValue("PENDING");
 		a.setStatusApplication(sa);
 		a = applicationService.save(a);
-		
-		Dancer d = (Dancer)loginService.findActorByUserName(LoginService.getPrincipal().getId());
+		course.getApplications().add(a);
+		courseService.save(course);
+		Dancer d = (Dancer) loginService.findActorByUserName(LoginService.getPrincipal().getId());
 		List<Application> applications = d.getApplications();
 		applications.add(a);
 		d.setApplications(applications);
 		dancerService.save(d);
-		
-		result = new ModelAndView("course/list.do");
-		result.addObject("courses",courseService.findAll());
+
+		result = new ModelAndView("course/list");
+		result.addObject("courses", courseService.findAll());
 
 		return result;
 	}
+
 
 
 }

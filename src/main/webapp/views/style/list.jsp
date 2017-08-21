@@ -19,16 +19,34 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<spring:message code="style.create" var="createHeader" />
+
 <security:authorize access="permitAll()">
 
-	<acme:list list="${styles}" requestURI="style/list.do"
-		hidden_fields="id,version"
-		entityUrl="{courses: course/listByStyle.do}" />
+	<jstl:if test="${a==0}">
+		<acme:list list="${styles}" requestURI="style/list.do"
+			hidden_fields="id,version"
+			entityUrl="{courses: course/listByStyle.do}" />
+	</jstl:if>
 
 	<jstl:if test="${a==1}">
-
 		<acme:list list="${styles}" requestURI="style/listByCourse.do"
 			hidden_fields="id,version" />
 	</jstl:if>
-	
+
+</security:authorize>
+
+<security:authorize access="hasRole('ADMINISTRATOR')">
+
+	<jstl:if test="${a==2}">
+		<acme:list list="${styles}" requestURI="style/listAdministratorStyle.do"
+			hidden_fields="id,version"
+			entityUrl="{courses: course/listByStyle.do}"
+			extraColumns="{edit: style/administrator/edit.do}" />
+		<br />
+		<div>
+			<a href="style/administrator/create.do">${createHeader}</a>
+		</div>
+	</jstl:if>
+
 </security:authorize>
