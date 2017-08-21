@@ -17,6 +17,7 @@ import domain.Chirp;
 import domain.Dancer;
 import repositories.ChirpRepository;
 import security.Authority;
+import security.LoginService;
 
 @Service
 @Transactional
@@ -35,6 +36,9 @@ public class ChirpService {
 
 	@Autowired
 	private AdministratorService	administratorService;
+	
+	@Autowired
+	private LoginService			loginService;
 
 
 	//Constructor
@@ -46,24 +50,29 @@ public class ChirpService {
 
 	public Chirp create() {
 		Chirp chirp = new Chirp();
+		
+		chirp.setText(new String());
+		chirp.setActor(loginService.findActorByUserName(LoginService.getPrincipal().getId()));
 		chirp.setMomentWritten(new Date());
+		System.out.println("Mi chirp" + chirp);
 
 		return chirp;
 	}
 	public void delete(Chirp chirp) {
 		Assert.notNull(chirp);
 		Actor a = chirp.getActor();
+		Assert.notNull(a);
+		List<Chirp> chirps = a.getChirps();
+		chirps.remove(chirp);
+		a.setChirps(chirps);
+		
 
 		if (a.getUserAccount().getAuthorities().contains(Authority.ACADEMY)) {
-			a.getChirps().remove(chirp);
 			academyService.save((Academy) a);
 		} else if (a.getUserAccount().getAuthorities().contains(Authority.DANCER)) {
-			a.getChirps().remove(chirp);
 			dancerService.save((Dancer) a);
-		} else {
-			a.getChirps().remove(chirp);
+		} else if (a.getUserAccount().getAuthorities().contains(Authority.ADMINISTRATOR)){
 			administratorService.save((Administrator) a);
-
 		}
 
 		chirpRepository.delete(chirp);

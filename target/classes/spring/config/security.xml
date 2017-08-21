@@ -143,12 +143,8 @@
 		<security:intercept-url pattern="/actor/save-dancer.do"
 			access="hasRole('DANCER')" />
 
-		<security:intercept-url pattern="/course/search1.do"
+		<security:intercept-url pattern="/course/search.do"
 			access="permitAll" />
-		<security:intercept-url pattern="/course/search2.do"
-			access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/course/search3.do"
-			access="hasRole('DANCER')" />
 
 		<security:intercept-url pattern="/course/academy/save-edit.do"
 			access="hasRole('ACADEMY')" />
@@ -168,6 +164,23 @@
 		<security:intercept-url pattern="/style/administrator/save-edit.do"
 			access="hasRole('ADMINISTRATOR')" />
 
+
+		<security:intercept-url pattern="/course/academy/save-edit.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/course/academy/delete.do"
+			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/course/academy/edit.do"
+			access="hasRole('ACADEMY')" />
+
+		<security:intercept-url pattern="/chirp/actor/delete.do"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/actor/create.do"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/actor/mylist.do"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/actor/save.do"
+			access="isAuthenticated()" />
+			
 
 		<security:intercept-url pattern="/**"
 			access="hasRole('NONE')" />

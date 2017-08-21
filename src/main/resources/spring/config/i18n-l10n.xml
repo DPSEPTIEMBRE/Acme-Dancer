@@ -33,6 +33,7 @@
 		<value>/views/application/messages</value>
 		<value>/views/dancer/messages</value>
 		<value>/views/actor/messages</value>
+		<value>/views/chirp/messages</value>
 		
 	</util:list>
 

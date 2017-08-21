@@ -23,10 +23,10 @@ public class Course extends DomainEntity {
 
 	private String				title;
 	private LevelCourse			levelCourse;
-	private Date				start;
-	private Date				end;
+	private Date					start;
+	private Date					end;
 	private String				dayWeek;
-	private Date				time;
+	private Date					time;
 	private Academy				academy;
 	private List<Application>	applications;
 	private Style				style;
@@ -45,15 +45,15 @@ public class Course extends DomainEntity {
 	}
 
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getStart() {
 		return start;
 	}
 
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEnd() {
 		return end;
 	}

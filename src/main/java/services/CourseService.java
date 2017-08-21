@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.CourseRepository;
 import domain.Academy;
+import domain.Application;
 import domain.Course;
 import domain.Style;
 
@@ -29,6 +30,9 @@ public class CourseService {
 
 	@Autowired
 	private AcademyService		academyService;
+	
+	@Autowired
+	private ApplicationService	applicationService;
 
 	//Constructor
 
@@ -50,13 +54,31 @@ public class CourseService {
 		Style style = course.getStyle();
 		Academy academy = course.getAcademy();
 
-		style.getCourses().remove(course);
+		if(!course.getApplications().isEmpty()){
+			List<Application> apps = course.getApplications();
+			List<Application> newApps = new ArrayList<Application>();
+			course.setApplications(newApps);
+
+			for(Application app : apps){
+				applicationService.delete(app.getId());
+			}
+		}
+
+		List<Course> coursesOfStyle = style.getCourses();
+		List<Course> coursesOfAcademy  = academy.getCourses();
+
+		coursesOfStyle.remove(course);
+		coursesOfAcademy.remove(course);
+
+		style.setCourses(coursesOfStyle);
+		academy.setCourses(coursesOfAcademy);
+
 		styleService.save(style);
-		academy.getCourses().remove(course);
 		academyService.save(academy);
 
 		courseRepository.delete(course);
 	}
+
 
 	public List<Course> findAll() {
 		return courseRepository.findAll();

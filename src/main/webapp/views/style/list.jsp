@@ -31,7 +31,7 @@
 
 	<jstl:if test="${a==1}">
 		<acme:list list="${styles}" requestURI="style/listByCourse.do"
-			hidden_fields="id,version" />
+			hidden_fields="id,version,courses" />
 	</jstl:if>
 
 </security:authorize>

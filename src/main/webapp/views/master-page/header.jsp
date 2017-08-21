@@ -62,17 +62,21 @@
 						<li><a class="fNiv" href="academy/list.do?a=0"><spring:message
 									code="master.page.academy" /></a></li>
 						<security:authorize access="hasRole('DANCER')">
-							<li><a class="fNiv" href="course/list.do?a=4"><spring:message
+							<li><a class="fNiv" href="course/list.do?a=0"><spring:message
 										code="master.page.course" /></a></li>
 						</security:authorize>
 						<security:authorize access="hasRole('ACADEMY')">
-							<li><a class="fNiv" href="course/list.do?a=3"><spring:message
+							<li><a class="fNiv" href="course/list.do?a=0"><spring:message
 										code="master.page.course" /></a></li>
 						</security:authorize>
 						<security:authorize access="hasAnyRole('DANCER','ACADEMY')">
 						<li><a class="fNiv" href="style/list.do?a=0"><spring:message
 									code="master.page.style" /></a></li>
 						</security:authorize>
+						<li><a class="fNiv" href="chirp/actor/mylist.do"><spring:message
+										code="master.page.chirps" /></a></li>
+						<li><a class="fNiv" href="chirp/actor/create.do"><spring:message
+										code="master.page.createChirps" /></a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ADMINISTRATOR')">

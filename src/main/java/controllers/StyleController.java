@@ -1,6 +1,8 @@
 package controllers;
 
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +48,11 @@ public class StyleController extends AbstractController{
 	@RequestMapping("/listByCourse")
 	public ModelAndView listByCourse(@RequestParam Integer q) {
 		ModelAndView result;
-
-		result = new ModelAndView("style/list");
-		
 		Style style = styleService.findByCourse(q);
 		
-		result.addObject("styles", style);
+		result = new ModelAndView("style/list");
+		result.addObject("styles", Arrays.asList(style));
+		result.addObject("a", 1);
 
 		return result;
 	}

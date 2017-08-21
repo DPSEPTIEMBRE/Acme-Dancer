@@ -4,6 +4,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -96,10 +97,16 @@ public class DancerService {
 	public boolean exists(Integer dancerId) {
 		return dancerRepository.exists(dancerId);
 	}
+	
+	public List<Dancer> findAll() {
+		return dancerRepository.findAll();
+	}
 
 	//Other methods
 	public Collection<Application> applicationsOfDancer(int DancerID) {
 		return dancerRepository.applicationsOfDancer(DancerID);
 	}
+
+	
 
 }

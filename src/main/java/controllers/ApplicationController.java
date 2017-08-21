@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -48,10 +47,16 @@ public class ApplicationController extends AbstractController{
 	//Actions
 	
 	@RequestMapping("/listByDancer")
-	public ModelAndView listByDancer(@RequestParam Integer q) {
+	public ModelAndView listByDancer() {
 		ModelAndView result;
-		Collection<Application> applications = dancerService.applicationsOfDancer(q);
-
+		
+		int q = LoginService.getPrincipal().getId();
+		Dancer d = (Dancer)loginService.findActorByUserName(q);
+		
+		List<Application> applications = new ArrayList<Application>();
+		
+		applications.addAll(dancerService.applicationsOfDancer(d.getId()));
+		
 		result = new ModelAndView("application/list");
 		result.addObject("applications", applications );
 		result.addObject("a", 1);
@@ -155,7 +160,7 @@ public class ApplicationController extends AbstractController{
 		d.setApplications(applications);
 		dancerService.save(d);
 
-		result = new ModelAndView("course/list");
+		result = new ModelAndView("redirect:/welcome/index.do");
 		result.addObject("courses", courseService.findAll());
 
 		return result;

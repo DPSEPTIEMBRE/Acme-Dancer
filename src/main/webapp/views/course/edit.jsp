@@ -7,32 +7,100 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+
+<spring:message code="course.title" var="title" />
+<spring:message code="course.levelCourse" var="levelCourse" />
+<spring:message code="course.start" var="start" />
+<spring:message code="course.end" var="end" />
+<spring:message code="course.dayWeek" var="dayWeek" />
+<spring:message code="course.time" var="time" />
+<spring:message code="course.academy" var="academy" />
+<spring:message code="course.applications" var="applications" />
+<spring:message code="course.style" var="style" />
+<spring:message code="course.edit" var="edit" />
+<spring:message code="course.delete" var="delete" />
+<spring:message code="course.save" var="save" />
+<spring:message code="course.cancel" var="cancel" />
+<spring:message code="course.apply" var="apply" />
 
 <security:authorize access="hasRole('ACADEMY')">
 
-<form:form action="course/academy/save-edit.do" modelAttribute="course" method="POST">
 
-	<form:hidden path="academy"/>
-	<form:hidden path="applications"/>
-	<form:hidden path="style"/>
+	<form:form action="course/academy/save-edit.do" modelAttribute="course"
+		method="POST">
+
+		<form:hidden path="academy" />
+		<form:hidden path="applications" />
+
+
+		<form:label path="title">
+			<spring:message code="course.title" />:
+	</form:label>
+		<form:input path="title" />
+		<form:errors cssClass="error" path="title" />
+		<br />
+
+		<form:label path="levelCourse">
+			<spring:message code="course.levelCourse" />:
+	</form:label>
+		<br />
+		<form:select path="levelCourse"></form:select>
+		<br />
+
+		<form:label path="start">
+			<spring:message code="course.start" />:
+	</form:label>
+		<form:input path="start" />
+		<form:errors cssClass="error" path="start" />
+		<br />
+
+		<form:label path="end">
+			<spring:message code="course.end" />:
+	</form:label>
+		<form:input path="end" />
+		<form:errors cssClass="error" path="end" />
+		<br />
+
+		<form:label path="dayWeek">
+			<spring:message code="course.dayWeek" />:
+	</form:label>
+		<form:input path="dayWeek" />
+		<form:errors cssClass="error" path="dayWeek" />
+		<br />
+		
+		<form:label path="time">
+			<spring:message code="course.time" />:
+	</form:label>
+		<form:input path="time" />
+		<form:errors cssClass="error" path="time" />
+		<br />
+
+		<form:label path="style">
+			<spring:message code="course.style" />:
+	</form:label>
+		<form:select path="style" />
+		<form:errors cssClass="error" path="style" />
+		<br />
+
+		<br />
+		<br />
+
+		<input type="submit" name="save" value="${save}" />
+		<button type="submit" name="delete"
+			onclick="return confirm('${delete}')">
+			<spring:message code="course.delete" />
+		</button>
+		<input onclick="window.location='course/academy/list.do';"
+			type="button" name="cancel" value="${cancel}" />
+
+	</form:form>
+
+	<acme:acme_form url="course/academy/save-edit.do" type="edit"
+		hiddenFields="id,version,academy,applications,style"
+		numberSteps="0.25" skip_fields="levelCourse" entity="${course}">
+		<acme:select items="BEGINNER,INTERMEDIATE,ADVANCED,PROFESSIONAL"
+			itemLabel="levelCourse" code="course.levelCourse" path="levelCourse" />
+	</acme:acme_form>
 	
-	<acme:textbox code="course.title" path="title"/>
-	<acme:textbox code="course.levelCourse" path="levelCourse" />
-	<acme:textbox code="course.start" path="start"/>
-	<acme:textbox code="course.end" path="end"/>
-	<acme:textbox code="course.dayWeek" path="dayWeek"/>
-	<acme:textbox code="course.time" path="time"/>
-	
-		<spring:message code="course.save" var="courseSave"/>
-		<spring:message code="course.cancel" var="cancel" />
-		<spring:message code="course.delete" var="deleteSave" />
-
-		<input type="submit" name="save" value="${courseSave}" />
-			<input type="submit" name="delete" value="${deleteSave}" />
-		<input onclick="window.location='';" type="button" name="cancel" value="${cancel}" />
-
-</form:form>
-
-
 </security:authorize>

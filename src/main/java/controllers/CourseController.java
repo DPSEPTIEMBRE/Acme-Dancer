@@ -97,30 +97,12 @@ public class CourseController extends AbstractController {
 		return result;
 	}
 	
-	@RequestMapping("/search1")
-	public ModelAndView search1(@RequestParam(required = false) String searchText) {
+	@RequestMapping("/search")
+	public ModelAndView search(@RequestParam(required = false) String searchText) {
 		ModelAndView result;
 		result = new ModelAndView("course/list");
 		result.addObject("courses", courseService.findCourses(searchText));
 		result.addObject("a", 0);
-		return result;
-	}
-	
-	@RequestMapping("/search2")
-	public ModelAndView search2(@RequestParam(required = false) String searchText) {
-		ModelAndView result;
-		result = new ModelAndView("course/list");
-		result.addObject("courses", courseService.findCourses(searchText));
-		result.addObject("a", 3);
-		return result;
-	}
-	
-	@RequestMapping("/search3")
-	public ModelAndView search3(@RequestParam(required = false) String searchText) {
-		ModelAndView result;
-		result = new ModelAndView("course/list");
-		result.addObject("courses", courseService.findCourses(searchText));
-		result.addObject("a", 4);
 		return result;
 	}
 

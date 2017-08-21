@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,46 +12,62 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ChirpService;
 import domain.Chirp;
+import security.LoginService;
+import services.ChirpService;
 
 @Controller
-@RequestMapping("/chirp")
-public class ChirpController extends AbstractController{
+@RequestMapping("/chirp/actor")
+public class ChirpController extends AbstractController {
 
-	//Services
-	
+	// Services
+
 	@Autowired
 	private ChirpService chirpService;
 
+	@Autowired
+	private LoginService loginService;
+
 	// Constructors -----------------------------------------------------------
-	public ChirpController(){
+	public ChirpController() {
 		super();
 	}
 
-	//Actions
+	// Actions
 
-	@RequestMapping("/listByActor")
-	public ModelAndView list(@RequestParam Integer a) {
+	@RequestMapping("/mylist")
+	public ModelAndView mylist() {
 		ModelAndView result;
 
-		result = new ModelAndView("chirp/list");
+		Integer actorId = loginService.findActorByUserName(LoginService.getPrincipal().getId()).getId();
+		Collection<Chirp> chirps = chirpService.chirpsOfActor(actorId);
 
-		result.addObject("a", a);
-		result.addObject("chirps", chirpService.allChirpsOrderByMommentDesc());
+		result = new ModelAndView("chirp/list");
+		result.addObject("chirps", chirps);
 
 		return result;
 	}
 	
-	@RequestMapping(value= "/save",method = RequestMethod.POST, params = "save")
+	@RequestMapping("/create")
+	public ModelAndView create() {
+		ModelAndView result;
+		
+		Chirp chirp = chirpService.create();
+
+		result = new ModelAndView("chirp/create");
+		result.addObject("chirp", chirp);
+		result.addObject("url", "chirp/actor/save.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid Chirp chirp, BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
 			result = new ModelAndView("chirp/create");
 			result.addObject("chirp", chirp);
-			result.addObject("url","chirp/save.do");
-			result.addObject("message", "chirp.commit.error");
 		} else {
 			try {
 				chirpService.save(chirp);
@@ -57,42 +75,21 @@ public class ChirpController extends AbstractController{
 			} catch (Throwable oops) {
 				result = new ModelAndView("chirp/create");
 				result.addObject("chirp", chirp);
-				result.addObject("url","chirp/save.do");
-				result.addObject("message", "chirp.commit.error"); } }
-
+				result.addObject("message", "chirp.commit.error");
+			}
+		}
 
 		return result;
 	}
 
-
-	@RequestMapping("/delete")
-	public ModelAndView delete(@RequestParam Integer q) {
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam int q) {
 		ModelAndView result;
+		Chirp chirp = chirpService.findOne(q);
 
-		result = new ModelAndView("chirp/delete");
-		result.addObject("chirp", q);
-		result.addObject("message", null);  
-		result.addObject("url", "chirp/delete-delete.do");
-
+		chirpService.delete(chirp);
+		result = new ModelAndView("redirect:/chirp/actor/mylist.do");
 
 		return result;
 	}
-
-	@RequestMapping("/delete-delete")
-	public ModelAndView deleteDelete(@RequestParam Integer q) {
-		ModelAndView result;
-
-		Chirp chirp= chirpService.findOne(q);
-
-		try {
-			chirpService.delete(chirp);
-			result = new ModelAndView("redirect:/welcome/index.do");
-		}catch(Throwable oops){
-			result = new ModelAndView("chirp/edit");
-			result.addObject("chirp", chirp);
-			result.addObject("url","chirp/save.do");
-			result.addObject("message", "chirp.commit.error"); }
-
-		return result;
-	}
-}	
+}

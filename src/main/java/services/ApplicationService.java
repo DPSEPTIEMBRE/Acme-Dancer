@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.ApplicationRepository;
 import domain.Application;
+import domain.Dancer;
 import domain.StatusApplication;
 
 @Service
@@ -21,6 +22,9 @@ public class ApplicationService {
 	//Repositories
 	@Autowired
 	private ApplicationRepository applicationRepository;
+	
+	@Autowired
+	private DancerService dancerService;
 	
 	//Services
 
@@ -57,6 +61,27 @@ public class ApplicationService {
 			return applicationRepository.save(application);
 		}
 	}
+	
+	public void delete(Integer appId) {
+		Application app = findOne(appId);
+		List<Dancer> dans = dancerService.findAll();
+		Dancer dan = null;
+		for(Dancer d: dans){
+			if(d.getApplications().contains(app)){
+				dan = d;
+				break;
+			}
+		}
+		if(dan != null){
+			List<Application> apps = dan.getApplications();
+			apps.remove(app);
+			dan.setApplications(apps);
+			dancerService.save(dan);
+		}
+		
+		applicationRepository.delete(appId);
+	}
+
 
 	public Application findOne(Integer arg0) {
 		return applicationRepository.findOne(arg0);

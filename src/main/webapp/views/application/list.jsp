@@ -29,25 +29,17 @@
 
 
 <security:authorize access="hasRole('DANCER')">
-	<!--<jstl:if test="${a==1}">
-		<display:table name="application" id="row"
-			requestURI="application/listByDancer.do" pagesize="8"
-			class="displaytag">
-			<display:column property="createMoment" title="${createMoment}"
-				sortable="false" />
-			<display:column property="statusApplication"
-				title="${statusApplication}" sortable="false" />
-			<display:column sortable="false">
-				<a href="course/list.do?id=${row.id}"><jstl:out
-						value="${course}" /></a>
-			</display:column>
-		</display:table>
 
-	</jstl:if>-->
 	<jstl:if test="${a==1}">
-		<acme:list list="${applications}"
-			requestURI="application/listByDancer.do"
-			hidden_fields="id,version,course" entityUrl=" course: course/list.do" />
+
+		<display:table name="applications" id="row"
+			requestURI="application/listByDancer.do" pagesize="8"
+			class="table table-over">
+			<display:column title="${createMoment}" property="createMoment" />
+			<display:column title="${statusApplication}"  property="statusApplication.value" />
+			<display:column title="${course}" property="course.title" />
+		</display:table>
+		
 	</jstl:if>
 
 </security:authorize>
@@ -64,17 +56,19 @@
 			<display:column title="${statusApplication}" sortable="false"
 				property="statusApplication.value" />
 
-			<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
-				<display:column sortable="false">
+			<display:column sortable="false">
+				<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
 					<a href="application/academy/accept.do?q=${row.id}"><jstl:out
 							value="${accept}" /></a>
-				</display:column>
-				<display:column sortable="false">
+				</jstl:if>
+			</display:column>
+			<display:column sortable="false">
+				<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
 					<a href="application/academy/denied.do?q=${row.id}"><jstl:out
 							value="${denied}" /></a>
-				</display:column>
-			</jstl:if>
-			
+				</jstl:if>
+			</display:column>
+
 		</display:table>
 	</jstl:if>
 
