@@ -35,8 +35,7 @@
 <spring:message code="course.apply" var="apply" />
 
 
-<security:authorize
-	access="permitAll()">
+<security:authorize access="permitAll()">
 
 	<form action="course/search.do">
 		<b><spring:message code="course.search" /></b> <input type="search"
@@ -71,7 +70,7 @@
 
 				<display:column>
 					<jstl:if test="${row.academy.userAccount.id == actor.login }">
-						<a href="course/edit.do?q=${row.id}"> <jstl:out
+						<a href="course/academy/edit.do?q=${row.id}"> <jstl:out
 								value="${edit}" />
 						</a>
 					</jstl:if>
@@ -79,7 +78,7 @@
 
 				<display:column>
 					<jstl:if test="${row.academy.userAccount.id == actor.login}">
-						<a href="course/delete.do?q=${row.id}"> <jstl:out
+						<a href="course/academy/delete.do?q=${row.id}"> <jstl:out
 								value="${delete}" />
 						</a>
 					</jstl:if>
@@ -146,15 +145,23 @@
 	<jstl:if test="${a==1}">
 		<acme:list list="${courses}" requestURI="course/listByAcademy.do"
 			hidden_fields="id,version,academy,applications"
-			entityUrl="{style: style/list.do}" editUrl="course/edit.do"
-			deleteUrl="course/delete.do" />
+			entityUrl="{style: style/list.do}" editUrl="course/academy/edit.do"
+			deleteUrl="course/academy/delete.do" />
 	</jstl:if>
 
 	<jstl:if test="${a==3}">
 		<acme:list list="${courses}" requestURI="course/listByActor.do"
 			hidden_fields="id,version,academy,levelCourse"
 			entityUrl="{style: style/listByCourse.do, applications: application/listByCourse.do}"
-			editUrl="course/edit.do" deleteUrl="course/delete.do" />
+			editUrl="course/academy/edit.do" deleteUrl="course/academy/delete.do" />
 	</jstl:if>
+
+	<br />
+	<div>
+		<a href="course/academy/create.do"> <spring:message
+				code="course.create" />
+		</a>
+	</div>
+
 
 </security:authorize>

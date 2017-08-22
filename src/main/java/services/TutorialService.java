@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import repositories.AcademyRepository;
 import repositories.TutorialRepository;
+import security.LoginService;
 import domain.Academy;
 import domain.Tutorial;
 
@@ -20,10 +21,15 @@ public class TutorialService {
 
 	//Repositories
 	@Autowired
-	private TutorialRepository tutorialRepository;
+	private TutorialRepository	tutorialRepository;
 	
 	@Autowired
-	private AcademyRepository academyRepository; 
+	private AcademyRepository	academyRepository; 
+	
+	@Autowired
+	private LoginService		loginService;
+
+
 	
 	//Services
 
@@ -69,20 +75,27 @@ public class TutorialService {
 	public boolean exists(Integer id) {
 		return tutorialRepository.exists(id);
 	}
-
-
-	public Tutorial save(Tutorial arg0){
+	public Tutorial save(Tutorial arg0) {
 		Assert.notNull(arg0);
-		Tutorial tutorial = null;
+		Tutorial tutorial = new Tutorial();
 
-		if(exists(arg0.getId())) {
-			tutorial= tutorialRepository.findOne(arg0.getId());
+		if (exists(arg0.getId())) {
+			tutorial = tutorialRepository.findOne(arg0.getId());
 			tutorial.setTitle(arg0.getTitle());
 			tutorial.setDescription(arg0.getDescription());
 			tutorial.setVideo(arg0.getVideo());
 			tutorial.setNumShows(arg0.getNumShows());
-		}
 			return tutorialRepository.save(tutorial);
+		} else {
+			tutorial = tutorialRepository.save(arg0);
+			Academy man = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+			List<Tutorial> tutorials = man.getTutorials();
+			tutorials.add(tutorial);
+			man.setTutorials(tutorials);
+			academyRepository.save(man);
+
+		}
+		return tutorial;
 	}
 
 	//Other methods

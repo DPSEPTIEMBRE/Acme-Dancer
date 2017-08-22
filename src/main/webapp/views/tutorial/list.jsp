@@ -22,21 +22,27 @@
 <jstl:if test="${a==0}">
 
 	<acme:list list="${tutorials}" requestURI="tutorial/list.do"
-		hidden_fields="id,version" />
+		hidden_fields="id,version" extraColumns="{view:tutorial/view.do}" />
 
 </jstl:if>
 
 <jstl:if test="${a==1}">
 
 	<acme:list list="${tutorials}" requestURI="tutorial/listByAcademy.do"
-		hidden_fields="id,version" />
+		hidden_fields="id,version" extraColumns="{view:tutorial/view.do}" />
 </jstl:if>
 
 <jstl:if test="${a==2}">
 	<security:authorize access="hasRole('ACADEMY')">
-		<acme:list list="${tutorials}" requestURI="tutorial/listByMyAcademy.do"
-			hidden_fields="id,version" editUrl="tutorial/edit.do" 
-			extraColumns="{delete: tutorial/delete.do}"/>
+		<acme:list list="${tutorials}"
+			requestURI="tutorial/listByMyAcademy.do" hidden_fields="id,version"
+			editUrl="tutorial/edit.do"
+			extraColumns="{view:tutorial/view.do, delete: tutorial/delete.do}" />
+		<br />
+		<div>
+			<a href="tutorial/academy/create.do">${createHeader}</a>
+		</div>
+
 	</security:authorize>
 </jstl:if>
 

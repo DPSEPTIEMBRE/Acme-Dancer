@@ -68,7 +68,7 @@
 		<form:input path="dayWeek" />
 		<form:errors cssClass="error" path="dayWeek" />
 		<br />
-		
+
 		<form:label path="time">
 			<spring:message code="course.time" />:
 	</form:label>
@@ -86,21 +86,13 @@
 		<br />
 		<br />
 
-		<input type="submit" name="save" value="${save}" />
-		<button type="submit" name="delete"
-			onclick="return confirm('${delete}')">
-			<spring:message code="course.delete" />
-		</button>
+		<input type="submit" name="save" value="${save}"
+			class="btn btn-primary" />
 		<input onclick="window.location='course/academy/list.do';"
-			type="button" name="cancel" value="${cancel}" />
+			type="button" name="cancel" value="${cancel}" class="btn btn-warning" />
+		<input class="btn btn-danger" type="reset" name="clear"
+			value="<spring:message code="acme.clear" />" />
 
 	</form:form>
 
-	<acme:acme_form url="course/academy/save-edit.do" type="edit"
-		hiddenFields="id,version,academy,applications,style"
-		numberSteps="0.25" skip_fields="levelCourse" entity="${course}">
-		<acme:select items="BEGINNER,INTERMEDIATE,ADVANCED,PROFESSIONAL"
-			itemLabel="levelCourse" code="course.levelCourse" path="levelCourse" />
-	</acme:acme_form>
-	
 </security:authorize>

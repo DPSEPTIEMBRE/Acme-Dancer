@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CourseRepository;
+import security.LoginService;
 import domain.Academy;
 import domain.Application;
 import domain.Course;
+import domain.LevelCourse;
 import domain.Style;
+import domain.Tutorial;
 
 @Service
 @Transactional
@@ -33,6 +37,9 @@ public class CourseService {
 	
 	@Autowired
 	private ApplicationService	applicationService;
+	
+	@Autowired
+	private LoginService		loginService;
 
 	//Constructor
 
@@ -43,7 +50,18 @@ public class CourseService {
 	//CRUD Methods
 
 	public Course create() {
+
 		Course course = new Course();
+		course.setTitle(new String());
+		course.setLevelCourse(new LevelCourse());
+		course.setStart(new Date());
+		course.setEnd(new Date());
+		course.setDayWeek(new String());
+		course.setTime(new Date());
+		Academy a = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+		course.setAcademy(a);
+		course.setApplications(new ArrayList<Application>());
+		course.setStyle(new Style());
 
 		return course;
 	}
@@ -89,8 +107,43 @@ public class CourseService {
 		return courseRepository.findOne(course);
 	}
 
-	public Course save(Course course) {
+	public Course save(Course arg0) {
+		
+		Assert.notNull(arg0);
+		
+		Course course = new Course();
+
+		if (exists(arg0.getId())) {
+			course = courseRepository.findOne(arg0.getId());
+			course.setTitle(arg0.getTitle());
+			course.setLevelCourse(arg0.getLevelCourse());
+			course.setStart(arg0.getStart());
+			course.setEnd(arg0.getEnd());
+			course.setDayWeek(arg0.getDayWeek());
+			course.setTime(arg0.getTime());
+			course.setStyle(arg0.getStyle());
+			return courseRepository.save(course);
+		} else {
+			course = courseRepository.save(arg0);
+			Academy a = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+			List<Course> coursesA = a.getCourses();
+			coursesA.add(course);
+			a.setCourses(coursesA);
+			academyService.save(a);
+			
+			Style s = course.getStyle();
+			List<Course> coursesS = s.getCourses();
+			coursesS.add(course);
+			s.setCourses(coursesS);
+			styleService.save(s);
+		}
+		
 		return courseRepository.save(course);
+	}
+
+	private boolean exists(int id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	//Other Methods

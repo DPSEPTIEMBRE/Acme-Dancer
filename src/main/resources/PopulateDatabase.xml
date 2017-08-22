@@ -363,9 +363,9 @@
 
 
 	<bean id="tutorial1" class="domain.Tutorial">
-		<property name="title" value="breakdancer" />
-		<property name="description" value="How dancer breakdancer" />
-		<property name="video" value="https://www.youtube.com/watch?v=9tG-xwv0kw0" />
+		<property name="title" value="Pachanga" />
+		<property name="description" value="How dancer pachanga" />
+		<property name="video" value="https://www.youtube.com/watch?v=BwjN0t7eFPU" />
 		<property name="numShows" value="6" />
 	</bean>
 
@@ -474,10 +474,8 @@
 		<property name="course" ref="course4" />
 	</bean>
 
-
-
 	<bean id="course1" class="domain.Course">
-		<property name="title" value="course breakdancer" />
+		<property name="title" value="Bachata lessons" />
 		<property name="levelCourse" ref="BEGINNER" />
 		<property name="start" value="16/08/2017 00:00:00" />
 		<property name="end" value="16/12/2017 00:00:00" />
@@ -509,7 +507,7 @@
 	</bean>
 
 	<bean id="course3" class="domain.Course">
-		<property name="title" value="course popping" />
+		<property name="title" value="Pachanga lessons" />
 		<property name="levelCourse" ref="ADVANCED" />
 		<property name="start" value="16/08/2017 00:00:00" />
 		<property name="end" value="16/10/2018 00:00:00" />
@@ -525,7 +523,7 @@
 	</bean>
 
 	<bean id="course4" class="domain.Course">
-		<property name="title" value="Twerk lessons" />
+		<property name="title" value="Cha-chá lessons" />
 		<property name="levelCourse" ref="BEGINNER" />
 		<property name="start" value="15/09/2017 00:00:00" />
 		<property name="end" value="25/06/2018 00:00:00" />
@@ -543,7 +541,7 @@
 	</bean>
 
 	<bean id="course5" class="domain.Course">
-		<property name="title" value="Capoeira lessons" />
+		<property name="title" value="Rumba lessons" />
 		<property name="levelCourse" ref="INTERMEDIATE" />
 		<property name="start" value="16/01/2018 00:00:00" />
 		<property name="end" value="16/06/2018 00:00:00" />
@@ -575,28 +573,6 @@
 
 
 	<bean id="style1" class="domain.Style">
-		<property name="name" value="Salsa" />
-		<property name="description" value="Cuban dance" />
-		<property name="pictures">
-			<list value-type="java.lang.String">
-				<value>
-					https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGMDP_uW6sXGUhK5bqtuQQg4ChyOiqqb3C6G0IE-6eQsd7OKwRIQ
-				</value>
-			</list>
-		</property>
-		<property name="videos">
-			<list value-type="java.lang.String">
-				<value>https://www.youtube.com/watch?v=Gj-evaqUzeA</value>
-			</list>
-		</property>
-		<property name="courses">
-			<list>
-				<ref bean="course1" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="style2" class="domain.Style">
 		<property name="name" value="Bachata" />
 		<property name="description" value="Latin dance" />
 		<property name="pictures">
@@ -609,6 +585,28 @@
 		<property name="videos">
 			<list value-type="java.lang.String">
 				<value>https://www.youtube.com/watch?v=PQSaof3b_aE</value>
+			</list>
+		</property>
+		<property name="courses">
+			<list>
+				<ref bean="course1" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="style2" class="domain.Style">
+		<property name="name" value="Salsa" />
+		<property name="description" value="Cuban dance" />
+		<property name="pictures">
+			<list value-type="java.lang.String">
+				<value>
+					https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGMDP_uW6sXGUhK5bqtuQQg4ChyOiqqb3C6G0IE-6eQsd7OKwRIQ
+				</value>
+			</list>
+		</property>
+		<property name="videos">
+			<list value-type="java.lang.String">
+				<value>https://www.youtube.com/watch?v=Gj-evaqUzeA</value>
 			</list>
 		</property>
 		<property name="courses">

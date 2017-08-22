@@ -147,10 +147,8 @@ public class TutorialController extends AbstractController{
 	public ModelAndView delete(@RequestParam Integer q) {
 		ModelAndView result;
 
-		Tutorial a= tutorialService.findOne(q);
+		Tutorial a = tutorialService.findOne(q);
 		
-		Academy ac = (Academy)loginService.findActorByUserName(q);
-
 		try {
 			tutorialService.delete(a);
 			result = new ModelAndView("redirect:/tutorial/list.do?a=0");
@@ -181,4 +179,56 @@ public class TutorialController extends AbstractController{
 
 		return result;
 	}
+	
+	@RequestMapping("/view")
+	public ModelAndView view(@RequestParam Integer q) {
+		ModelAndView result;
+		result = new ModelAndView("tutorial/view");
+		Tutorial tutorial = tutorialService.findOne(q);
+		tutorial.setNumShows(tutorial.getNumShows() + 1);
+		tutorialService.save(tutorial);
+		result.addObject("tutorial", tutorial);
+		return result;
+	}
+
+	@RequestMapping(value = "/academy/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView result;
+
+		result = createNewModelAndView(tutorialService.create(), null);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/academy/save-create", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveCreate(@Valid Tutorial tutorial, BindingResult binding) {
+		ModelAndView result;
+		if (binding.hasErrors()) {
+			for (Object e : binding.getAllErrors()) {
+				System.out.println(e);
+
+			}
+			result = createNewModelAndView(tutorial, null);
+		} else {
+			try {
+				Academy man = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+				tutorialService.save(tutorial);
+				Integer q = man.getId();
+				result = new ModelAndView("redirect:/tutorial/listByMyAcademy.do?q=" + q);
+
+			} catch (Throwable th) {
+				result = createNewModelAndView(tutorial, "tutorial.commit.error");
+			}
+		}
+		return result;
+	}
+
+	protected ModelAndView createNewModelAndView(Tutorial tutorial, String message) {
+		ModelAndView result;
+		result = new ModelAndView("tutorial/create");
+		result.addObject("tutorial", tutorial);
+		result.addObject("message", message);
+		return result;
+	}
+
 }

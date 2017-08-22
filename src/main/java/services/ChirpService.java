@@ -54,7 +54,6 @@ public class ChirpService {
 		chirp.setText(new String());
 		chirp.setActor(loginService.findActorByUserName(LoginService.getPrincipal().getId()));
 		chirp.setMomentWritten(new Date());
-		System.out.println("Mi chirp" + chirp);
 
 		return chirp;
 	}

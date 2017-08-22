@@ -26,5 +26,9 @@
 		<put-attribute name="body" value="/views/course/edit.jsp" />
 	</definition>
 	
+	<definition name="course/create" extends="master.page">	
+		<put-attribute name="title" value="OFFER COURSE" />
+		<put-attribute name="body" value="/views/course/create.jsp" />
+	</definition>
 	
 </tiles-definitions>
