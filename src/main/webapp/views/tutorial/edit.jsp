@@ -60,9 +60,10 @@
 		<spring:message code="tutorial.cancel" var="tutorialCancelHeader" />
 		<spring:message code="tutorial.clear" var="tutorialClearHeader" />
 		<input type="submit" name="save" value="${tutorialSaveHeader}" />
-		<input onclick="window.location='tutorial/list.do?a=0';" type="button"
+		<security:authentication property="principal.id" var="id" />
+		<input onclick="window.location='tutorial/listByMyAcademy.do?q=${id}';" type="button"
 			name="cancel" value="${tutorialCancelHeader}" />
-		<input type="button" name="clear" onclick="clear()" value="${tutorialClearHeader}"/>
+		<input type="reset" name="clear" value="${tutorialClearHeader}"/>
 	
 		
 

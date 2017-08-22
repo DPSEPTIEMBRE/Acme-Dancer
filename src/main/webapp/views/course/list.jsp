@@ -69,7 +69,8 @@
 			<security:authorize access="hasRole('ACADEMY')">
 
 				<display:column>
-					<jstl:if test="${row.academy.userAccount.id == actor.login }">
+					<security:authentication property="principal.id" var="id" />
+					<jstl:if test="${row.academy.userAccount.id == id}">
 						<a href="course/academy/edit.do?q=${row.id}"> <jstl:out
 								value="${edit}" />
 						</a>
@@ -77,7 +78,9 @@
 				</display:column>
 
 				<display:column>
-					<jstl:if test="${row.academy.userAccount.id == actor.login}">
+					<security:authentication property="principal.id" var="id" />
+					<jstl:if
+						test="${row.academy.userAccount.id == id}">
 						<a href="course/academy/delete.do?q=${row.id}"> <jstl:out
 								value="${delete}" />
 						</a>
@@ -141,13 +144,6 @@
 </security:authorize>
 
 <security:authorize access="hasRole('ACADEMY')">
-
-	<jstl:if test="${a==1}">
-		<acme:list list="${courses}" requestURI="course/listByAcademy.do"
-			hidden_fields="id,version,academy,applications"
-			entityUrl="{style: style/list.do}" editUrl="course/academy/edit.do"
-			deleteUrl="course/academy/delete.do" />
-	</jstl:if>
 
 	<jstl:if test="${a==3}">
 		<acme:list list="${courses}" requestURI="course/listByActor.do"

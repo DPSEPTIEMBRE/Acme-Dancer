@@ -111,8 +111,6 @@ public class CourseService {
 		Assert.notNull(arg0);
 		
 		Course course = new Course();
-		System.out.println(exists(arg0.getId())); 
-		System.out.println(arg0.getId() != 0);
 		if (exists(arg0.getId())) {
 			course = courseRepository.findOne(arg0.getId());
 			course.setTitle(arg0.getTitle());
@@ -153,10 +151,11 @@ public class CourseService {
 
 	//Other Methods
 	public Collection<Course> findCourses(String keyWord) {
+		keyWord = keyWord.toLowerCase();
 		Collection<Course> courses = courseRepository.findAll();
 		Collection<Course> res = new ArrayList<Course>();
 		for (Course c : courses) {
-			if (c.getTitle().contains(keyWord) || c.getStyle().getName().contains(keyWord) || c.getStyle().getDescription().contains(keyWord)) {
+			if (c.getTitle().toLowerCase().contains(keyWord) || c.getStyle().getName().toLowerCase().contains(keyWord) || c.getStyle().getDescription().toLowerCase().contains(keyWord)) {
 				res.add(c);
 			}
 		}

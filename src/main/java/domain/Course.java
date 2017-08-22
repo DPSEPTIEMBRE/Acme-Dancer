@@ -65,7 +65,7 @@ public class Course extends DomainEntity {
 
 	@NotNull
 	@Temporal(TemporalType.TIME)
-	@DateTimeFormat(pattern = "hh:mm")
+	@DateTimeFormat(pattern = "HH:mm")
 	public Date getTime() {
 		return time;
 	}

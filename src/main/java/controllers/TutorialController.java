@@ -81,105 +81,6 @@ public class TutorialController extends AbstractController{
 		return result;
 	}
 	
-	@RequestMapping(value= "/save",method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Tutorial tutorial, BindingResult binding) {
-		ModelAndView result;
-
-		if (binding.hasErrors()) {
-			result = new ModelAndView("tutorial/create");
-			result.addObject("tutorial", tutorial);
-			result.addObject("url","tutorial/save.do");
-			result.addObject("message", "tutorial.commit.error");
-		} else {
-			try {
-				tutorialService.save(tutorial);
-				result = new ModelAndView("redirect:/tutorial/list.do?a=0");
-			} catch (Throwable oops) {
-				result = new ModelAndView("tutorial/create");
-				result.addObject("tutorial", tutorial);
-				result.addObject("url","tutorial/save.do");
-				result.addObject("message", "tutorial.commit.error"); } }
-
-
-		return result;
-	}
-
-
-	@RequestMapping(value= "/academy/save-edit",method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(@Valid Tutorial tutorial, BindingResult binding) {
-		ModelAndView result;
-
-		if (binding.hasErrors()) {
-			result = new ModelAndView("tutorial/edit");
-			result.addObject("tutorial", tutorial);
-			result.addObject("url","tutorial/save.do");
-			result.addObject("message", null);
-		} else {
-			try {
-				tutorialService.save(tutorial);
-				result = new ModelAndView("redirect:/tutorial/list.do?a=0");
-			} catch (Throwable oops) {
-				result = new ModelAndView("tutorial/edit");
-				result.addObject("tutorial", tutorial);
-				result.addObject("url","tutorial/save.do");
-				result.addObject("message", "tutorial.commit.error"); } }
-
-
-		return result;
-	}
-
-	@RequestMapping("/edit")
-	public ModelAndView editSave(@RequestParam Integer q) {
-		ModelAndView result;
-
-		Tutorial tutorial= tutorialService.findOne(q);
-
-		result = new ModelAndView("tutorial/edit");
-		result.addObject("tutorial", tutorial);
-		result.addObject("message", null);  
-		result.addObject("url", "tutorial/save-edit.do");
-
-
-		return result;
-	}
-
-	@RequestMapping("/delete")
-	public ModelAndView delete(@RequestParam Integer q) {
-		ModelAndView result;
-
-		Tutorial a = tutorialService.findOne(q);
-		
-		try {
-			tutorialService.delete(a);
-			result = new ModelAndView("redirect:/tutorial/list.do?a=0");
-		}catch (Throwable e) {
-			result = new ModelAndView("redirect:/tutorial/list.do?a=0");
-		}
-
-		return result;
-
-	}
-
-	@RequestMapping("/delete-delete")
-	public ModelAndView deleteDelete(@RequestParam Integer q) {
-		ModelAndView result;
-
-		Tutorial tutorial= tutorialService.findOne(q);
-
-		try {
-			tutorialService.delete(tutorial);
-			result = new ModelAndView("redirect:/tutorial/list.do?a=0");
-		}catch(Throwable oops){
-			result = new ModelAndView("tutorial/delete");
-			result.addObject("tutorial", tutorial);
-			result.addObject("url","tutorial/delete.do");
-			result.addObject("message", "tutorial.commit.error.delete"); }
-
-
-
-		return result;
-	}
-	
 	@RequestMapping("/view")
 	public ModelAndView view(@RequestParam Integer q) {
 		ModelAndView result;
@@ -211,10 +112,9 @@ public class TutorialController extends AbstractController{
 			result = createNewModelAndView(tutorial, null);
 		} else {
 			try {
-				Academy man = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+				int id = LoginService.getPrincipal().getId();
 				tutorialService.save(tutorial);
-				Integer q = man.getId();
-				result = new ModelAndView("redirect:/tutorial/listByMyAcademy.do?q=" + q);
+				result = new ModelAndView("redirect:/tutorial/listByMyAcademy.do?q=" + id);
 
 			} catch (Throwable th) {
 				result = createNewModelAndView(tutorial, "tutorial.commit.error");
@@ -230,5 +130,68 @@ public class TutorialController extends AbstractController{
 		result.addObject("message", message);
 		return result;
 	}
+	
+	@RequestMapping("/edit")
+	public ModelAndView editSave(@RequestParam Integer q) {
+		ModelAndView result;
+
+		Tutorial tutorial= tutorialService.findOne(q);
+
+		result = new ModelAndView("tutorial/edit");
+		result.addObject("tutorial", tutorial);
+		result.addObject("message", null);  
+		result.addObject("url", "tutorial/save-edit.do");
+
+
+		return result;
+	}
+
+
+	@RequestMapping(value= "/academy/save-edit",method = RequestMethod.POST, params = "save")
+	public ModelAndView saveEdit(@Valid Tutorial tutorial, BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			result = new ModelAndView("tutorial/edit");
+			result.addObject("tutorial", tutorial);
+			result.addObject("url","tutorial/save.do");
+			result.addObject("message", null);
+		} else {
+			try {
+				tutorialService.save(tutorial);
+				int id = LoginService.getPrincipal().getId();
+				result = new ModelAndView("redirect:/tutorial/listByMyAcademy.do?q=" + id);
+			} catch (Throwable oops) {
+				result = new ModelAndView("tutorial/edit");
+				result.addObject("tutorial", tutorial);
+				result.addObject("url","tutorial/save.do");
+				result.addObject("message", "tutorial.commit.error"); } }
+
+
+		return result;
+	}
+
+
+	@RequestMapping("/delete")
+	public ModelAndView delete(@RequestParam Integer q) {
+		ModelAndView result;
+
+		Tutorial a = tutorialService.findOne(q);
+		
+		try {
+			tutorialService.delete(a);
+			int id = LoginService.getPrincipal().getId();
+			result = new ModelAndView("redirect:/tutorial/listByMyAcademy.do?q=" + id);
+		}catch (Throwable e) {
+			int id = LoginService.getPrincipal().getId();
+			result = new ModelAndView("redirect:/tutorial/listByMyAcademy.do?q=" + id);
+		}
+
+		return result;
+
+	}
+
+	
+
 
 }

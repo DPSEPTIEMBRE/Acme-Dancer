@@ -103,7 +103,7 @@
 			value="<spring:message code="acme.save"/>">
 		<input onclick="location.href = 'welcome/index.do';" type="button"
 			class="btn btn-warning" value="<spring:message code="acme.cancel" />">
-		<input class="btn btn-danger" type="reset" name="clear" value="<spring:message code="acme.clear" />"/>
+		<input class="btn btn-danger" type="reset" name="clear" value="<spring:message code="actor.clear" />"/>
 			
 
 	</form:form>

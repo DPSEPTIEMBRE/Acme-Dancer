@@ -123,8 +123,9 @@ public class ApplicationController extends AbstractController{
 		ModelAndView result;
 		Application a = applicationService.findOne(q);
 		applicationService.accept(a);
-
-		result = new ModelAndView("redirect:/welcome/index.do");
+		
+		int id = a.getCourse().getId();
+		result = new ModelAndView("redirect:/application/listByCourse.do?q=" + id);
 
 		return result;
 	}
@@ -135,7 +136,8 @@ public class ApplicationController extends AbstractController{
 		Application a = applicationService.findOne(q);
 		applicationService.denied(a);
 
-		result = new ModelAndView("redirect:/welcome/index.do");
+		int id = a.getCourse().getId();
+		result = new ModelAndView("redirect:/application/listByCourse.do?q=" + id);
 
 		return result;
 	}
@@ -160,7 +162,7 @@ public class ApplicationController extends AbstractController{
 		d.setApplications(applications);
 		dancerService.save(d);
 
-		result = new ModelAndView("redirect:/welcome/index.do");
+		result = new ModelAndView("redirect:/course/list.do?a=0");
 		result.addObject("courses", courseService.findAll());
 
 		return result;

@@ -19,8 +19,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-	<spring:message code="tutorial.video" var="videosHeader" />
-	
+<spring:message code="tutorial.video" var="videosHeader" />
+
 
 <h1>
 	<jstl:out value="${tutorial.title}" />
@@ -31,61 +31,74 @@
 
 <h2>
 	<jstl:out value="${videosHeader}" />
-	
+
 </h2>
-<input type="text" id="video" value="${tutorial.video}"style= "display:none"><br>
+<input type="text" id="video" value="${tutorial.video}"
+	style="display: none">
+<br>
 
 <div id="player"></div>
 
-    <script>
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
+<script>
+	// 2. This code loads the IFrame Player API code asynchronously.
+	var tag = document.createElement('script');
 
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	tag.src = "https://www.youtube.com/iframe_api";
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      
-      var video=document.getElementById("video").value;
-      var filter=video.replace("https://www.youtube.com/watch?v=","");
-     
-      
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '360',
-          width: '640',
-          videoId: filter,
-          events: {
-            'onReady': onPlayerReady
-          }
-        });
-      }
+	// 3. This function creates an <iframe> (and YouTube player)
+	//    after the API code downloads.
+	var player;
 
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
+	var video = document.getElementById("video").value;
+	var filter = video.replace("https://www.youtube.com/watch?v=", "");
 
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 12000);
-          done = true;
-        }
-      }
-      function stopVideo() {
-        player.stopVideo();
-      }
-    </script>
-    
-   
+	function onYouTubeIframeAPIReady() {
+		player = new YT.Player('player', {
+			height : '360',
+			width : '640',
+			videoId : filter,
+			events : {
+				'onReady' : onPlayerReady
+			}
+		});
+	}
 
-<display:table name="tutorial.description" id="row" class="table table-over">
+	// 4. The API will call this function when the video player is ready.
+	function onPlayerReady(event) {
+		event.target.playVideo();
+	}
+
+	// 5. The API calls this function when the player's state changes.
+	//    The function indicates that when playing a video (state=1),
+	//    the player should play for six seconds and then stop.
+	var done = false;
+	function onPlayerStateChange(event) {
+		if (event.data == YT.PlayerState.PLAYING && !done) {
+			setTimeout(stopVideo, 12000);
+			done = true;
+		}
+	}
+	function stopVideo() {
+		player.stopVideo();
+	}
+</script>
+
+
+
+<display:table name="tutorial.description" id="row"
+	class="table table-over">
 
 </display:table>
+
+<security:authorize access="permitAll() and !hasRole('ACADEMY')">
+	<input onclick="window.location='tutorial/list.do?a=0';" type="button"
+		name="return" value="<spring:message code="tutorial.view.return"/>" />
+</security:authorize>
+
+<security:authorize access="hasRole('ACADEMY')">
+	<security:authentication property="principal.id" var="id" />
+	<input onclick="window.location='tutorial/listByMyAcademy.do?q=${id}';" type="button"
+		name="return" value="<spring:message code="tutorial.view.return"/>" />
+</security:authorize>

@@ -23,6 +23,7 @@
 
 	<acme:list list="${tutorials}" requestURI="tutorial/list.do"
 		hidden_fields="id,version" extraColumns="{view:tutorial/view.do}" />
+		
 
 </jstl:if>
 
@@ -40,7 +41,7 @@
 			extraColumns="{view:tutorial/view.do, delete: tutorial/delete.do}" />
 		<br />
 		<div>
-			<a href="tutorial/academy/create.do">${createHeader}</a>
+			<a href="tutorial/academy/create.do"><spring:message code="tutorial.create" /></a>
 		</div>
 
 	</security:authorize>
