@@ -27,11 +27,13 @@
 <security:authorize access="hasRole('ACADEMY')">
 
 
-	<form:form action="course/academy/save-edit.do" modelAttribute="course"
+	<form:form action="course/academy/save-create.do" modelAttribute="course"
 		method="POST">
 
 		<form:hidden path="academy" />
 		<form:hidden path="applications" />
+		<form:hidden path="id" />
+		<form:hidden path="version" />
 
 
 		<form:label path="title">
@@ -45,7 +47,10 @@
 			<spring:message code="course.levelCourse" />:
 	</form:label>
 		<br />
-		<form:select path="levelCourse"></form:select>
+		<form:select path="levelCourse">
+			<form:option value="${levelCourse}" label="---Select---" />
+			<form:options items="${levelsCourse}" />
+		</form:select>
 		<br />
 
 		<form:label path="start">
@@ -79,7 +84,9 @@
 		<form:label path="style">
 			<spring:message code="course.style" />:
 	</form:label>
-		<form:select path="style" />
+		<form:select path="style">
+			<form:options items="${styles}" />
+		</form:select>
 		<form:errors cssClass="error" path="style" />
 		<br />
 

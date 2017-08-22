@@ -50,6 +50,7 @@ public class StyleService {
 	}
 
 	public Style save(Style style) {
+		Assert.notNull(style);
 		return styleRepository.save(style);
 	}
 	

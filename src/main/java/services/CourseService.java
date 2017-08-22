@@ -18,7 +18,6 @@ import domain.Application;
 import domain.Course;
 import domain.LevelCourse;
 import domain.Style;
-import domain.Tutorial;
 
 @Service
 @Transactional
@@ -112,7 +111,8 @@ public class CourseService {
 		Assert.notNull(arg0);
 		
 		Course course = new Course();
-
+		System.out.println(exists(arg0.getId())); 
+		System.out.println(arg0.getId() != 0);
 		if (exists(arg0.getId())) {
 			course = courseRepository.findOne(arg0.getId());
 			course.setTitle(arg0.getTitle());
@@ -122,7 +122,13 @@ public class CourseService {
 			course.setDayWeek(arg0.getDayWeek());
 			course.setTime(arg0.getTime());
 			course.setStyle(arg0.getStyle());
-			return courseRepository.save(course);
+			
+			Style style = course.getStyle();
+			List<Course> courses = style.getCourses();
+			courses.add(arg0);
+			courses.remove(course);
+			course.setStyle(arg0.getStyle());		
+			
 		} else {
 			course = courseRepository.save(arg0);
 			Academy a = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
@@ -142,8 +148,7 @@ public class CourseService {
 	}
 
 	private boolean exists(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		return courseRepository.exists(id);
 	}
 
 	//Other Methods

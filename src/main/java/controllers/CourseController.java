@@ -19,7 +19,6 @@ import services.StyleService;
 import domain.Academy;
 import domain.Course;
 import domain.LevelCourse;
-import domain.Style;
 
 @Controller
 @RequestMapping("/course")
@@ -32,7 +31,7 @@ public class CourseController extends AbstractController {
 
 	@Autowired
 	private LoginService loginService;
-	
+
 	@Autowired
 	private StyleService styleService;
 
@@ -111,53 +110,7 @@ public class CourseController extends AbstractController {
 		result.addObject("a", 0);
 		return result;
 	}
-	
-	@RequestMapping(value= "/save",method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Course course, BindingResult binding) {
-		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			result = new ModelAndView("course/create");
-			result.addObject("course", course);
-			result.addObject("url","course/save.do");
-			result.addObject("message", "course.commit.error");
-		} else {
-			try {
-				courseService.save(course);
-				result = new ModelAndView("redirect:/course/list.do?a=0");
-			} catch (Throwable oops) {
-				result = new ModelAndView("course/create");
-				result.addObject("course", course);
-				result.addObject("url","course/save.do");
-				result.addObject("message", "course.commit.error"); } }
-
-
-		return result;
-	}
-
-
-	@RequestMapping(value= "/academy/save-edit",method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(@Valid Course course, BindingResult binding) {
-		ModelAndView result;
-
-		if (binding.hasErrors()) {
-			result = new ModelAndView("course/edit");
-			result.addObject("course", course);
-			result.addObject("url","course/academy/save.do");
-			result.addObject("message", null);
-		} else {
-			try {
-				courseService.save(course);
-				result = new ModelAndView("redirect:/welcome/index.do");
-			} catch (Throwable oops) {
-				result = new ModelAndView("course/edit");
-				result.addObject("course", course);
-				result.addObject("url","course/academy/save.do");
-				result.addObject("message", "course.commit.error"); } }
-
-		return result;
-	}
-	
 	@RequestMapping(value = "/academy/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
@@ -166,9 +119,20 @@ public class CourseController extends AbstractController {
 
 		return result;
 	}
+	
+	@RequestMapping("/academy/edit")
+	public ModelAndView edit(@RequestParam Integer q) {
+		ModelAndView result;
+
+		Course course= courseService.findOne(q);
+
+		result = createNewModelAndView(course, null);
+
+		return result;
+	}
 
 	@RequestMapping(value= "/academy/save-create",method = RequestMethod.POST, params = "save")
-	public ModelAndView saveCreate(@Valid Course course, BindingResult binding) {
+	public ModelAndView saveCreateEdit(@Valid Course course, BindingResult binding) {
 		ModelAndView result;
 		if (binding.hasErrors()) {
 			for (Object e : binding.getAllErrors()) {
@@ -178,8 +142,9 @@ public class CourseController extends AbstractController {
 			result = createNewModelAndView(course, null);
 		} else {
 			try {
-				int id = LoginService.getPrincipal().getId();
 				courseService.save(course);
+				
+				int id = LoginService.getPrincipal().getId();
 				result = new ModelAndView("redirect:/course/listByActor.do?q=" + id);
 
 			} catch (Throwable th) {
@@ -191,7 +156,7 @@ public class CourseController extends AbstractController {
 
 	protected ModelAndView createNewModelAndView(Course course, String message) {
 		ModelAndView result;
-		
+
 		List<LevelCourse> levelsCourse = new ArrayList<LevelCourse>();
 		LevelCourse lc1 = new LevelCourse();
 		lc1.setValue("BEGINNER");
@@ -205,68 +170,38 @@ public class CourseController extends AbstractController {
 		levelsCourse.add(lc2);
 		levelsCourse.add(lc3);
 		levelsCourse.add(lc4);
-		
-		System.out.println(levelsCourse);
-		
-		List<String> styles = new ArrayList<String>();
+
+		/*List<String> styles = new ArrayList<String>();
 		for(Style s: styleService.findAll()){
 			styles.add(s.getName());
+		}*/
+		
+		
+		if(course.getId() == 0){
+			result = new ModelAndView("course/create");
+		}else{
+			result = new ModelAndView("course/edit");
 		}
-		
-		System.out.println(styles);
-		
-		result = new ModelAndView("course/create");
 		result.addObject("course", course);
 		result.addObject("message", message);
 		result.addObject("levelsCourse", levelsCourse);
 		result.addObject("styles", styleService.findAll());
+		//result.addObject("daysWeek", styleService.findAll());
 		return result;
 	}
 
-	@RequestMapping("/academy/edit")
-	public ModelAndView editSave(@RequestParam Integer q) {
-		ModelAndView result;
 
-		Course course= courseService.findOne(q);
-
-		result = new ModelAndView("course/edit");
-		result.addObject("course", course);
-		result.addObject("message", null);  
-		result.addObject("url", "course/academy/save-edit.do");
-
-		return result;
-	}
 
 	@RequestMapping("/academy/delete")
-	public ModelAndView delete(@RequestParam Integer q) {
-		ModelAndView result;
+	  public ModelAndView delete(@RequestParam Integer q) {
+	    ModelAndView result;
 
-		result = new ModelAndView("course/delete");
-		result.addObject("course", q);
-		result.addObject("message", null);  
-		result.addObject("url", "course/academy/delete-delete.do");
+	    Course course = courseService.findOne(q);
+	    courseService.delete(course);
+	    int id = LoginService.getPrincipal().getId();
+	    
+	    result = new ModelAndView("redirect:/course/listByActor.do?q=" + id );
 
-		return result;
-	}
-
-	@RequestMapping("/academy/delete-delete")
-	public ModelAndView deleteDelete(@RequestParam Integer q) {
-		ModelAndView result;
-
-		Course course= courseService.findOne(q);
-
-		try {
-			courseService.delete(course);
-			result = new ModelAndView("redirect:/welcome/index.do");
-		}catch(Throwable oops){
-			result = new ModelAndView("course/edit");
-			result.addObject("course", course);
-			result.addObject("url","course/academy/save.do");
-			result.addObject("message", "course.commit.error"); }
-
-		return result;
-	}
-
-
-
+	    return result;
+	  }
 }
