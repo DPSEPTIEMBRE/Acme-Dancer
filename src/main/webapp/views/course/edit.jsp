@@ -23,12 +23,13 @@
 <spring:message code="course.save" var="save" />
 <spring:message code="course.cancel" var="cancel" />
 <spring:message code="course.apply" var="apply" />
+<spring:message code="course.select" var="select" />
 
 <security:authorize access="hasRole('ACADEMY')">
 
 
-	<form:form action="course/academy/save-create.do" modelAttribute="course"
-		method="POST">
+	<form:form action="course/academy/save-create.do"
+		modelAttribute="course" method="POST">
 
 		<form:hidden path="academy" />
 		<form:hidden path="applications" />
@@ -46,9 +47,7 @@
 		<form:label path="levelCourse">
 			<spring:message code="course.levelCourse" />:
 	</form:label>
-		<br />
 		<form:select path="levelCourse">
-			<form:option value="${levelCourse}" label="---Select---" />
 			<form:options items="${levelsCourse}" />
 		</form:select>
 		<br />
@@ -85,7 +84,9 @@
 			<spring:message code="course.style" />:
 	</form:label>
 		<form:select path="style">
-			<form:options items="${styles}" />
+			<jstl:forEach var="s" items="${styles}">
+				<form:option value="${s}" label="${s.name}" />
+			</jstl:forEach>
 		</form:select>
 		<form:errors cssClass="error" path="style" />
 		<br />
@@ -97,7 +98,7 @@
 			class="btn btn-primary" />
 		<input onclick="window.location='course/academy/list.do';"
 			type="button" name="cancel" value="${cancel}" class="btn btn-warning" />
-		
+
 
 	</form:form>
 

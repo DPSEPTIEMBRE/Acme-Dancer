@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<spring:message code="course.select" var="select" />
 
 <security:authorize access="isAuthenticated()">
 
@@ -37,9 +38,8 @@
 			<form:label path="levelCourse">
 				<spring:message code="course.levelCourse" />
 			</form:label>
-			<br />
 			<form:select path="levelCourse">
-				<form:option value="${levelCourse}" label="--- Select ---"/>
+				<form:option value="${levelCourse}" label="${select}" />
 				<form:options items="${levelsCourse}" />
 			</form:select>
 			<form:errors cssClass="error" path="levelCourse" />
@@ -82,8 +82,10 @@
 			</form:label>
 			<br />
 			<form:select path="style">
-				<form:option value="${style}" label="--- Select ---"/>
-				<form:options items="${styles}" />
+				<form:option value="${style}" label="${select}" />
+				<jstl:forEach var="s" items="${styles}">
+					<form:option value="${s}" label="${s.name}" />
+				</jstl:forEach>
 			</form:select>
 			<form:errors cssClass="error" path="style" />
 			<br />
@@ -94,8 +96,10 @@
 		<spring:message code="course.save" var="courseSaveHeader" />
 		<spring:message code="course.cancel" var="courseCancelHeader" />
 		<spring:message code="course.clear" var="courseClearHeader" />
-		<input class="btn btn-primary" type="submit" name="save" value="${courseSaveHeader}" />
-		<input class="btn btn-warning" onclick="window.location='course/list.do?a=0';" type="button"
+		<input class="btn btn-primary" type="submit" name="save"
+			value="${courseSaveHeader}" />
+		<input class="btn btn-warning"
+			onclick="window.location='course/list.do?a=0';" type="button"
 			name="cancel" value="${courseCancelHeader}" />
 		<input class="btn btn-danger" type="reset" name="clear"
 			value="<spring:message code="acme.clear" />" />

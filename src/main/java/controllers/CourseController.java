@@ -169,13 +169,7 @@ public class CourseController extends AbstractController {
 		levelsCourse.add(lc1);
 		levelsCourse.add(lc2);
 		levelsCourse.add(lc3);
-		levelsCourse.add(lc4);
-
-		/*List<String> styles = new ArrayList<String>();
-		for(Style s: styleService.findAll()){
-			styles.add(s.getName());
-		}*/
-		
+		levelsCourse.add(lc4);		
 		
 		if(course.getId() == 0){
 			result = new ModelAndView("course/create");
@@ -186,7 +180,6 @@ public class CourseController extends AbstractController {
 		result.addObject("message", message);
 		result.addObject("levelsCourse", levelsCourse);
 		result.addObject("styles", styleService.findAll());
-		//result.addObject("daysWeek", styleService.findAll());
 		return result;
 	}
 
