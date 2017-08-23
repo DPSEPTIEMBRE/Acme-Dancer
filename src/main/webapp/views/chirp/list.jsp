@@ -9,9 +9,64 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<spring:message code="chirp.momentWritten" var="momentWritten" />
+<spring:message code="chirp.text" var="text" />
+<spring:message code="chirp.actor" var="actorName" />
+<spring:message code="chirp.delete" var="delete" />
+<spring:message code="chirp.subscribe" var="subscribe" />
+
 <security:authorize access="isAuthenticated()">
 
-	<acme:list list="${chirps}" requestURI="chirp/actor/mylist.do"
-		hidden_fields="id,version,actor" deleteUrl="chirp/actor/delete.do" />
+	<jstl:if test="${a==1}">
+
+		<display:table name="chirps" id="row"
+			requestURI="chirp/actor/mylist.do" pagesize="16"
+			class="table table-over">
+
+			<display:column title="${momentWritten}" property="momentWritten" />
+			<display:column title="${text}" property="text" />
+			<display:column title="${actorName}" property="actor.actorName" />
+			<display:column title="${delete}">
+				<a href="chirp/actor/delete.do?q=${row.id}"> <jstl:out
+						value="${delete}" /></a>
+			</display:column>
+
+		</display:table>
+
+	</jstl:if>
+
+
+	<jstl:if test="${a==2}">
+
+		<display:table name="chirps" id="row" requestURI="chirp/actor/list.do"
+			pagesize="16" class="table table-over">
+
+			<display:column title="${momentWritten}" property="momentWritten" />
+			<display:column title="${text}" property="text" />
+			<display:column title="${actorName}" property="actor.actorName" />
+			<display:column title="${subscribe}">
+				<security:authentication property="principal.id" var="id" />
+				<a href="chirp/actor/subscribe.do?q=${row.id}"> <jstl:out
+						value="${subscribe}" /></a>
+			</display:column>
+
+		</display:table>
+
+	</jstl:if>
+	
+
+	<jstl:if test="${a==3}">
+
+		<display:table name="chirps" id="row"
+			requestURI="chirp/actor/myListSubscribe.do" pagesize="16"
+			class="table table-over">
+
+			<display:column title="${momentWritten}" property="momentWritten" />
+			<display:column title="${text}" property="text" />
+			<display:column title="${actorName}" property="actor.actorName" />
+			
+		</display:table>
+		
+	</jstl:if>
 
 </security:authorize>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Actor;
 import domain.Chirp;
 import security.LoginService;
 import services.ChirpService;
@@ -23,10 +24,11 @@ public class ChirpController extends AbstractController {
 	// Services
 
 	@Autowired
-	private ChirpService chirpService;
+	private ChirpService	chirpService;
 
 	@Autowired
-	private LoginService loginService;
+	private LoginService	loginService;
+
 
 	// Constructors -----------------------------------------------------------
 	public ChirpController() {
@@ -44,14 +46,15 @@ public class ChirpController extends AbstractController {
 
 		result = new ModelAndView("chirp/list");
 		result.addObject("chirps", chirps);
+		result.addObject("a", 1);
 
 		return result;
 	}
-	
+
 	@RequestMapping("/create")
 	public ModelAndView create() {
 		ModelAndView result;
-		
+
 		Chirp chirp = chirpService.create();
 
 		result = new ModelAndView("chirp/create");
@@ -71,7 +74,7 @@ public class ChirpController extends AbstractController {
 		} else {
 			try {
 				chirpService.save(chirp);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/chirp/actor/mylist.do");
 			} catch (Throwable oops) {
 				result = new ModelAndView("chirp/create");
 				result.addObject("chirp", chirp);
@@ -92,4 +95,46 @@ public class ChirpController extends AbstractController {
 
 		return result;
 	}
+
+	@RequestMapping("/list")
+	public ModelAndView list() {
+		ModelAndView result;
+
+		Collection<Chirp> chirps = chirpService.allChirpsOrderByMommentDesc();
+
+		result = new ModelAndView("chirp/list");
+		result.addObject("chirps", chirps);
+		result.addObject("a", 2);
+
+		return result;
+	}
+
+	@RequestMapping("/myListSubscribe")
+	public ModelAndView listChirpSuscribe() {
+		ModelAndView result;
+
+		Integer actorId = loginService.findActorByUserName(LoginService.getPrincipal().getId()).getId();
+		Collection<Chirp> chirps = chirpService.listChirpByFollower(actorId);
+
+		result = new ModelAndView("chirp/list");
+		result.addObject("chirps", chirps);
+		result.addObject("a", 3);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/subscribe", method = RequestMethod.GET)
+	public ModelAndView subscribe(@RequestParam int q) {
+		ModelAndView result;
+
+		Chirp chirp = chirpService.findOne(q);
+		Actor actor = loginService.findActorByUserName(LoginService.getPrincipal().getId());
+		if ((!actor.getFollower().contains(chirp.getActor())) && chirp.getActor()!= actor) {
+			chirpService.suscribe(chirp.getActor());
+
+		}
+		result = new ModelAndView("redirect:/chirp/actor/myListSubscribe.do");
+		return result;
+	}
+
 }

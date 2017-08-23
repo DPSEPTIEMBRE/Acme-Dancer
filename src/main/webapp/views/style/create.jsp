@@ -29,8 +29,10 @@
 
 
 		<br />
-		<input type="submit" name="save" value="${styleSaveHeader}" />
-		<input type="button" name="cancel" value="${styleCancelHeader}"
+		<input class="btn btn-primary" type="submit" name="save" value="${styleSaveHeader}" />
+		<input class="btn btn-warning" type="button" name="cancel" value="${styleCancelHeader}"
 			onclick="window.location='style/list.do';" />
+		<input class="btn btn-danger" type="reset" name="clear"
+			value="<spring:message code="acme.clear" />" />
 	</form:form>
 </security:authorize>

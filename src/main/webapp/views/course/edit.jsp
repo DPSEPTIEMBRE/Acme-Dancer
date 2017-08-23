@@ -97,8 +97,7 @@
 			class="btn btn-primary" />
 		<input onclick="window.location='course/academy/list.do';"
 			type="button" name="cancel" value="${cancel}" class="btn btn-warning" />
-		<input class="btn btn-danger" type="reset" name="clear"
-			value="<spring:message code="acme.clear" />" />
+		
 
 	</form:form>
 

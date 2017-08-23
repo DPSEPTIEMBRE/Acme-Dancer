@@ -29,11 +29,11 @@
 		<spring:message code="acme.delete" var="styleDeleteHeader" />
 
 		<br />
-		<input type="submit" name="save" value="${styleSaveHeader}" />
+		<input class="btn btn-primary" type="submit" name="save" value="${styleSaveHeader}" />
 		<jstl:if test="${style.courses.isEmpty()}">
 			<input type="submit" name="delete" value="${styleDeleteHeader}" />
 		</jstl:if>
-		<input type="button" name="cancel" value="${styleCancelHeader}"
+		<input class="btn btn-warning" type="button" name="cancel" value="${styleCancelHeader}"
 			onclick="window.location='style/list.do';" />
 	</form:form>
 </security:authorize>

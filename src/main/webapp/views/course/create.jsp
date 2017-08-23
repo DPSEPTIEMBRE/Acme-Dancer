@@ -94,12 +94,11 @@
 		<spring:message code="course.save" var="courseSaveHeader" />
 		<spring:message code="course.cancel" var="courseCancelHeader" />
 		<spring:message code="course.clear" var="courseClearHeader" />
-		<input type="submit" name="save" value="${courseSaveHeader}" />
-		<input onclick="window.location='course/list.do?a=0';" type="button"
+		<input class="btn btn-primary" type="submit" name="save" value="${courseSaveHeader}" />
+		<input class="btn btn-warning" onclick="window.location='course/list.do?a=0';" type="button"
 			name="cancel" value="${courseCancelHeader}" />
-		<input type="button" name="clear" onclick="clear()"
-			value="${courseClearHeader}" />
-
+		<input class="btn btn-danger" type="reset" name="clear"
+			value="<spring:message code="acme.clear" />" />
 
 
 

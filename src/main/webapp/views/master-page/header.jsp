@@ -57,57 +57,67 @@
 											code="master.page.actor.edit" /></a></li>
 								<li><a href="j_spring_security_logout"><spring:message
 											code="master.page.logout" /> </a></li>
-
 							</ul></li>
-						<li><a class="fNiv" href="academy/list.do?a=0"><spring:message
-									code="master.page.academy" /></a></li>
-						<security:authorize access="hasRole('DANCER')">
-							<li><a class="fNiv" href="course/list.do?a=0"><spring:message
-										code="master.page.course" /></a></li>
-						</security:authorize>
+
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false"><spring:message
+									code="master.page.actor.chirps" /><span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="chirp/actor/list.do"><spring:message
+											code="master.page.actor.chirps" /></a></li>
+								<li><a href="chirp/actor/create.do"><spring:message
+											code="master.page.actor.createChirps" /></a></li>
+								<li><a href="chirp/actor/myListSubscribe.do"><spring:message
+											code="master.page.actor.chirpSubscribe" /></a></li>
+								<li><a href="chirp/actor/mylist.do"><spring:message
+											code="master.page.actor.mychirps" /></a></li>
+							</ul></li>
+							
 						<security:authorize access="hasRole('ACADEMY')">
-							<li><a class="fNiv" href="course/list.do?a=0"><spring:message
+							<security:authentication property="principal.id" var="id" />
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false"><spring:message
+										code="master.page.course" /><span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a href="course/list.do?a=0"><spring:message
+												code="master.page.course" /></a></li>
+									<li><a href="course/listByActor.do?q=${id}"><spring:message
+												code="master.page.academy.courses" /></a></li>
+								</ul></li>
+							<li class="dropdown"><a
+								href="tutorial/listByMyAcademy.do?q=${id}"><spring:message
+										code="master.page.academy.tutorials" /> </a></li>
+						</security:authorize>
+
+						<li><a href="academy/list.do?a=0"><spring:message
+									code="master.page.academy" /></a></li>
+
+						<security:authorize access="hasAnyRole('ACADEMY', 'DANCER')">
+							<li><a href="style/list.do?a=0"><spring:message
+										code="master.page.style" /></a></li>
+						</security:authorize>
+
+						<security:authorize access="hasRole('ADMINISTRATOR')">
+							<security:authentication property="principal.id" var="id" />
+							<li><a href="style/listAdministratorStyle.do?a=2"><spring:message
+										code="master.page.style" /> </a></li>
+							<li><a href="administrator/dashboard.do"><spring:message
+										code="master.page.administrator.dashboard" /> </a></li>
+						</security:authorize>
+
+						
+
+						<security:authorize access="hasRole('DANCER')">
+							<li><a href="course/list.do?a=0"><spring:message
 										code="master.page.course" /></a></li>
+							<security:authentication property="principal.id" var="id" />
+							<li class="dropdown"><a
+								href="application/listByDancer.do?q=${id}"><spring:message
+										code="master.page.academy.applications" /> </a></li>
 						</security:authorize>
-						<security:authorize access="hasAnyRole('DANCER','ACADEMY')">
-						<li><a class="fNiv" href="style/list.do?a=0"><spring:message
-									code="master.page.style" /></a></li>
-						</security:authorize>
-						<li><a class="fNiv" href="chirp/actor/mylist.do"><spring:message
-										code="master.page.chirps" /></a></li>
-						<li><a class="fNiv" href="chirp/actor/create.do"><spring:message
-										code="master.page.createChirps" /></a></li>
 					</security:authorize>
-
-					<security:authorize access="hasRole('ADMINISTRATOR')">
-						<security:authentication property="principal.id" var="id" />
-						<li class="dropdown"><a href="administrator/dashboard.do"><spring:message
-									code="master.page.administrator.dashboard" /> </a></li>
-						<li class="dropdown"><a href="style/listAdministratorStyle.do?a=2"><spring:message
-									code="master.page.style" /> </a></li>
-					</security:authorize>
-
-					<security:authorize access="hasRole('ACADEMY')">
-						<security:authentication property="principal.id" var="id" />
-						<li class="dropdown"><a href="course/listByActor.do?q=${id}"><spring:message
-									code="master.page.academy.courses" /> </a></li>
-						<li class="dropdown"><a
-							href="application/listByAcademy.do?q=${id}"><spring:message
-									code="master.page.academy.applications" /> </a></li>
-						<li class="dropdown"><a
-							href="application/listByAcademyPending.do?q=${id}"><spring:message
-									code="master.page.academy.applicationsPending" /> </a></li>
-						<li class="dropdown"><a
-							href="tutorial/listByMyAcademy.do?q=${id}"><spring:message
-									code="master.page.academy.tutorials" /> </a></li>
-					</security:authorize>
-
-					<security:authorize access="hasRole('DANCER')">
-						<security:authentication property="principal.id" var="id" />
-						<li class="dropdown"><a href="application/listByDancer.do?q=${id}"><spring:message
-									code="master.page.academy.applications" /> </a></li>
-					</security:authorize>
-
 				</ul>
 			</div>
 		</div>

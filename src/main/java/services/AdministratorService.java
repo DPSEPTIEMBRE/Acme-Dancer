@@ -1,6 +1,7 @@
 
 package services;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,11 +74,11 @@ public class AdministratorService {
 		return administratorRepository.minAvgMaxTutorialNumShows();
 	}
 
-	public Double avgChirpsPerActor() {
+	public List<Array[]> avgChirpsPerActor() {
 		return administratorRepository.avgChirpsPerActor();
 	}
 
-	public Double avgSubscriptionPerActor() {
+	public List<Array[]> avgSubscriptionPerActor() {
 		return administratorRepository.avgSubscriptionPerActor();
 	}
 

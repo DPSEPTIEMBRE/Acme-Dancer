@@ -34,6 +34,7 @@
 		<value>/views/dancer/messages</value>
 		<value>/views/actor/messages</value>
 		<value>/views/chirp/messages</value>
+		<value>/views/legislation/messages</value>
 		
 	</util:list>
 

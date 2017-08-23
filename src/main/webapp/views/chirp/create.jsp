@@ -36,6 +36,8 @@
 		<input onclick="window.location='welcome/index.do';"
 			class="btn btn-warning" type="button" name="cancel"
 			value="${actorCancelHeader}" />
+		<input class="btn btn-danger" type="reset" name="clear"
+			value="<spring:message code="acme.clear" />" />
 
 	</form:form>
 </security:authorize>

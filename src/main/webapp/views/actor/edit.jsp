@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<jsp:include page="/WEB-INF/tags/patternPhone.tag"/>
 
 <security:authorize access="isAuthenticated()">
 
@@ -25,8 +26,7 @@
 		<jstl:set var="url" value="actor/save-administrator.do" />
 	</security:authorize>
 
-
-	<form:form method="POST" action="${url}" modelAttribute="person">
+	<form:form method="POST" onsubmit="return patternPhone()" name="formActor" action="${url}" modelAttribute="person">
 
 		<security:authorize access="hasRole('DANCER')">
 			<form:hidden path="applications" />
@@ -79,7 +79,7 @@
 		<form:errors cssClass="error" path="email" />
 		<br />
 
-		<form:label path="phone">
+		<form:label name="phone" path="phone">
 			<spring:message code="actor.phone" />
 		</form:label>
 		<br />
@@ -94,19 +94,18 @@
 		<form:input path="address" />
 		<form:errors cssClass="error" path="address" />
 		<br />
+		
 
 		<br />
-
 		<spring:message code="actor.save" var="actorSaveHeader" />
 		<spring:message code="actor.cancel" var="actorCancelHeader" />
-		<input name="save" type="submit" class="btn btn-primary"
-			value="<spring:message code="acme.save"/>">
-		<input onclick="location.href = 'welcome/index.do';" type="button"
-			class="btn btn-warning" value="<spring:message code="acme.cancel" />">
-		<input class="btn btn-danger" type="reset" name="clear" value="<spring:message code="actor.clear" />"/>
-			
+		<input type="submit" class="btn btn-primary" name="save" value="${actorSaveHeader}" />
+		<input class="btn btn-warning" onclick="window.location='welcome/index.do';" type="button"
+			name="cancel" value="${actorCancelHeader}" />
+
 
 	</form:form>
 
 </security:authorize>
+
 

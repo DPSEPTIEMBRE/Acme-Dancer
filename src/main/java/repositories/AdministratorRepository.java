@@ -1,6 +1,7 @@
 
 package repositories;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,10 +34,10 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	List<Tutorial> tutorialsOrderByNumShowsDes();
 
 	//La media de chirps por actor.
-	@Query("select avg(a.chirps.size) from Actor a")
-	Double avgChirpsPerActor();
+	@Query("select a.actorName, ((a.chirps.size * 1.0) / (select count(c) from Chirp c)) from Actor a")
+	List<Array[]> avgChirpsPerActor();
 
 	//La media de suscripciones por actor.
-	@Query("select (count(ap)/(select count(a) from Actor a)) from Application ap where ap.statusApplication like 'ACCEPTED'")
-	Double avgSubscriptionPerActor();
+	@Query("select a.actorName, ((a.follower.size * 1.0) / (select count(c) from Actor c)) from Actor a")
+	List<Array[]> avgSubscriptionPerActor();
 }
