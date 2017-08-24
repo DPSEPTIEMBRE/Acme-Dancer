@@ -9,7 +9,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-
 <security:authorize access="isAuthenticated()">
 
 	<security:authorize access="hasRole('ACADEMY')">
@@ -37,7 +36,8 @@
 				<spring:message code="tutorial.description" />
 			</form:label>
 			<br />
-			<form:input path="description" />
+			<script>tinymce.init({ selector:'textarea' });</script>
+			<form:textarea path="description" />
 			<form:errors cssClass="error" path="description" />
 			<br />
 

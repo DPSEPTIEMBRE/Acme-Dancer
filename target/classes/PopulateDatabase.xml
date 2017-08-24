@@ -121,7 +121,7 @@
 		<property name="actorName" value="Laura" />
 		<property name="surname" value="Padial" />
 		<property name="email" value="lp@hotmail.com" />
-		<property name="phone" value="+34 (666) 1234" />
+		<property name="phone" value="" />
 		<property name="address" value="41109" />
 		<property name="userAccount" ref="userAccount1" />
 		<property name="follower">

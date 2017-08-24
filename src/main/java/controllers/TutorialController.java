@@ -70,7 +70,7 @@ public class TutorialController extends AbstractController{
 		
 		List<Tutorial> tutorials= new ArrayList<Tutorial>();
 
-		Academy a = (Academy)loginService.findActorByUserName(q);
+		Academy a = (Academy)loginService.findActorByUsername(q);
 		tutorials.addAll(tutorialService.tutorialsOfAcademy(a.getId()));
 		
 		result = new ModelAndView("tutorial/list");

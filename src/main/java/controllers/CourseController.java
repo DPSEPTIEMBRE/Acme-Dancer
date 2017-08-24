@@ -17,8 +17,11 @@ import security.LoginService;
 import services.CourseService;
 import services.StyleService;
 import domain.Academy;
+import domain.Application;
 import domain.Course;
+import domain.Dancer;
 import domain.LevelCourse;
+import domain.Style;
 
 @Controller
 @RequestMapping("/course")
@@ -41,62 +44,71 @@ public class CourseController extends AbstractController {
 	}
 
 	//Actions
-
-	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam Integer a) {
+	
+	@RequestMapping(value = "/listNoRegister", method = RequestMethod.GET)
+	public ModelAndView listNoRegister() {
 		ModelAndView result;
 
 		result = new ModelAndView("course/list");
+		
+		result.addObject("courses", courseService.findAll());
+		result.addObject("a",0);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
 
+		result = new ModelAndView("course/list");
+		
+		if(LoginService.hasRole("DANCER")) {
+			Dancer actor = (Dancer) loginService.findActorByUsername(LoginService.getPrincipal().getId());
+			List<Course> coursesApplyActor = new ArrayList<Course>();
+			for(Application app:actor.getApplications()){
+				coursesApplyActor.add(app.getCourse());
+			}
+			result.addObject("coursesApplyActor", coursesApplyActor);
+		}		
+		
 		result.addObject("a", 0);
 		result.addObject("courses", courseService.findAll());
-
-
+		
 		return result;
 	}
 
 
 	@RequestMapping("/listByAcademy")
-	public ModelAndView listByAcademy(@RequestParam Integer q) {
+	public ModelAndView listByAcademy(@RequestParam Academy q) {
 		ModelAndView result;
 
-		List<Course> courses= new ArrayList<Course>();
-		courses.addAll(courseService.coursesOfAcademy(q));
-
-
 		result = new ModelAndView("course/list");
-		result.addObject("courses", courses);
+		result.addObject("courses", q.getCourses());
 		result.addObject("a", 1);
 
 		return result;
 	}
 
 	@RequestMapping("/listByStyle")
-	public ModelAndView listByStyle(@RequestParam Integer q) {
+	public ModelAndView listByStyle(@RequestParam Style q) {
 		ModelAndView result;
 
-		List<Course> courses= new ArrayList<Course>();
-		courses.addAll(courseService.coursesOfStyle(q));
-
-
 		result = new ModelAndView("course/list");
-		result.addObject("courses", courses);
+		result.addObject("courses", q.getCourses());
 		result.addObject("a", 2);
 
 		return result;
 	}
 
-	@RequestMapping("/listByActor")
-	public ModelAndView listByActor(@RequestParam Integer q) {
+	@RequestMapping("/academy/listByActor")
+	public ModelAndView listByActor() {
 		ModelAndView result;
 
-		List<Course> courses= new ArrayList<Course>();
-		Academy a = (Academy)loginService.findActorByUserName(q);
-		courses.addAll(courseService.coursesOfAcademy(a.getId()));
-
+		Academy a = (Academy)loginService.findActorByUsername(LoginService.getPrincipal().getId());
 
 		result = new ModelAndView("course/list");
-		result.addObject("courses", courses);
+		result.addObject("courses", a.getCourses());
 		result.addObject("a", 3);
 
 		return result;
@@ -121,12 +133,10 @@ public class CourseController extends AbstractController {
 	}
 	
 	@RequestMapping("/academy/edit")
-	public ModelAndView edit(@RequestParam Integer q) {
+	public ModelAndView edit(@RequestParam Course q) {
 		ModelAndView result;
 
-		Course course= courseService.findOne(q);
-
-		result = createNewModelAndView(course, null);
+		result = createNewModelAndView(q, null);
 
 		return result;
 	}
@@ -145,7 +155,7 @@ public class CourseController extends AbstractController {
 				courseService.save(course);
 				
 				int id = LoginService.getPrincipal().getId();
-				result = new ModelAndView("redirect:/course/listByActor.do?q=" + id);
+				result = new ModelAndView("redirect:/course/academy/listByActor.do?q=" + id);
 
 			} catch (Throwable th) {
 				result = createNewModelAndView(course, "course.commit.error");
@@ -186,14 +196,13 @@ public class CourseController extends AbstractController {
 
 
 	@RequestMapping("/academy/delete")
-	  public ModelAndView delete(@RequestParam Integer q) {
+	  public ModelAndView delete(@RequestParam Course q) {
 	    ModelAndView result;
 
-	    Course course = courseService.findOne(q);
-	    courseService.delete(course);
+	    courseService.delete(q);
 	    int id = LoginService.getPrincipal().getId();
 	    
-	    result = new ModelAndView("redirect:/course/listByActor.do?q=" + id );
+	    result = new ModelAndView("redirect:/course/academy/listByActor.do?q=" + id );
 
 	    return result;
 	  }

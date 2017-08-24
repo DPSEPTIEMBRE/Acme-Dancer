@@ -137,7 +137,7 @@ public class ApplicationService {
 		application= applicationRepository.save(application);
 		course.getApplications().add(application);
 		courseService.save(course);
-		Dancer d = (Dancer) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+		Dancer d = (Dancer) loginService.findActorByUsername(LoginService.getPrincipal().getId());
 		List<Application> applications = d.getApplications();
 		applications.add(application);
 		d.setApplications(applications);

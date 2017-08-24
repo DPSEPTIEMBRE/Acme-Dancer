@@ -21,9 +21,10 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
 
 	@Query("select ua from UserAccount ua where ua.username = ?1")
 	UserAccount findByUsername(String username);
+
+	@Query("select c from Actor c where c.userAccount.username = ?1")
+	Actor findActorByUsername(String username);
 	
-	@Query("select a from Actor a where a.userAccount.id = ?1")
-	Actor findActorByUserName(int username);
-
-
+	@Query("select c from Actor c where c.userAccount.id = ?1")
+	Actor findActorByUsernameId(Integer username);
 }

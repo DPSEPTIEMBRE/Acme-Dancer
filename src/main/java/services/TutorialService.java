@@ -88,7 +88,7 @@ public class TutorialService {
 			return tutorialRepository.save(tutorial);
 		} else {
 			tutorial = tutorialRepository.save(arg0);
-			Academy man = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+			Academy man = (Academy) loginService.findActorByUsername(LoginService.getPrincipal().getId());
 			List<Tutorial> tutorials = man.getTutorials();
 			tutorials.add(tutorial);
 			man.setTutorials(tutorials);

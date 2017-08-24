@@ -43,7 +43,7 @@ public class ActorController extends AbstractController{
 		ModelAndView result;
 		Actor actor;
 		
-		actor = loginService.findActorByUserName(userAccountID);
+		actor = loginService.findActorByUsername(userAccountID);
 		
 		result = new ModelAndView("actor/edit");
 		result.addObject("person", actor);

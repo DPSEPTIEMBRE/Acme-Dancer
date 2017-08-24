@@ -22,7 +22,7 @@
 <jstl:if test="${a==0}">
 
 	<acme:list list="${tutorials}" requestURI="tutorial/list.do"
-		hidden_fields="id,version" extraColumns="{view:tutorial/view.do}" />
+		hidden_fields="id,version" viewUrl="tutorial/view.do" video_fields="video" />
 		
 
 </jstl:if>
@@ -30,7 +30,7 @@
 <jstl:if test="${a==1}">
 
 	<acme:list list="${tutorials}" requestURI="tutorial/listByAcademy.do"
-		hidden_fields="id,version" extraColumns="{view:tutorial/view.do}" />
+		hidden_fields="id,version" viewUrl="tutorial/view.do" video_fields="video"/>
 </jstl:if>
 
 <jstl:if test="${a==2}">
@@ -38,7 +38,8 @@
 		<acme:list list="${tutorials}"
 			requestURI="tutorial/listByMyAcademy.do" hidden_fields="id,version"
 			editUrl="tutorial/edit.do"
-			extraColumns="{view:tutorial/view.do, delete: tutorial/delete.do}" />
+			viewUrl="tutorial/view.do" deleteUrl="tutorial/delete.do" 
+			video_fields="video" />
 		<br />
 		<div>
 			<a href="tutorial/academy/create.do"><spring:message code="tutorial.create" /></a>

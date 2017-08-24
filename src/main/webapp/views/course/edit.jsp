@@ -27,7 +27,6 @@
 
 <security:authorize access="hasRole('ACADEMY')">
 
-
 	<form:form action="course/academy/save-create.do"
 		modelAttribute="course" method="POST">
 

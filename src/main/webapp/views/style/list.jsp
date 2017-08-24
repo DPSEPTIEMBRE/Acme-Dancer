@@ -26,12 +26,17 @@
 	<jstl:if test="${a==0}">
 		<acme:list list="${styles}" requestURI="style/list.do"
 			hidden_fields="id,version"
-			entityUrl="{courses: course/listByStyle.do}" />
+			entityUrl="{courses: course/listByStyle.do}" video_fields="videos"
+			image_fields="pictures" pagesize="6">
+		</acme:list>
 	</jstl:if>
+
 
 	<jstl:if test="${a==1}">
 		<acme:list list="${styles}" requestURI="style/listByCourse.do"
-			hidden_fields="id,version,courses" />
+			hidden_fields="id,version,courses" video_fields="videos"
+			image_fields="pictures" pagesize="6">
+		</acme:list>
 	</jstl:if>
 
 </security:authorize>
@@ -39,10 +44,13 @@
 <security:authorize access="hasRole('ADMINISTRATOR')">
 
 	<jstl:if test="${a==2}">
-		<acme:list list="${styles}" requestURI="style/listAdministratorStyle.do"
+		<acme:list list="${styles}"
+			requestURI="style/listAdministratorStyle.do"
 			hidden_fields="id,version"
 			entityUrl="{courses: course/listByStyle.do}"
-			extraColumns="{edit: style/administrator/edit.do}" />
+			editUrl="style/administrator/edit.do" video_fields="videos"
+			image_fields="pictures">
+		</acme:list>
 		<br />
 		<div>
 			<a href="style/administrator/create.do">${createHeader}</a>

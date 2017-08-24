@@ -38,6 +38,7 @@
 			<form:label path="levelCourse">
 				<spring:message code="course.levelCourse" />
 			</form:label>
+			<br />
 			<form:select path="levelCourse">
 				<form:option value="${levelCourse}" label="${select}" />
 				<form:options items="${levelsCourse}" />

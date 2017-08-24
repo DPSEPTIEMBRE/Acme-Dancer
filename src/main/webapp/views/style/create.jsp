@@ -20,8 +20,12 @@
 		<form:hidden path="courses" />
 
 		<acme:textbox code="style.name" path="name" />
-		<acme:textbox code="style.description" path="description" />
-		<acme:textarea code="style.pictures" path="pictures" />
+		
+		
+		<script>tinymce.init({ selector:'textarea' });</script>
+		<acme:textarea code="style.description" path="description" />
+		
+		<acme:textarea code="style.pictures" path="pictures"/>
 		<acme:textarea code="style.videos" path="videos" />
 
 		<spring:message code="acme.save" var="styleSaveHeader" />

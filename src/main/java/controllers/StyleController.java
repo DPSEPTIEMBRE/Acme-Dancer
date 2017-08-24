@@ -46,14 +46,11 @@ public class StyleController extends AbstractController{
 	}
 	
 	@RequestMapping("/listByCourse")
-	public ModelAndView listByCourse(@RequestParam Integer q) {
+	public ModelAndView listByCourse(@RequestParam Style q) {
 		ModelAndView result;
-		Style style = styleService.findByCourse(q);
-		
 		result = new ModelAndView("style/list");
-		result.addObject("styles", Arrays.asList(style));
+		result.addObject("styles", Arrays.asList(q));
 		result.addObject("a", 1);
-
 		return result;
 	}
 	

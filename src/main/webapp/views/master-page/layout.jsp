@@ -29,6 +29,8 @@
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/jquery-ui.js"></script>
 <script type="text/javascript" src="scripts/jmenu.js"></script>
+<script src="https://cloud.tinymce.com/stable/plugins.min.js?apiKey=zu2tpymdfweykarus9e7rxzmjt5wh7u0m2s3zre8zaik8syq" type="text/javascript"></script>
+		<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=zu2tpymdfweykarus9e7rxzmjt5wh7u0m2s3zre8zaik8syq"></script>
 
 <link rel="stylesheet" href="styles/common.css" type="text/css">
 <link rel="stylesheet" href="styles/jmenu.css" media="screen"

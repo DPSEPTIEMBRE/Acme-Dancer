@@ -57,7 +57,7 @@ public class CourseService {
 		course.setEnd(new Date());
 		course.setDayWeek(new String());
 		course.setTime(new Date());
-		Academy a = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+		Academy a = (Academy) loginService.findActorByUsername(LoginService.getPrincipal().getId());
 		course.setAcademy(a);
 		course.setApplications(new ArrayList<Application>());
 		course.setStyle(new Style());
@@ -129,7 +129,7 @@ public class CourseService {
 			
 		} else {
 			course = courseRepository.save(arg0);
-			Academy a = (Academy) loginService.findActorByUserName(LoginService.getPrincipal().getId());
+			Academy a = (Academy) loginService.findActorByUsername(LoginService.getPrincipal().getId());
 			List<Course> coursesA = a.getCourses();
 			coursesA.add(course);
 			a.setCourses(coursesA);

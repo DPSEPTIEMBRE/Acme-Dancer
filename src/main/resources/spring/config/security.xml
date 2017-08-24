@@ -68,17 +68,17 @@
 		<security:intercept-url pattern="/academy/listByCourse.do"
 			access="permitAll" />
 
-		<security:intercept-url pattern="/application/listByCourse.do"
+		<security:intercept-url pattern="/application/academy/listByCourse.do"
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/application/listByCoursePending.do"
 			access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/application/listByAcademy.do"
+		<security:intercept-url pattern="/application/academy/listByAcademy.do"
 			access="hasRole('ACADEMY')" />
 
 		<security:intercept-url pattern="/application/listByAcademyPending.do"
 			access="hasRole('ACADEMY')" />
 
-		<security:intercept-url pattern="/application/listByDancer.do"
+		<security:intercept-url pattern="/application/dancer/listByDancer.do"
 			access="hasRole('DANCER')" />
 		<security:intercept-url pattern="/application/academy/accept.do"
 			access="hasRole('ACADEMY')" />
@@ -88,12 +88,14 @@
 			access="hasRole('DANCER')" />
 
 		<security:intercept-url pattern="/course/list.do"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/course/listNoRegister.do"
 			access="permitAll" />
 		<security:intercept-url pattern="/course/listByAcademy.do"
 			access="permitAll" />
 		<security:intercept-url pattern="/course/listByStyle.do"
 			access="permitAll" />
-		<security:intercept-url pattern="/course/listByActor.do"
+		<security:intercept-url pattern="/course/academy/listByActor.do"
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/course/academy/create.do"
 			access="hasRole('ACADEMY')" />

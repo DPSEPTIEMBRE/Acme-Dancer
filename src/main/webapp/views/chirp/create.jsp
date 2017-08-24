@@ -19,10 +19,12 @@
 		<form:hidden path="actor" />
 		<form:hidden path="momentWritten" />
 
-	    <div class="form-group" style="width: 20%;">
+		<div class="form-group" style="width: 20%;">
 
 			<label> <spring:message code="chirp.text" />
 			</label><br />
+
+			<script>tinymce.init({ selector:'textarea' });</script>
 			<textarea class="form-control" name="text">${chirp.text}</textarea>
 			<form:errors cssClass="error" path="text" />
 			<br />

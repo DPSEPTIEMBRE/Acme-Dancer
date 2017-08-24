@@ -51,7 +51,7 @@ public class ChirpService {
 	public Chirp create() {
 		Chirp chirp = new Chirp();
 		
-		Actor a = loginService.findActorByUserName(LoginService.getPrincipal().getId());
+		Actor a = loginService.findActorByUsername(LoginService.getPrincipal().getId());
 
 		chirp.setText(new String());
 		chirp.setActor(a);
@@ -90,7 +90,7 @@ public class ChirpService {
 	public Chirp save(Chirp chirp) {
 		Assert.notNull(chirp);
 		
-		Actor a = loginService.findActorByUserName(LoginService.getPrincipal().getId());
+		Actor a = loginService.findActorByUsername(LoginService.getPrincipal().getId());
 		
 		chirp = chirpRepository.save(chirp);
 		
@@ -112,7 +112,7 @@ public class ChirpService {
 	public Actor suscribe(Actor actor) {
 		Assert.notNull(actor);
 
-		Actor ac = loginService.findActorByUserName(LoginService.getPrincipal().getId());
+		Actor ac = loginService.findActorByUsername(LoginService.getPrincipal().getId());
 
 		ac.getFollower().add(actor);
 

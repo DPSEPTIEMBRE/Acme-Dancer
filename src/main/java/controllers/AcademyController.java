@@ -34,27 +34,24 @@ public class AcademyController extends AbstractController{
 	//Actions
 
 	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam Integer a) {
+	public ModelAndView list(@RequestParam Academy a) {
 		ModelAndView result;
 
 		result = new ModelAndView("academy/list");
 
-		result.addObject("a", a);
 		result.addObject("academies", academyService.findAll());
-
+		result.addObject("a",0);
 
 		return result;
 	}
 
 
 	@RequestMapping("/listByCourse")
-	public ModelAndView listByCourse(@RequestParam Integer q) {
+	public ModelAndView listByCourse(@RequestParam Academy q) {
 		ModelAndView result;
 
-		Academy academy = academyService.academyOfCourse(q);
-
 		result = new ModelAndView("academy/list");
-		result.addObject("academies", Arrays.asList(academy));
+		result.addObject("academies", Arrays.asList(q));
 		result.addObject("a", 2);
 
 		return result;

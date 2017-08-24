@@ -19,54 +19,43 @@
 
 	<jstl:if test="${a==1}">
 
-		<display:table name="chirps" id="row"
-			requestURI="chirp/actor/mylist.do" pagesize="16"
-			class="table table-over">
-
-			<display:column title="${momentWritten}" property="momentWritten" />
-			<display:column title="${text}" property="text" />
-			<display:column title="${actorName}" property="actor.actorName" />
-			<display:column title="${delete}">
-				<a href="chirp/actor/delete.do?q=${row.id}"> <jstl:out
-						value="${delete}" /></a>
-			</display:column>
-
-		</display:table>
+		<acme:list list="${chirps}" requestURI="chirp/actor/mylist.do"
+			pagesize="16" columNames="{actor:chirp.actor}"
+			field_mapping="{actor:actorName}" deleteUrl="chirp/actor/delete.do">
+		</acme:list>
 
 	</jstl:if>
 
 
 	<jstl:if test="${a==2}">
 
-		<display:table name="chirps" id="row" requestURI="chirp/actor/list.do"
-			pagesize="16" class="table table-over">
+		<acme:list list="${chirps}" requestURI="chirp/actor/list.do"
+			pagesize="16" columNames="{actor:chirp.actor}"
+			field_mapping="{actor:actorName}">
 
-			<display:column title="${momentWritten}" property="momentWritten" />
-			<display:column title="${text}" property="text" />
-			<display:column title="${actorName}" property="actor.actorName" />
-			<display:column title="${subscribe}">
-				<security:authentication property="principal.id" var="id" />
-				<a href="chirp/actor/subscribe.do?q=${row.id}"> <jstl:out
-						value="${subscribe}" /></a>
-			</display:column>
+			<display:table name="chirps" id="row">
+				<display:column title="${subscribe}">
+					<security:authentication property="principal.id" var="id" />
+					<jstl:if
+						test="${!followers.contains(row.actor) and row.actor.userAccount.id != id}">
+						<a href="chirp/actor/subscribe.do?q=${row.id}"> <jstl:out
+								value="${subscribe}" /></a>
+					</jstl:if>
+				</display:column>
+			</display:table>
 
-		</display:table>
+		</acme:list>
 
 	</jstl:if>
-	
+
 
 	<jstl:if test="${a==3}">
 
-		<display:table name="chirps" id="row"
-			requestURI="chirp/actor/myListSubscribe.do" pagesize="16"
-			class="table table-over">
+		<acme:list list="${chirps}"
+			requestURI="chirp/actor/mylistSubscribe.do" pagesize="16"
+			columNames="{actor:chirp.actor}" field_mapping="{actor:actorName}">
+		</acme:list>
 
-			<display:column title="${momentWritten}" property="momentWritten" />
-			<display:column title="${text}" property="text" />
-			<display:column title="${actorName}" property="actor.actorName" />
-			
-		</display:table>
-		
 	</jstl:if>
 
 </security:authorize>

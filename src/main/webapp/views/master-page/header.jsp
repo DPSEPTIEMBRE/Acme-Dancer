@@ -40,7 +40,7 @@
 
 						<li><a href="academy/list.do?a=0"><spring:message
 									code="master.page.academy" /></a></li>
-						<li><a href="course/list.do?a=0"><spring:message
+						<li><a href="course/listNoRegister.do?a=0"><spring:message
 									code="master.page.course" /></a></li>
 						<li><a href="style/list.do?a=0"><spring:message
 									code="master.page.style" /></a></li>
@@ -83,7 +83,7 @@
 								<ul class="dropdown-menu">
 									<li><a href="course/list.do?a=0"><spring:message
 												code="master.page.course" /></a></li>
-									<li><a href="course/listByActor.do?q=${id}"><spring:message
+									<li><a href="course/academy/listByActor.do?q=${id}"><spring:message
 												code="master.page.academy.courses" /></a></li>
 								</ul></li>
 							<li class="dropdown"><a
@@ -100,6 +100,8 @@
 						</security:authorize>
 
 						<security:authorize access="hasRole('ADMINISTRATOR')">
+							<li><a href="course/list.do?a=0"><spring:message
+									code="master.page.course" /></a></li>
 							<security:authentication property="principal.id" var="id" />
 							<li><a href="style/listAdministratorStyle.do?a=2"><spring:message
 										code="master.page.style" /> </a></li>
@@ -114,7 +116,7 @@
 										code="master.page.course" /></a></li>
 							<security:authentication property="principal.id" var="id" />
 							<li class="dropdown"><a
-								href="application/listByDancer.do?q=${id}"><spring:message
+								href="application/dancer/listByDancer.do?q=${id}"><spring:message
 										code="master.page.academy.applications" /> </a></li>
 						</security:authorize>
 					</security:authorize>

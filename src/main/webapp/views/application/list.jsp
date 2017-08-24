@@ -32,14 +32,12 @@
 
 	<jstl:if test="${a==1}">
 
-		<display:table name="applications" id="row"
-			requestURI="application/listByDancer.do" pagesize="8"
-			class="table table-over">
-			<display:column title="${createMoment}" property="createMoment" />
-			<display:column title="${statusApplication}"  property="statusApplication.value" />
-			<display:column title="${course}" property="course.title" />
-		</display:table>
-		
+		<acme:list columNames="{course:application.course}"
+			field_mapping="{course:title,statusApplication:value}"
+			list="${applications}" requestURI="application/dancer/listByDancer.do"
+			pagesize="8">
+		</acme:list>
+
 	</jstl:if>
 
 </security:authorize>
@@ -48,48 +46,28 @@
 <security:authorize access="hasRole('ACADEMY')">
 
 	<jstl:if test="${a==2}">
-		<display:table name="applications" id="row"
-			requestURI="application/listByCourse.do" pagesize="8"
-			class="table table-over">
-			<display:column property="createMoment" title="${createMoment}"
-				sortable="false" />
-			<display:column title="${statusApplication}" sortable="false"
-				property="statusApplication.value" />
 
-			<display:column sortable="false">
-				<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
-					<a href="application/academy/accept.do?q=${row.id}"><jstl:out
-							value="${accept}" /></a>
-				</jstl:if>
-			</display:column>
-			<display:column sortable="false">
-				<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
-					<a href="application/academy/denied.do?q=${row.id}"><jstl:out
-							value="${denied}" /></a>
-				</jstl:if>
-			</display:column>
+		<acme:list field_mapping="{statusApplication:value}"
+			hidden_fields="course" list="${applications}"
+			requestURI="application/academy/listByCourse.do" pagesize="8">
+			<display:table name="applications" id="row">
+				<display:column>
+					<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
+						<a href="application/academy/accept.do?q=${row.id}"><jstl:out
+								value="${accept}" /></a>
+					</jstl:if>
+				</display:column>
 
-		</display:table>
-	</jstl:if>
+				<display:column>
+					<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
+						<a href="application/academy/denied.do?q=${row.id}"><jstl:out
+								value="${denied}" /></a>
+					</jstl:if>
+				</display:column>
+			</display:table>
 
-	<jstl:if test="${a==3}">
-		<acme:list list="${applications}"
-			requestURI="application/listByAcademy.do"
-			hidden_fields="id,version,course" />
-	</jstl:if>
+		</acme:list>
 
-	<jstl:if test="${a==4}">
-		<acme:list list="${applications}"
-			requestURI="application/listByAcademyPending.do"
-			hidden_fields="id,version,course"
-			extraColumns=" accept: application/academy/accept.do, denied: application/academy/denied.do" />
-	</jstl:if>
-
-	<jstl:if test="${a==5}">
-		<acme:list list="${applications}"
-			requestURI="application/listByCoursePending.do"
-			hidden_fields="id,version,course"
-			extraColumns=" accept: application/academy/accept.do, denied: application/academy/denied.do" />
 	</jstl:if>
 
 </security:authorize>

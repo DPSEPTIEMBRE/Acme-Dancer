@@ -9,7 +9,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<jsp:include page="/WEB-INF/tags/patternPhone.tag"/>
 
 <security:authorize access="isAuthenticated()">
 
@@ -26,7 +25,7 @@
 		<jstl:set var="url" value="actor/save-administrator.do" />
 	</security:authorize>
 
-	<form:form method="POST" onsubmit="return patternPhone()" name="formActor" action="${url}" modelAttribute="person">
+	<form:form method="POST" action="${url}" modelAttribute="person">
 
 		<security:authorize access="hasRole('DANCER')">
 			<form:hidden path="applications" />

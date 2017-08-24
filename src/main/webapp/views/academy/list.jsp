@@ -23,10 +23,11 @@
 
 	<jstl:if test="${a==0}">
 
-	<acme:list list="${academies}" requestURI="academy/list.do"
-		hidden_fields="id,version,actorName,surname,follower,chirps,userAccount"
-		entityUrl="{tutorials: tutorial/listByAcademy.do, courses: course/listByAcademy.do}" />
-		
+		<acme:list list="${academies}" requestURI="academy/list.do"
+			hidden_fields="id,version,actorName,surname,follower,chirps,userAccount"
+			entityUrl="{tutorials: tutorial/listByAcademy.do, courses: course/listByAcademy.do}">
+		</acme:list>
+
 	</jstl:if>
 
 
@@ -34,7 +35,8 @@
 
 		<acme:list list="${academies}" requestURI="academy/listByCourse.do"
 			hidden_fields="id,version,actorName,surname,follower,chirps,userAccount,courses"
-			entityUrl="{tutorials: tutorial/listByAcademy.do}" />
+			entityUrl="{tutorials: tutorial/listByAcademy.do}" >
+		</acme:list>
 
 	</jstl:if>
 

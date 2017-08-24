@@ -20,7 +20,8 @@
 		<form:hidden path="courses" />
 
 		<acme:textbox code="style.name" path="name" />
-		<acme:textbox code="style.description" path="description" />
+		<script>tinymce.init({selector:'textarea'});</script>
+		<acme:textarea code="style.description" path="description" />
 		<acme:textarea code="style.pictures" path="pictures" />
 		<acme:textarea code="style.videos" path="videos" />
 
@@ -31,7 +32,7 @@
 		<br />
 		<input class="btn btn-primary" type="submit" name="save" value="${styleSaveHeader}" />
 		<jstl:if test="${style.courses.isEmpty()}">
-			<input type="submit" name="delete" value="${styleDeleteHeader}" />
+			<input class="btn btn-primary"  type="submit" name="delete" value="${styleDeleteHeader}" />
 		</jstl:if>
 		<input class="btn btn-warning" type="button" name="cancel" value="${styleCancelHeader}"
 			onclick="window.location='style/list.do';" />

@@ -18,6 +18,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 
 <spring:message code="course.title" var="title" />
@@ -36,108 +37,91 @@
 
 
 <security:authorize access="permitAll()">
-
 	<form action="course/search.do">
 		<b><spring:message code="course.search" /></b> <input type="search"
 			name="searchText" />
 	</form>
 </security:authorize>
 
+
+
 <security:authorize access="permitAll()">
 
 	<jstl:if test="${a==0}">
 
-		<display:table name="courses" id="row" requestURI="course/list.do"
-			pagesize="8" class="table table-over">
-			<display:column property="title" title="${title}" />
-			<display:column property="levelCourse.value" title="${levelCourse}" />
-			<display:column property="start" title="${start}" />
-			<display:column property="end" title="${end}" />
-			<display:column property="dayWeek" title="${dayWeek}" />
-			<display:column property="time" title="${time}" />
-			<display:column title="${academy}">
-				<a href="academy/listByCourse.do?q=${row.id}"> <jstl:out
-						value="${row.academy.commercialName}" />
-				</a>
-			</display:column>
-			<display:column title="${style}">
-				<a href="style/listByCourse.do?q=${row.id}"> <jstl:out
-						value="${row.style.name}" />
-				</a>
-			</display:column>
+		<security:authorize access="isAnonymous()">
+			<acme:list requestURI="course/listNoRegister.do" list="${courses}"
+				hidden_fields="id,version,applications"
+				field_mapping="{levelCourse:value,academy:commercialName,style:name}"
+				entityUrl="{academy:academy/listByCourse.do,style:style/listByCourse.do}">
+			</acme:list>
+		</security:authorize>
 
-			<security:authorize access="hasRole('ACADEMY')">
+		<acme:list requestURI="course/list.do" list="${courses}"
+			hidden_fields="id,version,applications"
+			field_mapping="{levelCourse:value,academy:commercialName,style:name}"
+			entityUrl="{academy:academy/listByCourse.do,style:style/listByCourse.do}">
 
-				<display:column>
-					<security:authentication property="principal.id" var="id" />
-					<jstl:if test="${row.academy.userAccount.id == id}">
-						<a href="course/academy/edit.do?q=${row.id}"> <jstl:out
-								value="${edit}" />
-						</a>
-					</jstl:if>
-				</display:column>
+			<display:table name="courses" id="row" requestURI="course/list.do">
 
-				<display:column>
-					<security:authentication property="principal.id" var="id" />
-					<jstl:if
-						test="${row.academy.userAccount.id == id}">
-						<a href="course/academy/delete.do?q=${row.id}"> <jstl:out
-								value="${delete}" />
-						</a>
-					</jstl:if>
-				</display:column>
+				<security:authorize access="hasRole('ACADEMY')">
+				
+					entityUrl="{application:application/academy/listByCourse.do}"
 
-			</security:authorize>
+					<display:column>
+						<security:authentication property="principal.id" var="id" />
+						<jstl:if test="${row.academy.userAccount.id == id}">
+							<a href="course/academy/edit.do?q=${row.id}"> <jstl:out
+									value="${edit}" />
+							</a>
+						</jstl:if>
+					</display:column>
 
-			<security:authorize access="hasRole('DANCER')">
-				<display:column>
-					<a href="application/dancer/apply.do?q=${row.id}"> <jstl:out
-							value="${apply}" />
-					</a>
-				</display:column>
-			</security:authorize>
+					<display:column>
+						<security:authentication property="principal.id" var="id" />
+						<jstl:if test="${row.academy.userAccount.id == id}">
+							<a href="course/academy/delete.do?q=${row.id}"> <jstl:out
+									value="${delete}" />
+							</a>
+						</jstl:if>
+					</display:column>
 
-		</display:table>
+				</security:authorize>
+
+				<security:authorize access="hasRole('DANCER')">
+
+					<display:column>
+						<security:authentication property="principal.id" var="id" />
+						<jstl:if test="${!coursesApplyActor.contains(row)}">
+							<a href="application/dancer/apply.do?q=${row.id}"> <jstl:out
+									value="${apply}" />
+							</a>
+						</jstl:if>
+					</display:column>
+
+				</security:authorize>
+			</display:table>
+		</acme:list>
 
 	</jstl:if>
 
 	<jstl:if test="${a==1}">
 
-		<display:table name="courses" id="row"
-			requestURI="course/listByAcademy.do" pagesize="8"
-			class="table table-over">
-			<display:column property="title" title="${title}" />
-			<display:column property="levelCourse.value" title="${levelCourse}" />
-			<display:column property="start" title="${start}" />
-			<display:column property="end" title="${end}" />
-			<display:column property="dayWeek" title="${dayWeek}" />
-			<display:column property="time" title="${time}" />
-			<display:column title="${style}">
-				<a href="style/listByCourse.do?q=${row.id}"> <jstl:out
-						value="${row.style.name}" />
-				</a>
-			</display:column>
-		</display:table>
+		<acme:list requestURI="course/listByAcademy.do" list="${courses}"
+			hidden_fields="applications,academy"
+			field_mapping="{levelCourse:value,style:name}"
+			entityUrl="{style:style/listByCourse.do}">
+		</acme:list>
 
 	</jstl:if>
 
 	<jstl:if test="${a==2}">
 
-		<display:table name="courses" id="row"
-			requestURI="course/listByStyle.do" pagesize="8"
-			class="table table-over">
-			<display:column property="title" title="${title}" />
-			<display:column property="levelCourse.value" title="${levelCourse}" />
-			<display:column property="start" title="${start}" />
-			<display:column property="end" title="${end}" />
-			<display:column property="dayWeek" title="${dayWeek}" />
-			<display:column property="time" title="${time}" />
-			<display:column title="${academy}">
-				<a href="academy/listByCourse.do?q=${row.id}"> <jstl:out
-						value="${row.academy.commercialName}" />
-				</a>
-			</display:column>
-		</display:table>
+		<acme:list requestURI="course/listByStyle.do" list="${courses}"
+			hidden_fields="id,version,applications,style"
+			field_mapping="{levelCourse:value,academy:commercialName}"
+			entityUrl="{academy:academy/listByCourse.do}">
+		</acme:list>
 
 	</jstl:if>
 
@@ -146,9 +130,10 @@
 <security:authorize access="hasRole('ACADEMY')">
 
 	<jstl:if test="${a==3}">
-		<acme:list list="${courses}" requestURI="course/listByActor.do"
-			hidden_fields="id,version,academy,levelCourse"
-			entityUrl="{style: style/listByCourse.do, applications: application/listByCourse.do}"
+		<acme:list list="${courses}" requestURI="course/academy/listByActor.do"
+			hidden_fields="id,version,academy"
+			field_mapping="{levelCourse:value}"
+			entityUrl="{style: style/listByCourse.do, applications: application/academy/listByCourse.do}"
 			editUrl="course/academy/edit.do" deleteUrl="course/academy/delete.do" />
 	</jstl:if>
 
@@ -158,6 +143,5 @@
 				code="course.create" />
 		</a>
 	</div>
-
 
 </security:authorize>
