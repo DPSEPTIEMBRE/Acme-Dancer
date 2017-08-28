@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import services.ApplicationService;
-import services.CourseService;
 import domain.Application;
 import domain.Course;
 import domain.Dancer;
+import security.LoginService;
+import services.ApplicationService;
 
 @Controller
 @RequestMapping("/application")
@@ -25,9 +23,6 @@ public class ApplicationController extends AbstractController{
 	//Services
 	@Autowired
 	private ApplicationService applicationService;
-
-	@Autowired
-	private CourseService courseService;
 
 	@Autowired
 	private LoginService loginService;
@@ -39,16 +34,14 @@ public class ApplicationController extends AbstractController{
 	}
 
 	//Actions
-
-	@RequestMapping(value = "/dancer/listByDancer", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/dancer/mylist", method = RequestMethod.GET)
 	public ModelAndView listByDancer() {
 		ModelAndView result;
-		int q = LoginService.getPrincipal().getId();
-		Dancer d = (Dancer) loginService.findActorByUsername(q);
-
-		result = new ModelAndView("application/list");
+		
+		Dancer d = (Dancer) loginService.findActorByUsername(LoginService.getPrincipal().getId());
+		result = new ModelAndView("application/mylist");
 		result.addObject("applications", d.getApplications());
-		result.addObject("a", 1);
 
 		return result;
 	}
@@ -59,7 +52,7 @@ public class ApplicationController extends AbstractController{
 		ModelAndView result;
 
 		result = new ModelAndView("application/list");
-		result.addObject("applications", Arrays.asList(q.getAcademy()));
+		result.addObject("applications", q.getApplications());
 		result.addObject("a", 2);
 
 		return result;
@@ -72,7 +65,7 @@ public class ApplicationController extends AbstractController{
 
 		applicationService.accept(q);
 
-		int id = q.getId();
+		int id = q.getCourse().getId();
 		result = new ModelAndView("redirect:/application/academy/listByCourse.do?q=" + id);
 
 		return result;
@@ -83,7 +76,7 @@ public class ApplicationController extends AbstractController{
 		ModelAndView result;
 		applicationService.denied(q);
 
-		int id = q.getId();
+		int id = q.getCourse().getId();
 		result = new ModelAndView("redirect:/application/academy/listByCourse.do?q=" + id);
 
 		return result;
@@ -91,7 +84,7 @@ public class ApplicationController extends AbstractController{
 
 
 	@RequestMapping("/dancer/apply")
-	public ModelAndView apply(@RequestParam Application q) {
+	public ModelAndView apply(@RequestParam Course q) {
 
 		ModelAndView result = new ModelAndView("redirect:/course/list.do?a=0");
 
@@ -101,10 +94,9 @@ public class ApplicationController extends AbstractController{
 		for(Application app: apps){
 			courses.add(app.getCourse());
 		}
-		if(!courses.contains(q.getCourse())){
-			applicationService.apply(q.getCourse());
+		if(!courses.contains(q)){
+			applicationService.apply(q);
 			result = new ModelAndView("redirect:/course/list.do?a=0");
-			result.addObject("courses", courseService.findAll());
 		}
 
 		return result;

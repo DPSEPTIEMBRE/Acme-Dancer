@@ -142,7 +142,7 @@ public class ApplicationService {
 		applications.add(application);
 		d.setApplications(applications);
 		dancerService.save(d);
-		return applicationRepository.save(application);
+		return application;
 	}
 
 

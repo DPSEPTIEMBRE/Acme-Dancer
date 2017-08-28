@@ -92,13 +92,26 @@
 
 </display:table>
 
-<security:authorize access="permitAll() and !hasRole('ACADEMY')">
-	<input onclick="window.location='tutorial/list.do?a=0';" type="button"
-		name="return" value="<spring:message code="tutorial.view.return"/>" />
-</security:authorize>
+<div class="btn-group btn-group-xs" role="group" aria-label="label">
+	<security:authorize access="permitAll() and !hasRole('ACADEMY')">
 
-<security:authorize access="hasRole('ACADEMY')">
-	<security:authentication property="principal.id" var="id" />
-	<input onclick="window.location='tutorial/listByMyAcademy.do?q=${id}';" type="button"
-		name="return" value="<spring:message code="tutorial.view.return"/>" />
-</security:authorize>
+		<button onclick="javascript:location.href='tutorial/list.do'"
+			type="button" class="btn btn-default">
+			<spring:message code="tutorial.view.return" />
+		</button>
+
+	</security:authorize>
+
+	<security:authorize access="hasRole('ACADEMY')">
+		<security:authentication property="principal.id" var="id" />
+		<button
+			onclick="javascript:location.href='tutorial/academy/mylist.do'"
+			type="button" class="btn btn-default">
+			<spring:message code="tutorial.view.return" />
+		</button>
+
+	</security:authorize>
+</div>
+
+
+

@@ -25,6 +25,35 @@
 		<jstl:set var="url" value="actor/save-administrator.do" />
 	</security:authorize>
 
+
+	<acme:acme_form url="${url}" type="edit"
+		another_mapped_classes="domain.Actor"
+		hiddenFields="follower,chirps,userAccount.authorities,userAccount.username,userAccount.password"
+		skip_fields="applications,commercialName,tutorials,courses"
+		entity="${person}">
+
+		<security:authorize access="hasRole('DANCER')">
+			<form:hidden path="applications" />
+		</security:authorize>
+
+		<security:authorize access="hasRole('ACADEMY')">
+
+			<div class="form-group" style="width: 55%">
+				<form:label path="commercialName">
+					<spring:message code="actor.commercialName" />
+				</form:label>
+				<br />
+				<form:input path="commercialName" class="form-control" type="text" />
+			</div>
+
+			<br />
+
+			<form:hidden path="tutorials" />
+			<form:hidden path="courses" />
+		</security:authorize>
+	</acme:acme_form>
+
+	<!-- 
 	<form:form method="POST" action="${url}" modelAttribute="person">
 
 		<security:authorize access="hasRole('DANCER')">
@@ -105,6 +134,7 @@
 
 	</form:form>
 
+ -->
 </security:authorize>
 
 

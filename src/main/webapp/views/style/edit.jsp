@@ -12,29 +12,42 @@
 
 
 <security:authorize access="hasRole('ADMINISTRATOR')">
-	<form:form action="style/administrator/save-edit.do"
-		modelAttribute="style" method="POST">
 
-		<form:hidden path="id" />
-		<form:hidden path="version" />
-		<form:hidden path="courses" />
+	<div class="btn-group btn-group-xs" role="group" aria-label="label">
+		<button
+			onclick="javascript:location.href='style/administrator/addPicture.do?q=${style.id}'"
+			type="button" class="btn btn-default">
+			<spring:message code="style.add.picture" />
+		</button>
+		<button
+			onclick="javascript:location.href='style/administrator/addVideo.do?q=${style.id}'"
+			type="button" class="btn btn-default">
+			<spring:message code="style.add.video" />
+		</button>
+		
+		<button
+			onclick="javascript:location.href='style/administrator/listPicture.do?q=${style.id}'"
+			type="button" class="btn btn-default">
+			<spring:message code="style.edit.picture" />
+		</button>
+		<button
+			onclick="javascript:location.href='style/administrator/listVideo.do?q=${style.id}'"
+			type="button" class="btn btn-default">
+			<spring:message code="style.edit.video" />
+		</button>
+	</div>
+	
+	<acme:acme_form type="edit" hiddenFields="courses"
+		skip_fields="description" url="style/administrator/save-edit.do"
+		entity="${style}">
 
-		<acme:textbox code="style.name" path="name" />
-		<script>tinymce.init({selector:'textarea'});</script>
+		<script>
+			tinymce.init({
+				selector : 'textarea'
+			});
+		</script>
 		<acme:textarea code="style.description" path="description" />
-		<acme:textarea code="style.pictures" path="pictures" />
-		<acme:textarea code="style.videos" path="videos" />
-
-		<spring:message code="acme.save" var="styleSaveHeader" />
-		<spring:message code="acme.cancel" var="styleCancelHeader" />
-		<spring:message code="acme.delete" var="styleDeleteHeader" />
-
-		<br />
-		<input class="btn btn-primary" type="submit" name="save" value="${styleSaveHeader}" />
-		<jstl:if test="${style.courses.isEmpty()}">
-			<input class="btn btn-primary"  type="submit" name="delete" value="${styleDeleteHeader}" />
-		</jstl:if>
-		<input class="btn btn-warning" type="button" name="cancel" value="${styleCancelHeader}"
-			onclick="window.location='style/list.do';" />
-	</form:form>
+		
+		
+	</acme:acme_form>
 </security:authorize>

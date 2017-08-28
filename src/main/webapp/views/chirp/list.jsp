@@ -30,19 +30,15 @@
 	<jstl:if test="${a==2}">
 
 		<acme:list list="${chirps}" requestURI="chirp/actor/list.do"
-			pagesize="16" columNames="{actor:chirp.actor}"
+			pagesize="16" variable="e" columNames="{actor:chirp.actor}"
 			field_mapping="{actor:actorName}">
 
-			<display:table name="chirps" id="row">
-				<display:column title="${subscribe}">
 					<security:authentication property="principal.id" var="id" />
 					<jstl:if
-						test="${!followers.contains(row.actor) and row.actor.userAccount.id != id}">
-						<a href="chirp/actor/subscribe.do?q=${row.id}"> <jstl:out
+						test="${!followers.contains(e.actor) and e.actor.userAccount.id != id}">
+						<a href="chirp/actor/subscribe.do?q=${e.id}"> <jstl:out
 								value="${subscribe}" /></a>
 					</jstl:if>
-				</display:column>
-			</display:table>
 
 		</acme:list>
 

@@ -59,7 +59,6 @@ public class ChirpController extends AbstractController {
 
 		result = new ModelAndView("chirp/create");
 		result.addObject("chirp", chirp);
-		result.addObject("url", "chirp/actor/save.do");
 
 		return result;
 	}
@@ -86,12 +85,21 @@ public class ChirpController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam int q) {
+	public ModelAndView delete(@RequestParam Chirp q) {
 		ModelAndView result;
-		Chirp chirp = chirpService.findOne(q);
 
-		chirpService.delete(chirp);
-		result = new ModelAndView("redirect:/chirp/actor/mylist.do");
+		Actor a = loginService.findActorByUsername(LoginService.getPrincipal().getId());
+		
+		if(a != null){
+			if(a.getChirps().contains(q)){
+				chirpService.delete(q);
+				result = new ModelAndView("redirect:/chirp/actor/mylist.do");
+			}else{
+				result = list();
+			}
+		}else{
+			return list();
+		}
 
 		return result;
 	}

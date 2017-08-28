@@ -12,31 +12,18 @@
 
 
 <security:authorize access="hasRole('ADMINISTRATOR')">
-	<form:form action="style/administrator/save.do" modelAttribute="style"
-		method="POST">
+	
+	<acme:acme_form type="create" hiddenFields="courses"
+		skip_fields="description" url="style/administrator/save-edit.do"
+		entity="${style}">
 
-		<form:hidden path="id" />
-		<form:hidden path="version" />
-		<form:hidden path="courses" />
-
-		<acme:textbox code="style.name" path="name" />
-		
-		
-		<script>tinymce.init({ selector:'textarea' });</script>
+		<script>
+			tinymce.init({
+				selector : 'textarea'
+			});
+		</script>
 		<acme:textarea code="style.description" path="description" />
 		
-		<acme:textarea code="style.pictures" path="pictures"/>
-		<acme:textarea code="style.videos" path="videos" />
-
-		<spring:message code="acme.save" var="styleSaveHeader" />
-		<spring:message code="acme.cancel" var="styleCancelHeader" />
-
-
-		<br />
-		<input class="btn btn-primary" type="submit" name="save" value="${styleSaveHeader}" />
-		<input class="btn btn-warning" type="button" name="cancel" value="${styleCancelHeader}"
-			onclick="window.location='style/list.do';" />
-		<input class="btn btn-danger" type="reset" name="clear"
-			value="<spring:message code="acme.clear" />" />
-	</form:form>
+		
+	</acme:acme_form>
 </security:authorize>

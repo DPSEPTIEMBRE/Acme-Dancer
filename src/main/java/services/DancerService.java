@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.DancerRepository;
-import security.Authority;
-import security.UserAccount;
 import domain.Actor;
 import domain.Application;
 import domain.Chirp;
 import domain.Dancer;
+import repositories.DancerRepository;
+import security.Authority;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -28,8 +28,6 @@ public class DancerService {
 	@Autowired
 	private DancerRepository dancerRepository;
 
-	@Autowired
-	private Md5PasswordEncoder md5PasswordEncoder;
 	//Services
 
 
@@ -67,10 +65,10 @@ public class DancerService {
 	public Dancer save(Dancer dancer) {
 		Assert.notNull(dancer);
 		Dancer dan = null;
-		
-		if(exists(dancer.getId())){
+
+		if (exists(dancer.getId())) {
 			dan = findOne(dancer.getId());
-			
+
 			dan.setActorName(dancer.getActorName());
 			dan.setAddress(dancer.getAddress());
 			dan.setEmail(dancer.getEmail());
@@ -79,25 +77,22 @@ public class DancerService {
 			dan.setApplications(dancer.getApplications());
 			dan.setChirps(dancer.getChirps());
 			dan.setFollower(dancer.getFollower());
-			
+
 			dan = dancerRepository.save(dan);
-		}else{
-			
-			UserAccount account= dancer.getUserAccount();
-			account.setPassword(md5PasswordEncoder.encodePassword(account.getPassword(), null));
-			
-			dancer.setUserAccount(account);
-			
+		} else {
+
+			Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			dancer.getUserAccount().setPassword(encoder.encodePassword(dancer.getUserAccount().getPassword(), null));
+
 			dan = dancerRepository.save(dancer);
 		}
 		return dan;
 	}
-	
 
 	public boolean exists(Integer dancerId) {
 		return dancerRepository.exists(dancerId);
 	}
-	
+
 	public List<Dancer> findAll() {
 		return dancerRepository.findAll();
 	}
@@ -106,7 +101,5 @@ public class DancerService {
 	public Collection<Application> applicationsOfDancer(int DancerID) {
 		return dancerRepository.applicationsOfDancer(DancerID);
 	}
-
-	
 
 }

@@ -19,13 +19,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<spring:message code="application.createMoment" var="createMoment" />
-<spring:message code="application.statusApplication"
-	var="statusApplication" />
-<spring:message code="application.course" var="course" />
 <spring:message code="application.accept" var="accept" />
 <spring:message code="application.denied" var="denied" />
-<spring:message code="application.cancel" var="cancel" />
 
 
 <security:authorize access="hasRole('DANCER')">
@@ -34,8 +29,8 @@
 
 		<acme:list columNames="{course:application.course}"
 			field_mapping="{course:title,statusApplication:value}"
-			list="${applications}" requestURI="application/dancer/listByDancer.do"
-			pagesize="8">
+			list="${applications}"
+			requestURI="application/dancer/listByDancer.do" pagesize="8">
 		</acme:list>
 
 	</jstl:if>
@@ -47,27 +42,20 @@
 
 	<jstl:if test="${a==2}">
 
-		<acme:list field_mapping="{statusApplication:value}"
-			hidden_fields="course" list="${applications}"
-			requestURI="application/academy/listByCourse.do" pagesize="8">
-			<display:table name="applications" id="row">
-				<display:column>
-					<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
-						<a href="application/academy/accept.do?q=${row.id}"><jstl:out
-								value="${accept}" /></a>
-					</jstl:if>
-				</display:column>
+		<acme:list requestURI="application/listByCourse.do"
+			field_mapping="{statusApplication:value}" hidden_fields="course" variable="e" pagesize="8"
+			list="${applications}">
 
-				<display:column>
-					<jstl:if test="${row.statusApplication.value eq 'PENDING'}">
-						<a href="application/academy/denied.do?q=${row.id}"><jstl:out
-								value="${denied}" /></a>
-					</jstl:if>
-				</display:column>
-			</display:table>
+			<jstl:if test="${e.statusApplication.value eq 'PENDING'}">
+				<a href="application/academy/accept.do?q=${e.id}"><jstl:out
+						value="${accept}" /></a>
+			</jstl:if>
+			<jstl:if test="${e.statusApplication.value eq 'PENDING'}">
+				<a href="application/academy/denied.do?q=${e.id}"><jstl:out
+						value="${denied}" /></a>
+			</jstl:if>
 
 		</acme:list>
-
 	</jstl:if>
 
 </security:authorize>

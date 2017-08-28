@@ -1,8 +1,6 @@
 package controllers;
 
 
-import java.util.Arrays;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.AcademyService;
 import domain.Academy;
+import services.AcademyService;
 
 @Controller
 @RequestMapping("/academy")
@@ -34,25 +32,23 @@ public class AcademyController extends AbstractController{
 	//Actions
 
 	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam Academy a) {
+	public ModelAndView list() {
 		ModelAndView result;
 
 		result = new ModelAndView("academy/list");
 
 		result.addObject("academies", academyService.findAll());
-		result.addObject("a",0);
 
 		return result;
 	}
 
 
-	@RequestMapping("/listByCourse")
-	public ModelAndView listByCourse(@RequestParam Academy q) {
+	@RequestMapping("/view")
+	public ModelAndView view(@RequestParam Academy q) {
 		ModelAndView result;
 
-		result = new ModelAndView("academy/list");
-		result.addObject("academies", Arrays.asList(q));
-		result.addObject("a", 2);
+		result = new ModelAndView("academy/view");
+		result.addObject("academy", q);
 
 		return result;
 	}

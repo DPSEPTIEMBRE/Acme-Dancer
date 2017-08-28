@@ -22,29 +22,32 @@
 <jstl:if test="${a==0}">
 
 	<acme:list list="${tutorials}" requestURI="tutorial/list.do"
-		hidden_fields="id,version" viewUrl="tutorial/view.do" video_fields="video" />
-		
+		hidden_fields="id,version,video" viewUrl="tutorial/view.do" />
+
 
 </jstl:if>
 
 <jstl:if test="${a==1}">
 
 	<acme:list list="${tutorials}" requestURI="tutorial/listByAcademy.do"
-		hidden_fields="id,version" viewUrl="tutorial/view.do" video_fields="video"/>
+		hidden_fields="id,version,video" viewUrl="tutorial/view.do" />
 </jstl:if>
 
 <jstl:if test="${a==2}">
 	<security:authorize access="hasRole('ACADEMY')">
-		<acme:list list="${tutorials}"
-			requestURI="tutorial/listByMyAcademy.do" hidden_fields="id,version"
-			editUrl="tutorial/edit.do"
-			viewUrl="tutorial/view.do" deleteUrl="tutorial/delete.do" 
-			video_fields="video" />
-		<br />
-		<div>
-			<a href="tutorial/academy/create.do"><spring:message code="tutorial.create" /></a>
-		</div>
 
+		<div class="btn-group btn-group-xs" role="group" aria-label="label">
+			<button
+				onclick="javascript:location.href='tutorial/academy/create.do'"
+				type="button" class="btn btn-default">
+				<spring:message code="tutorial.create" />
+			</button>
+		</div>
+		<br/>
+
+		<acme:list list="${tutorials}" requestURI="tutorial/academy/mylist.do"
+			hidden_fields="id,version,video" editUrl="tutorial/edit.do"
+			viewUrl="tutorial/view.do" deleteUrl="tutorial/delete.do" />
 	</security:authorize>
 </jstl:if>
 

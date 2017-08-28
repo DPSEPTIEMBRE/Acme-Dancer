@@ -3,6 +3,10 @@
 	version: 1.0
  -->
 
+<%@tag import="org.springframework.validation.FieldError"%>
+<%@tag import="java.util.Enumeration"%>
+<%@tag import="org.springframework.validation.BindingResult"%>
+<%@tag import="java.util.Collections"%>
 <%@tag import="java.util.HashSet"%>
 <%@tag import="java.math.BigInteger"%>
 <%@tag import="java.math.BigDecimal"%>
@@ -40,9 +44,32 @@
 <%@ attribute name="save_button_msg" required="false" rtexprvalue="true" type="java.lang.String" %>
 <%@ attribute name="date_stamp" required="false" rtexprvalue="true" type="java.lang.String" %>
 
+<%
+	// Errors
+	Enumeration<? extends String> names = request.getAttributeNames();
+	while(names.hasMoreElements()) {
+		String next = names.nextElement();
+		if(request.getAttribute(next) instanceof BindingResult) {
+			BindingResult binding = (BindingResult) request.getAttribute(next);
+			if(binding.hasErrors()) {
+				for(FieldError e : binding.getFieldErrors()) {
+%>
+					<div class="alert alert-warning" style="max-width: 55%;">
+					  <strong><spring:message code='<%=entity.getClass().getSimpleName().toLowerCase() + "." + e.getField() %>' /></strong> <%=e.getDefaultMessage() %>
+					</div>
+<%
+				}
+			} else {
+				break;
+			}
+		}
+	}
+%>
+
 <form:form action="${url}" modelAttribute="<%=entity.getClass().getSimpleName().toLowerCase() %>" method="POST" >
 <%
 	final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+	final SimpleDateFormat format_time = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
 	List<String> date_stamp_list = new LinkedList<String>();
 	
@@ -210,7 +237,7 @@
 <%
 			} else if(Date.class.isAssignableFrom(e.getType())) {
 %>
-				<input placeholder="<%=date_stamp_list.contains(e.getName()) ? "dd/MM/yyyy hh:mm:ss" : "dd/MM/yyyy" %>" value="<%=show ? format.format(e.get(entity)) : "" %>" name="<%=e.getName()%>" type="text" class="form-control" id="<%=e.getName()%>">
+				<input placeholder="<%=date_stamp_list.contains(e.getName()) ? "dd/MM/yyyy hh:mm:ss" : "dd/MM/yyyy" %>" value="<%=show ? date_stamp_list.contains(e.getName()) ? format_time.format(e.get(entity)) : format.format(e.get(entity)) : "" %>" name="<%=e.getName()%>" type="text" class="form-control" id="<%=e.getName()%>">
 <%
 			} else if(Boolean.class.isAssignableFrom(e.getType())) {
 %>
@@ -231,7 +258,17 @@
 	String saved_text = save_button_msg != null ? save_button_msg : "acme.save";
 %>
 	<input name="save" type="submit" class="btn btn-primary" value="<spring:message code="<%=saved_text %>"/>">
+<%
+	if(cancel != null) {
+%>
+	<input onclick="${cancel}" type="button" class="btn btn-warning" value="<spring:message code="acme.cancel" />">
+<%
+	} else {
+%>
 	<input onclick="window.history.back()" type="button" class="btn btn-warning" value="<spring:message code="acme.cancel" />">
+<%
+	}
+%>
 	<button type="reset" class="btn btn-danger" value="Reset"><spring:message code="acme.clear"/></button>
 
 </form:form>

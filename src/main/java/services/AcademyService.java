@@ -27,9 +27,6 @@ public class AcademyService {
 	//Repositories
 	@Autowired
 	private AcademyRepository academyRepository;
-	
-	@Autowired
-	private Md5PasswordEncoder md5PasswordEncoder;
 
 	//Services
 
@@ -50,11 +47,11 @@ public class AcademyService {
 		academy.setPhone(new String());
 		academy.setSurname(new String());
 		academy.setChirps(new ArrayList<Chirp>());
-		
+
 		academy.setCommercialName(new String());
 		academy.setTutorials(new ArrayList<Tutorial>());
 		academy.setCourses(new ArrayList<Course>());
-		
+
 		Authority a = new Authority();
 		a.setAuthority(Authority.ACADEMY);
 		UserAccount account = new UserAccount();
@@ -77,10 +74,10 @@ public class AcademyService {
 	public Academy save(Academy academy) {
 		Assert.notNull(academy);
 		Academy aca = null;
-		
-		if(exists(academy.getId())){
+
+		if (exists(academy.getId())) {
 			aca = findOne(academy.getId());
-			
+
 			aca.setActorName(academy.getActorName());
 			aca.setSurname(academy.getSurname());
 			aca.setEmail(academy.getEmail());
@@ -92,20 +89,16 @@ public class AcademyService {
 			aca.setFollower(academy.getFollower());
 			aca.setTutorials(academy.getTutorials());
 
-			
 			aca = academyRepository.save(aca);
-		}else{
-			UserAccount account= academy.getUserAccount();
-			account.setPassword(md5PasswordEncoder.encodePassword(account.getPassword(), null));
-			
-			academy.setUserAccount(account);
-			
+		} else {
+			Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			academy.getUserAccount().setPassword(encoder.encodePassword(academy.getUserAccount().getPassword(), null));
+
 			aca = academyRepository.save(academy);
 		}
 		return aca;
 	}
 
-	
 	public boolean exists(Integer academyID) {
 		return academyRepository.exists(academyID);
 	}
@@ -117,4 +110,3 @@ public class AcademyService {
 	}
 
 }
-

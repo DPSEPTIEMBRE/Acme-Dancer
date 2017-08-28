@@ -49,23 +49,12 @@
 		<security:intercept-url pattern="/welcome/lssi.do"
 			access="permitAll" />
 
-		<security:intercept-url pattern="/administrator/action-1.do"
-			access="hasRole('ADMINISTRATOR')" />
-		<security:intercept-url pattern="/administrator/action-2.do"
-			access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/administrator/dashboard.do"
 			access="hasRole('ADMINISTRATOR')" />
 
-		<security:intercept-url pattern="/profile/action-1.do"
-			access="isAuthenticated()" />
-		<security:intercept-url pattern="/profile/action-2.do"
-			access="isAuthenticated()" />
-		<security:intercept-url pattern="/profile/action-3.do"
-			access="isAuthenticated()" />
-
 		<security:intercept-url pattern="/academy/list.do"
 			access="permitAll" />
-		<security:intercept-url pattern="/academy/listByCourse.do"
+		<security:intercept-url pattern="/academy/view.do"
 			access="permitAll" />
 
 		<security:intercept-url pattern="/application/academy/listByCourse.do"
@@ -78,7 +67,7 @@
 		<security:intercept-url pattern="/application/listByAcademyPending.do"
 			access="hasRole('ACADEMY')" />
 
-		<security:intercept-url pattern="/application/dancer/listByDancer.do"
+		<security:intercept-url pattern="/application/dancer/mylist.do"
 			access="hasRole('DANCER')" />
 		<security:intercept-url pattern="/application/academy/accept.do"
 			access="hasRole('ACADEMY')" />
@@ -95,7 +84,7 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/course/listByStyle.do"
 			access="permitAll" />
-		<security:intercept-url pattern="/course/academy/listByActor.do"
+		<security:intercept-url pattern="/course/academy/mylist.do"
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/course/academy/create.do"
 			access="hasRole('ACADEMY')" />
@@ -130,16 +119,20 @@
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/tutorial/save.do"
 			access="hasRole('ACADEMY')" />
+		<security:intercept-url pattern="/tutorial/academy/mylist.do"
+			access="hasRole('ACADEMY')" />
+
 
 		<security:intercept-url pattern="/style/list.do"
 			access="permitAll" />
-		<security:intercept-url pattern="/style/listByCourse.do"
-			access="permitAll" />
-
+		<security:intercept-url pattern="/style/administrator/list.do"
+			access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/academy/create.do"
 			access="permitAll" />
 		<security:intercept-url pattern="/academy/save.do"
 			access="permitAll" />
+		<security:intercept-url pattern="/style/administrator/delete.do"
+			access="hasRole('ADMINISTRATOR')" />
 
 		<security:intercept-url pattern="/dancer/create.do"
 			access="permitAll" />
@@ -158,15 +151,7 @@
 		<security:intercept-url pattern="/course/search.do"
 			access="permitAll" />
 
-		<security:intercept-url pattern="/course/academy/save-edit.do"
-			access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/course/academy/delete.do"
-			access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/course/academy/edit.do"
-			access="hasRole('ACADEMY')" />
 
-		<security:intercept-url pattern="/style/listAdministratorStyle.do"
-			access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/style/administrator/create.do"
 			access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/style/administrator/save.do"
@@ -176,13 +161,24 @@
 		<security:intercept-url pattern="/style/administrator/save-edit.do"
 			access="hasRole('ADMINISTRATOR')" />
 
+		<security:intercept-url pattern="/style/administrator/listPicture.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/listVideo.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/addPicture.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/addVideo.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/addPictureSave.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/addVideoSave.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/deletePicture.do"
+			access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/style/administrator/deleteVideo.do"
+			access="hasRole('ADMINISTRATOR')" />
 
-		<security:intercept-url pattern="/course/academy/save-edit.do"
-			access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/course/academy/delete.do"
-			access="hasRole('ACADEMY')" />
-		<security:intercept-url pattern="/course/academy/edit.do"
-			access="hasRole('ACADEMY')" />
+
 
 		<security:intercept-url pattern="/chirp/actor/delete.do"
 			access="isAuthenticated()" />
@@ -199,18 +195,16 @@
 			access="hasRole('ACADEMY')" />
 		<security:intercept-url pattern="/tutorial/view.do"
 			access="permitAll" />
-			
-	
+
+
 		<security:intercept-url pattern="/chirp/actor/list.do"
 			access="isAuthenticated()" />
-			
+
 		<security:intercept-url pattern="/chirp/actor/subscribe.do"
 			access="isAuthenticated()" />
-			
+
 		<security:intercept-url pattern="/chirp/actor/myListSubscribe.do"
 			access="isAuthenticated()" />
-
-
 
 
 		<security:intercept-url pattern="/**"

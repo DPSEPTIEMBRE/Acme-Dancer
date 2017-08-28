@@ -3,6 +3,8 @@
 	version: 1.0
  -->
 
+<%@tag import="javax.servlet.jsp.el.VariableResolver"%>
+<%@tag import="java.io.PrintWriter"%>
 <%@tag import="java.util.LinkedHashMap"%>
 <%@tag import="java.util.Map.Entry"%>
 <%@tag import="java.text.SimpleDateFormat"%>
@@ -20,13 +22,13 @@
 <%@tag import="java.lang.reflect.Field"%>
 <%@tag import="domain.DomainEntity"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@tag language="java" body-content="scriptless" %>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <%@ attribute name="requestURI" required="true" rtexprvalue="true" %>
-<%@ attribute name="list" required="true" rtexprvalue="true" type="java.util.Collection" %>
+<%@ attribute name="list" required="true" rtexprvalue="true" type="java.lang.Object" %>
 <%@ attribute name="pagesize" required="false" rtexprvalue="true" type="java.lang.Integer" %>
 <%@ attribute name="hidden_fields" required="false" rtexprvalue="true" type="java.lang.String" %>
 <%@ attribute name="entityUrl" required="false" rtexprvalue="true" type="java.lang.String" %>
@@ -43,6 +45,8 @@
 <%@ attribute name="video_fields" required="false" rtexprvalue="true" type="java.lang.String" %>
 <%@ attribute name="color_fields" required="false" rtexprvalue="true" type="java.lang.String" %>
 <%@ attribute name="extraColumns" required="false" rtexprvalue="true" type="java.lang.String" %>
+<%@ attribute name="variable" required="false" rtexprvalue="true" type="java.lang.String" %>
+<%@ attribute name="time_stamps" required="false" rtexprvalue="true" type="java.lang.String" %>
 <!--
 -- Color fields --
 {field:value:color} -> if field has value set color of row
@@ -54,11 +58,30 @@
 %>
 
 <%
-	if(list.isEmpty()) {
+	Collection<?> iterate;
+	if(list instanceof Collection) {
+		iterate = (Collection) list;
+	} else {
+		iterate = Arrays.asList(list);
+	}
+
+	if(iterate.isEmpty()) {
 %>
-	<display:table  name="${list}" id="row" requestURI="${requestURI}" pagesize="${pagesize}" class="table table-over"></display:table>
+	<display:table name="${iterate}" id="row" requestURI="${requestURI}" pagesize="${pagesize}" class="table table-over"></display:table>
 <%
 	} else {
+		Map<String, String> time_stamps_map = new HashMap<String, String>();
+		if(time_stamps != null && !time_stamps.trim().isEmpty()) {
+			StringBuilder str = new StringBuilder(time_stamps);
+			str.deleteCharAt(0);
+			str.deleteCharAt(str.length() -1);
+			
+			for(String e : str.toString().split(",")) {
+				String[] arr = e.split(":");
+				time_stamps_map.put(arr[0].trim(), arr[1].trim());
+			}
+		}
+		
 		Map<String, String> extra = new LinkedHashMap<String, String>();
 		if(extraColumns != null && !extraColumns.trim().isEmpty()) {
 			for(String e : extraColumns.trim().substring(1, extraColumns.trim().length() -1).split(",")) {
@@ -84,7 +107,6 @@
 				}
 			}
 		}
-		
 		
 		boolean sort = false;
 		
@@ -139,7 +161,13 @@
 			}
 		}
 		
-		for(Field e : entity.getClass().getDeclaredFields()) {
+		List<Field> iterate_fields = new LinkedList<Field>(Arrays.asList(entity.getClass().getDeclaredFields()));
+		
+		if(entity.getClass().getSuperclass() != null && DomainEntity.class.isAssignableFrom(entity.getClass().getSuperclass()) && !entity.getClass().getSuperclass().equals(DomainEntity.class)) {
+			iterate_fields.addAll(Arrays.asList(entity.getClass().getSuperclass().getDeclaredFields()));
+		}
+		
+		for(Field e : iterate_fields) {
 			e.setAccessible(true);
 			
 			if(hidden.contains(e.getName())) {
@@ -174,14 +202,23 @@
 			String style = "";
 			
 			if(obj != null && field_value_map.containsKey(e.getName())) {
-				if(field_value_map.get(e.getName()).containsKey(obj.toString())) {
-					style = String.format("background:%s;", field_value_map.get(obj.toString()).get(obj.toString()));
+				Object value = obj;
+				if(mapping.containsKey(e.getName())) {
+					Class<?> field_class = e.getType();
+					
+					Field f = field_class.getDeclaredField(mapping.get(e.getName()));
+					f.setAccessible(true);
+					value = f.get(obj);
+				}
+				
+				if(field_value_map.get(e.getName()).containsKey(value)) {
+					style = String.format("background:%s;", field_value_map.get(e.getName()).get(value.toString()));
 				}
 			}
 			
 %>
 			<spring:message code='<%=colums.containsKey(e.getName()) ? colums.get(e.getName()) : map.containsKey(e.getName()) || !(e.get(row) instanceof DomainEntity) ? String.format("%s.%s", row.getClass().getSimpleName().toLowerCase(), e.getName()) : "acme.colum"%>' var="title" />
-			<display:column title="${title}" sortable ="<%=sort%>">
+			<display:column title="${title}" sortable ="<%=sort%>" style="<%=style %>">
 <%
 				if(obj instanceof Collection) {
 					Collection<?> collection = (Collection<?>) obj;
@@ -206,7 +243,7 @@
 						Object val = d;
 						
 						if(val != null && video_fields_list.contains(e.getName())) {
-							val = String.format("<iframe width='220' height='200' src='https://www.youtube.com/embed/%s'></iframe><br />", val.toString().replace("https://www.youtube.com/watch?v=", ""));
+							val = String.format("<iframe width='420' height='315' src='https://www.youtube.com/embed/%s'></iframe><br />", val.toString().replace("https://www.youtube.com/watch?v=", ""));
 						}
 						
 						if(val != null && image_fields.contains(e.getName())) {
@@ -240,13 +277,19 @@
 %>
 <%
 						if(val instanceof Date) {
-							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+							
+							SimpleDateFormat format;
+							if(time_stamps_map.containsKey(e.getName())) {
+								format = new SimpleDateFormat(time_stamps_map.get(e.getName()));
+							} else {
+								format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+							}
 %>
 							<%=val == null ? "" : format.format(val) %>
 <%
 						} else {
 							if(val != null && video_fields_list.contains(e.getName())) {
-								val = String.format("<iframe width='220' height='200' src='https://www.youtube.com/embed/%s'></iframe>", val.toString().replace("https://www.youtube.com/watch?v=", ""));
+								val = String.format("<iframe width='420' height='315' src='https://www.youtube.com/embed/%s'></iframe>", val.toString().replace("https://www.youtube.com/watch?v=", ""));
 							}
 %>
 							<%=val == null ? "" : image_fields.contains(e.getName()) ? String.format("<img src='%s' style='max-height: 128px; max-width: 128px;'>", val.toString()) : val.toString() %>
@@ -333,13 +376,22 @@
 <%
 	}
 %>
-<%
-	if(getJspBody() != null) {
-%>
-		<%getJspBody().invoke(out); %>
-<%
-	}
-%>
+
+	<display:column sortable ="false">
+	<%
+		if(getJspBody() != null) {
+			JspContext context = getJspBody().getJspContext();
+			
+			if(variable != null) {
+				VariableResolver resolver = context.getVariableResolver();
+				request.setAttribute(variable, resolver.resolveVariable("row"));
+			}
+			
+			getJspBody().invoke(out);
+		}
+	%>
+	</display:column>
+
 	</display:table>
 <%
 	}

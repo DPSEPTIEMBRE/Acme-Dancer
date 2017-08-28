@@ -17,18 +17,43 @@
 <tiles-definitions>
 	
 	<definition name="style/list" extends="master.page">	
-		<put-attribute name="title" value="LISTA DE ESTILOS" />
+		<put-attribute name="title" value="Lista de Estilos" />
 		<put-attribute name="body" value="/views/style/list.jsp" />
 	</definition>
 	
 	<definition name="style/edit" extends="master.page">	
-		<put-attribute name="title" value="EDITAR ESTILO" />
+		<put-attribute name="title" value="Editar Estilo" />
 		<put-attribute name="body" value="/views/style/edit.jsp" />
 	</definition>
 	
 	<definition name="style/create" extends="master.page">	
-		<put-attribute name="title" value="CREAR ESTILO" />
+		<put-attribute name="title" value="Nuevo estilo" />
 		<put-attribute name="body" value="/views/style/create.jsp" />
+	</definition>
+	
+	<definition name="style/listAdministrator" extends="master.page">	
+		<put-attribute name="title" value="Lista de Estilos" />
+		<put-attribute name="body" value="/views/style/listAdministrator.jsp" />
+	</definition>
+	
+	<definition name="style/listPicture" extends="master.page">	
+		<put-attribute name="title" value="Editar Fotos" />
+		<put-attribute name="body" value="/views/style/listPicture.jsp" />
+	</definition>
+	
+	<definition name="style/listVideo" extends="master.page">	
+		<put-attribute name="title" value="Editar videos" />
+		<put-attribute name="body" value="/views/style/listVideo.jsp" />
+	</definition>
+	
+	<definition name="style/addPicture" extends="master.page">	
+		<put-attribute name="title" value="añadir Foto" />
+		<put-attribute name="body" value="/views/style/addPicture.jsp" />
+	</definition>
+	
+	<definition name="style/addVideo" extends="master.page">	
+		<put-attribute name="title" value="Añadir video" />
+		<put-attribute name="body" value="/views/style/addVideo.jsp" />
 	</definition>
 	
 </tiles-definitions>

@@ -12,35 +12,17 @@
 
 <security:authorize access="isAuthenticated()">
 
-	<form:form action="${url}" modelAttribute="chirp">
-
-		<form:hidden path="id" />
-		<form:hidden path="version" />
-		<form:hidden path="actor" />
-		<form:hidden path="momentWritten" />
-
-		<div class="form-group" style="width: 20%;">
-
-			<label> <spring:message code="chirp.text" />
-			</label><br />
-
-			<script>tinymce.init({ selector:'textarea' });</script>
-			<textarea class="form-control" name="text">${chirp.text}</textarea>
-			<form:errors cssClass="error" path="text" />
-			<br />
-
-		</div>
-
-		<spring:message code="chirp.save" var="actorSaveHeader" />
-		<spring:message code="chirp.cancel" var="actorCancelHeader" />
-		<input type="submit" class="btn btn-primary" name="save"
-			value="${actorSaveHeader}" />
-		<input onclick="window.location='welcome/index.do';"
-			class="btn btn-warning" type="button" name="cancel"
-			value="${actorCancelHeader}" />
-		<input class="btn btn-danger" type="reset" name="clear"
-			value="<spring:message code="acme.clear" />" />
-
-	</form:form>
+	<acme:acme_form url="chirp/actor/save.do" skip_fields="text"
+		hiddenFields="momentWritten,actor" entity="${chirp}">
+		<script>
+			tinymce.init({
+				selector : 'textarea'
+			});
+		</script>
+		<label> <spring:message code="chirp.text" />
+		</label>
+		<textarea class="form-control" name="text">${chirp.text}</textarea>
+		<br/>
+	</acme:acme_form>
 </security:authorize>
 

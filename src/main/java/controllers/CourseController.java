@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.util.ArrayList;
@@ -13,15 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import services.CourseService;
-import services.StyleService;
 import domain.Academy;
 import domain.Application;
 import domain.Course;
 import domain.Dancer;
-import domain.LevelCourse;
 import domain.Style;
+import security.LoginService;
+import services.CourseService;
+import services.StyleService;
 
 @Controller
 @RequestMapping("/course")
@@ -30,54 +30,54 @@ public class CourseController extends AbstractController {
 	//Services
 
 	@Autowired
-	private CourseService courseService;
+	private CourseService	courseService;
 
 	@Autowired
-	private LoginService loginService;
+	private LoginService	loginService;
 
 	@Autowired
-	private StyleService styleService;
+	private StyleService	styleService;
+
 
 	// Constructors -----------------------------------------------------------
-	public CourseController(){
+	public CourseController() {
 		super();
 	}
 
 	//Actions
-	
+
 	@RequestMapping(value = "/listNoRegister", method = RequestMethod.GET)
 	public ModelAndView listNoRegister() {
 		ModelAndView result;
 
 		result = new ModelAndView("course/list");
-		
+
 		result.addObject("courses", courseService.findAll());
-		result.addObject("a",0);
-		
+		result.addObject("a", 0);
+
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView result;
 
 		result = new ModelAndView("course/list");
-		
-		if(LoginService.hasRole("DANCER")) {
+
+		if (LoginService.hasRole("DANCER")) {
 			Dancer actor = (Dancer) loginService.findActorByUsername(LoginService.getPrincipal().getId());
 			List<Course> coursesApplyActor = new ArrayList<Course>();
-			for(Application app:actor.getApplications()){
+			for (Application app : actor.getApplications()) {
 				coursesApplyActor.add(app.getCourse());
 			}
 			result.addObject("coursesApplyActor", coursesApplyActor);
-		}		
-		
+		}
+
 		result.addObject("a", 0);
 		result.addObject("courses", courseService.findAll());
-		
+
 		return result;
 	}
-
 
 	@RequestMapping("/listByAcademy")
 	public ModelAndView listByAcademy(@RequestParam Academy q) {
@@ -101,24 +101,23 @@ public class CourseController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping("/academy/listByActor")
+	@RequestMapping("/academy/mylist")
 	public ModelAndView listByActor() {
 		ModelAndView result;
 
-		Academy a = (Academy)loginService.findActorByUsername(LoginService.getPrincipal().getId());
+		Academy a = (Academy) loginService.findActorByUsername(LoginService.getPrincipal().getId());
 
-		result = new ModelAndView("course/list");
+		result = new ModelAndView("course/mylist");
 		result.addObject("courses", a.getCourses());
-		result.addObject("a", 3);
 
 		return result;
 	}
 
 	@RequestMapping("/search")
-	public ModelAndView search(@RequestParam(required = false) String searchText) {
+	public ModelAndView search(@RequestParam(required = false) String q) {
 		ModelAndView result;
 		result = new ModelAndView("course/list");
-		result.addObject("courses", courseService.findCourses(searchText));
+		result.addObject("courses", courseService.findCourses(q));
 		result.addObject("a", 0);
 		return result;
 	}
@@ -131,31 +130,35 @@ public class CourseController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping("/academy/edit")
 	public ModelAndView edit(@RequestParam Course q) {
 		ModelAndView result;
-
-		result = createNewModelAndView(q, null);
+		Academy a = (Academy) loginService.findActorByUsername(LoginService.getPrincipal().getId());
+		
+		if(a != null){
+			if(a.getCourses().contains(q)){
+				result = createNewModelAndView(q, null);
+			}else{
+				result = list();
+			}
+		}else{
+			return list();
+		}
+		
 
 		return result;
 	}
 
-	@RequestMapping(value= "/academy/save-create",method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/academy/save-create", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveCreateEdit(@Valid Course course, BindingResult binding) {
 		ModelAndView result;
 		if (binding.hasErrors()) {
-			for (Object e : binding.getAllErrors()) {
-				System.out.println(e);
-
-			}
 			result = createNewModelAndView(course, null);
 		} else {
 			try {
 				courseService.save(course);
-				
-				int id = LoginService.getPrincipal().getId();
-				result = new ModelAndView("redirect:/course/academy/listByActor.do?q=" + id);
+				result = new ModelAndView("redirect:/course/academy/mylist.do");
 
 			} catch (Throwable th) {
 				result = createNewModelAndView(course, "course.commit.error");
@@ -167,43 +170,34 @@ public class CourseController extends AbstractController {
 	protected ModelAndView createNewModelAndView(Course course, String message) {
 		ModelAndView result;
 
-		List<LevelCourse> levelsCourse = new ArrayList<LevelCourse>();
-		LevelCourse lc1 = new LevelCourse();
-		lc1.setValue("BEGINNER");
-		LevelCourse lc2 = new LevelCourse();
-		lc2.setValue("INTERMEDIATE");
-		LevelCourse lc3 = new LevelCourse();
-		lc3.setValue("ADVANCED");
-		LevelCourse lc4 = new LevelCourse();
-		lc4.setValue("PROFESSIONAL");
-		levelsCourse.add(lc1);
-		levelsCourse.add(lc2);
-		levelsCourse.add(lc3);
-		levelsCourse.add(lc4);		
-		
-		if(course.getId() == 0){
+		if (course.getId() == 0) {
 			result = new ModelAndView("course/create");
-		}else{
+		} else {
 			result = new ModelAndView("course/edit");
 		}
 		result.addObject("course", course);
 		result.addObject("message", message);
-		result.addObject("levelsCourse", levelsCourse);
 		result.addObject("styles", styleService.findAll());
 		return result;
 	}
 
-
-
 	@RequestMapping("/academy/delete")
-	  public ModelAndView delete(@RequestParam Course q) {
-	    ModelAndView result;
+	public ModelAndView delete(@RequestParam Course q) {
+		ModelAndView result;
 
-	    courseService.delete(q);
-	    int id = LoginService.getPrincipal().getId();
-	    
-	    result = new ModelAndView("redirect:/course/academy/listByActor.do?q=" + id );
+		Academy a = (Academy) loginService.findActorByUsername(LoginService.getPrincipal().getId());
+		
+		if(a != null){
+			if(a.getCourses().contains(q)){
+				courseService.delete(q);
+				result = new ModelAndView("redirect:/course/academy/mylist.do");
+			}else{
+				result = list();
+			}
+		}else{
+			return list();
+		}
 
-	    return result;
-	  }
+		return result;
+	}
 }

@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Academy;
@@ -39,11 +38,11 @@ public class ActorController extends AbstractController{
 	}
 	
 	@RequestMapping(value="/edit", method= RequestMethod.GET)
-	public ModelAndView edit(@RequestParam int userAccountID){
+	public ModelAndView edit(){
 		ModelAndView result;
 		Actor actor;
 		
-		actor = loginService.findActorByUsername(userAccountID);
+		actor = loginService.findActorByUsername(LoginService.getPrincipal().getUsername());
 		
 		result = new ModelAndView("actor/edit");
 		result.addObject("person", actor);
